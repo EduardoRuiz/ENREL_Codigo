@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="NotificacionDeInteroperabilidad" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://api-interoperabilidad-qa.azurewebsites.net/NotificacionDeInteroperabilidad.svc?xsd=xsd0" namespace="http://api.gob.mx/iop-service" />
+      <xsd:import schemaLocation="http://api-interoperabilidad-qa.azurewebsites.net/NotificacionDeInteroperabilidad.svc?xsd=xsd5" namespace="http://x-road.eu/xsd/xroad.xsd" />
+      <xsd:import schemaLocation="http://api-interoperabilidad-qa.azurewebsites.net/NotificacionDeInteroperabilidad.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://api-interoperabilidad-qa.azurewebsites.net/NotificacionDeInteroperabilidad.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Undani.Interoperabilidad.Domain.NotificacionRequest" />
+      <xsd:import schemaLocation="http://api-interoperabilidad-qa.azurewebsites.net/NotificacionDeInteroperabilidad.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Undani.Interoperabilidad.Domain.Notificacion.Body" />
+      <xsd:import schemaLocation="http://api-interoperabilidad-qa.azurewebsites.net/NotificacionDeInteroperabilidad.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/Undani.Interoperabilidad.Domain.Notificacion.Header" />
+      <xsd:import schemaLocation="http://api-interoperabilidad-qa.azurewebsites.net/NotificacionDeInteroperabilidad.svc?xsd=xsd6" namespace="http://tempuri.org/" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="NotificacionDeInteroperabilidadRequest">
+    <wsdl:part xmlns:q1="http://api.gob.mx/iop-service" name="parameters" element="q1:notificacionDeInteroperabilidadRequest" />
+  </wsdl:message>
+  <wsdl:message name="NotificacionDeInteroperabilidadResponse">
+    <wsdl:part xmlns:q2="http://api.gob.mx/iop-service" name="parameters" element="q2:notificacionDeInteroperabilidadResponse" />
+  </wsdl:message>
+  <wsdl:message name="NotificacionDeInteroperabilidadResponse_Headers">
+    <wsdl:part xmlns:q3="http://x-road.eu/xsd/xroad.xsd" name="Client" element="q3:client" />
+    <wsdl:part xmlns:q4="http://x-road.eu/xsd/xroad.xsd" name="Id" element="q4:id" />
+    <wsdl:part xmlns:q5="http://x-road.eu/xsd/xroad.xsd" name="Issue" element="q5:issue" />
+    <wsdl:part xmlns:q6="http://x-road.eu/xsd/xroad.xsd" name="ProtocolVersion" element="q6:protocolVersion" />
+    <wsdl:part xmlns:q7="http://x-road.eu/xsd/xroad.xsd" name="Service" element="q7:service" />
+    <wsdl:part xmlns:q8="http://x-road.eu/xsd/xroad.xsd" name="UserId" element="q8:userId" />
+  </wsdl:message>
+  <wsdl:message name="INotificacionDeInteroperabilidad_Echo_InputMessage">
+    <wsdl:part name="parameters" element="tns:Echo" />
+  </wsdl:message>
+  <wsdl:message name="INotificacionDeInteroperabilidad_Echo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EchoResponse" />
+  </wsdl:message>
+  <wsdl:portType name="INotificacionDeInteroperabilidad">
+    <wsdl:operation name="Notificacion">
+      <wsdl:input wsaw:Action="http://tempuri.org/INotificacionDeInteroperabilidad/Notificacion" name="NotificacionDeInteroperabilidadRequest" message="tns:NotificacionDeInteroperabilidadRequest" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INotificacionDeInteroperabilidad/NotificacionResponse" name="NotificacionDeInteroperabilidadResponse" message="tns:NotificacionDeInteroperabilidadResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="Echo">
+      <wsdl:input wsaw:Action="http://tempuri.org/INotificacionDeInteroperabilidad/Echo" message="tns:INotificacionDeInteroperabilidad_Echo_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/INotificacionDeInteroperabilidad/EchoResponse" message="tns:INotificacionDeInteroperabilidad_Echo_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_INotificacionDeInteroperabilidad" type="tns:INotificacionDeInteroperabilidad">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Notificacion">
+      <soap:operation soapAction="http://tempuri.org/INotificacionDeInteroperabilidad/Notificacion" style="document" />
+      <wsdl:input name="NotificacionDeInteroperabilidadRequest">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="NotificacionDeInteroperabilidadResponse">
+        <soap:header message="tns:NotificacionDeInteroperabilidadResponse_Headers" part="Client" use="literal" />
+        <soap:header message="tns:NotificacionDeInteroperabilidadResponse_Headers" part="Id" use="literal" />
+        <soap:header message="tns:NotificacionDeInteroperabilidadResponse_Headers" part="Issue" use="literal" />
+        <soap:header message="tns:NotificacionDeInteroperabilidadResponse_Headers" part="ProtocolVersion" use="literal" />
+        <soap:header message="tns:NotificacionDeInteroperabilidadResponse_Headers" part="Service" use="literal" />
+        <soap:header message="tns:NotificacionDeInteroperabilidadResponse_Headers" part="UserId" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Echo">
+      <soap:operation soapAction="http://tempuri.org/INotificacionDeInteroperabilidad/Echo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="NotificacionDeInteroperabilidad">
+    <wsdl:port name="BasicHttpBinding_INotificacionDeInteroperabilidad" binding="tns:BasicHttpBinding_INotificacionDeInteroperabilidad">
+      <soap:address location="http://api-interoperabilidad-qa.azurewebsites.net/NotificacionDeInteroperabilidad.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

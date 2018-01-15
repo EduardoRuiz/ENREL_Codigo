@@ -1,0 +1,308 @@
+﻿@{
+    ViewBag.Title = "ValidacionDeSolicitud";
+    var IdEmpresaRL = ViewBag.DatosEmpresa.E_IdEmpresa;
+    var IdRepresentante = ViewBag.DatosRepresentante.RL_IdRepresentanteLegal;
+    string NombreUsuarioSession = "";
+    bool RFCEMPRE = ViewBag.MostrarCarta;
+    if (Session["NombreUsuario"] != null)
+    {
+        NombreUsuarioSession = Session["NombreUsuario"].ToString();
+    }
+}
+
+@*Breadcum y usuario*@
+<div class="row" style="margin-top:94px">
+    <div class="col-sm-8">
+        <ol class="breadcrumb">
+            <li><a href="https://www.gob.mx/" target="_blank"><i class="icon icon-home"></i></a></li>
+            <li><a href="@Url.Action("InicioAdministrador","Home")">Inicio</a></li>
+            <li><a href="@Url.Action("GestionarSolicitudesRegistro","Administrador")">Representantes Legales</a></li>
+            <li class="active">Validación de solicitud</li>
+        </ol>
+    </div>
+    <div class="col-sm-4">
+        <div class="user-credencials">
+            <ul class="list-unstyled">
+                <li>
+                    <span class="user-credencials__name">@NombreUsuarioSession</span>
+                    <button type="button" class="btn btn-link pull-right" onclick="javascript: uid_call('SENER.ENREL.INVERSIONISTA.BTN_CERRARSESIÓN', 'clickout'); location.href = '@Url.Action("Logout", "Home")'">Salir</button>
+                </li>
+                <li><a href="@Url.Action("Actualizar", "Usuarios")">Modificar usuario</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+@*Título *@
+<h2>Validación de solicitud</h2>
+<div class="bottom-buffer"></div>
+
+@*Alertas:*@
+@if (TempData["notice"] != null)
+{
+    <div id="divAlerta" class="alert alert-warning alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>@TempData["notice"]</strong>
+    </div>
+}
+
+@using (Html.BeginForm("RechazarRepresentanteLegal", "Administrador", FormMethod.Post, new { enctype = "multipart/form-data", onsubmit = "javascript: ValidarFormulario(event, this)", @class = "form-horizontal", id = "IndexUsuario" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div id="MyModalConfirmarRechazo" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="display:none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Mensaje de confirmación</h4>
+                    </div>
+                    <div class="modal-body" id="modal-content">
+                        Al presionar <b>continuar</b> estará <b>rechazando</b> al Representante legal.
+                        <div class="bottom-buffer"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button class="btn btn-primary" type="submit">Continuar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <div id="MyModalConfirmarAceptacion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="display:none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Mensaje de confirmación</h4>
+                </div>
+                <div class="modal-body" id="modal-content">
+                    Al presionar <b>continuar</b> estará <b>aceptando</b> al Representante legal.
+                    <div class="bottom-buffer"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <input type="button" value="Continuar" onclick="location.href='@Url.Action("AceptarResprepresentanteLegal", "Administrador", new { IdEmpresa = @ViewBag.DatosEmpresa.E_IdEmpresa, IdRepresentante = @ViewBag.DatosRepresentante.RL_IdRepresentanteLegal })'" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-group ficha-collapse" id="accordion">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-parent="#accordion" data-toggle="collapse" href="#panel-01" aria-expanded="false" aria-controls="panel-01">
+                        Datos de la empresa
+                    </a>
+                </h4>
+                <button type="button" class="collpase-button" data-parent="#accordion" data-toggle="collapse" href="#panel-01"></button>
+            </div>
+            <div class="panel-collapse collapse in" id="panel-01">
+                <div class="panel-body">
+                    <table>
+                        <tr>
+                            <td>Nombre de Empresa:</td>
+                            <td>@ViewBag.DatosEmpresa.E_NombreComercial</td>
+                        </tr>
+                        <tr>
+                            <td>RFC:</td>
+                            <td>@ViewBag.DatosEmpresa.E_RFC</td>
+                        </tr>
+                        <tr>
+                            <td>Código postal:</td>
+                            <td>@ViewBag.DatosEmpresa.E_CodigoPostal</td>
+                        </tr>
+                        <tr>
+                            <td>Estado:</td>
+                            <td>@ViewBag.DatosEmpresa.E_EntidadFederativa</td>
+                        </tr>
+                        <tr>
+                            <td>Municipio o Alcaldía: </td>
+                            <td>@ViewBag.DatosEmpresa.E_Municipio</td>
+                        </tr>
+                        <tr>
+                            <td>Localidad:</td>
+                            <td>@ViewBag.DatosEmpresa.E_Localidad</td>
+                        </tr>
+                        <tr>
+                            <td>Colonia:</td>
+                            <td>@ViewBag.DatosEmpresa.E_Colonia</td>
+                        </tr>
+                        <tr>
+                            <td>Calle:</td>
+                            <td>@ViewBag.DatosEmpresa.E_Calle</td>
+                        </tr>
+                        <tr>
+                            <td>Número exterior:</td>
+                            <td>@ViewBag.DatosEmpresa.E_NumeroExterior</td>
+                        </tr>
+                        <tr>
+                            <td>Número interior:</td>
+                            <td>@ViewBag.DatosEmpresa.E_NumeroInterior</td>
+                        </tr>
+                        <tr>
+                            <td>Teléfono fijo:</td>
+                            <td>@ViewBag.DatosEmpresa.E_Lada &nbsp; - &nbsp; @ViewBag.DatosEmpresa.E_TelefonoFijo</td>
+                        </tr>
+                        <tr>
+                            <td>Correo electrónico:</td>
+                            <td>@ViewBag.DatosEmpresa.E_CorreoElectronico</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-group ficha-collapse" id="accordion">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-parent="#accordion" data-toggle="collapse" href="#panel-02" aria-expanded="false" aria-controls="panel-02">
+                        Datos del Representante
+                    </a>
+                </h4>
+                <button type="button" class="collpase-button" data-parent="#accordion" data-toggle="collapse" href="#panel-02"></button>
+            </div>
+            <div class="panel-collapse collapse in" id="panel-02">
+                <div class="panel-body">
+                    <table>
+                        <tr>
+                            <td>Identificador:</td>
+                            <td>@ViewBag.DatosRepresentante.RL_IdRepresentanteLegal</td>
+                        </tr>
+                        <tr>
+                            <td>Nombre:</td>
+                            <td>@ViewBag.DatosRepresentante.RL_Nombre </td>
+                        </tr>
+                        <tr>
+                            <td>CURP:</td>
+                            <td>@ViewBag.DatosRepresentante.RL_CURP</td>
+                        </tr>
+                        <tr>
+                            <td>RFC:</td>
+                            <td>@ViewBag.DatosRepresentante.RL_RFC</td>
+                        </tr>
+                        <tr>
+                            <td>Código postal:</td>
+                            <td>@ViewBag.DatosRepresentante.RL_CodigoPostal</td>
+                        </tr>
+                        <tr>
+                            <td>Estado:</td>
+                            <td>@ViewBag.DatosRepresentante.RL_EntidadFederativa</td>
+                        </tr>
+                        <tr>
+                            <td>Municipio o Alcaldía: </td>
+                            <td>@ViewBag.DatosRepresentante.RL_Municipio</td>
+                        </tr>
+                        <tr>
+                            <td>Localidad:</td>
+                            <td>@ViewBag.DatosRepresentante.RL_Localidad</td>
+                        </tr>
+                        <tr>
+                            <td>Colonia:</td>
+                            <td>@ViewBag.DatosRepresentante.RL_Colonia</td>
+                        </tr>
+                        <tr>
+                            <td>Calle:</td>
+                            <td>@ViewBag.DatosRepresentante.RL_Calle</td>
+                        </tr>
+                        <tr>
+                            <td>Número exterior:</td>
+                            <td>@ViewBag.DatosRepresentante.RL_NumeroExterior</td>
+                        </tr>
+                        <tr>
+                            <td>Número interior:</td>
+                            <td>@ViewBag.DatosRepresentante.RL_NumeroInterior</td>
+                        </tr>
+                        <tr>
+                            <td>Teléfono fijo:</td>
+                            <td>@ViewBag.DatosRepresentante.RL_Lada &nbsp; - &nbsp; @ViewBag.DatosRepresentante.RL_TelefonoFijo</td>
+                        </tr>
+                        <tr>
+                            <td>Teléfono móvil:</td>
+                            <td>@ViewBag.DatosRepresentante.RL_TelefonoCelular</td>
+                        </tr>
+                        <tr>
+                            <td>Correo electrónico:</td>
+                            <td>@ViewBag.DatosRepresentante.RL_CorreoElectronico</td>
+                        </tr>
+                        <tr>
+                            <td>Observaciones:</td>
+
+                            <td><label id="ObservacionesCapturadas">@ViewBag.DatosRepresentante.RL_Observaciones</label></td>
+                        </tr>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-group ficha-collapse" id="accordion-03">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-parent="#accordion" data-toggle="collapse" href="#panel-03" aria-expanded="false" aria-controls="panel-03">
+                        Documentos
+                    </a>
+                </h4>
+                <button type="button" class="collpase-button" data-parent="#accordion" data-toggle="collapse" href="#panel-03"></button>
+            </div>
+            <div class="panel-collapse collapse in" id="panel-03">
+                <div class="panel-body">
+
+                    <span class="glyphicon glyphicon-file" aria-hidden="true">Cédula RFC del Representante legal</span>
+                    <object id='pdfbox' type="application/pdf" data="@Url.Action("GetPDF", "Administrador", new { nombrepdf = @ViewBag.CedulaRFC })" style="width:100%; height:1000px">
+                        Click @Html.ActionLink("here", "GetPDF", "Administrador") to view the file.
+                    </object>
+                    <br /><br />
+                   @if (RFCEMPRE == true) { 
+                    <span class="glyphicon glyphicon-file" aria-hidden="true">Poder notarial del Representante</span>
+                    <object id='pdfbox' type="application/pdf" data="@Url.Action("GetPDF", "Administrador", new { nombrepdf = @ViewBag.PoderNotarial })" style="width:100%; height:1000px">
+                        Click @Html.ActionLink("here", "GetPDF", "Administrador") to view the file.
+                    </object>
+                    <br /><br />
+                   
+                    <span class="glyphicon glyphicon-file" aria-hidden="true">Acta constitutiva de la empresa</span>
+                    <object id='pdfbox' type="application/pdf" data="@Url.Action("GetPDF", "Administrador", new { nombrepdf = @ViewBag.ActaConstitutiva })" style="width:100%; height:1000px">
+                        Click @Html.ActionLink("here", "GetPDF", "Administrador") to view the file.
+                    </object>
+                    <br /><br />
+                   }
+                    <span class="glyphicon glyphicon-file" aria-hidden="true">Identificación oficial del Representante legal</span>
+                    <object id='pdfbox' type="application/pdf" data="@Url.Action("GetPDF", "Administrador", new { nombrepdf = @ViewBag.IdentificacionOficial })" style="width:100%; height:1000px">
+                        Click @Html.ActionLink("here", "GetPDF", "Administrador") to view the file.
+                    </object>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <label class="control-label" for="observaciones" id="observaciones">Observaciones para notificación<span id="Alerta_Observaciones">*</span>:</label>
+        <textarea class="form-control ns_" rows="3" name="Observaciones" id="Observaciones"></textarea>
+        <small id="Mensaje_Observaciones" style="color: #d0021b;"></small>
+    
+    <br />
+    <br />
+    <input hidden name="IdEmpresa" value="@ViewBag.DatosEmpresa.E_IdEmpresa" />
+    <input hidden name="IdRepresentante" value="@ViewBag.DatosRepresentante.RL_IdRepresentanteLegal" />
+
+    <div style="width:100%; text-align:right">
+        <div style="text-align:left;">
+            * Campos obligatorios únicamente para rechazar solicitud
+        </div>
+        <button class="btn btn-danger" type="button" value="Rechazar" onclick="javascript: ConfirmarRechazo();">Rechazar</button>
+        <button class="btn btn-primary" type="button" value="Rechazar" onclick="javascript: ConfirmarAceptacion();">Aceptar</button>
+        @*<input type="button" value="Aceptar" onclick="location.href='@Url.Action("AceptarResprepresentanteLegal", "Administrador", new { IdEmpresa = @ViewBag.DatosEmpresa.E_IdEmpresa, IdRepresentante = @ViewBag.DatosRepresentante.RL_IdRepresentanteLegal })'" class="btn btn-primary btn" data-toggle="tooltip" data-placement="top" title="" />*@
+    </div>
+}
+
+
+
+
+
+

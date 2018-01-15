@@ -1,0 +1,261 @@
+﻿@model ENREL.Models.Empresas.CatEmpresas
+@{
+    ViewBag.Title = "Actualizar empresa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string NombreUsuarioSession = "";
+    if (Session["NombreUsuario"] != null)
+    {
+        NombreUsuarioSession = Session["NombreUsuario"].ToString();
+    }
+}
+
+@*Breadcum y usuario*@
+<div class="row" >
+    <div class="col-sm-8">
+        <ol class="breadcrumb">
+            <li><a href="https://www.gob.mx/" target="_blank"><i class="icon icon-home"></i></a></li>
+            <li><a href="@Url.Action("InicioInversionista","Home")">Inicio</a></li>
+            <li class="active">Actualizar datos de la empresa</li>
+        </ol>
+    </div>
+    <div class="col-sm-4">
+        <div class="user-credencials">
+            <ul class="list-unstyled">
+                <li>
+                    <span class="user-credencials__name">@NombreUsuarioSession</span>
+                    <button type="button" class="btn btn-link pull-right" onclick="javascript: uid_call('SENER.ENREL.INVERSIONISTA.BTN_CERRARSESIÓN', 'clickout'); location.href = '@Url.Action("Logout", "Home")'">Salir</button>
+                </li>
+                <li><a href="@Url.Action("Actualizar", "Usuarios")">Modificar usuario</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+@*Título *@
+<h2>Actualizar datos de la empresa</h2>
+<div class="bottom-buffer"></div>
+<div class="row">
+    <div class="col-sm-8">
+        <div class="bottom-buffer">
+            <p>
+                Modifica la información capturada en el siguiente formulario y al finalizar presiona "Actualizar".
+            </p>
+        </div>
+    </div>
+</div>
+
+@*Contenido: *@
+
+@if (TempData["notice"] != null)
+{
+    <div id="divAlerta" class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>@TempData["notice"]</strong>
+    </div>
+}
+
+<div style="width:100%;">
+    @using (Html.BeginForm("EjecutarAccionEmpresa", "Empresas", new { Accion = "Actualizar" }, FormMethod.Post, new { onsubmit = "ValidarFIEL(event, this)", id = "FormularioActualizarEmpresa", enctype = "multipart/form-data", @class = "clearfix" }))
+    {
+        @Html.AntiForgeryToken()
+        
+        <div id="MyModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="display:none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Ingresa tu firma electrónica</h4>
+                    </div>
+                    <div class="modal-body" id="modal-content">
+                        @*<div id="modal-content">*@
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="form-group hidden-xs ">
+                                    <label for="file1">Certificado (.cer)<span id="Alerta_file1">*</span>:</label>
+                                    <input type="file" name="files" id="file1" onchange="ValidarArchivoFiel(this, event)" />
+                                    <small id="Mensaje_file1" style="color: #d0021b"></small>
+                                </div>
+                                <div class="form-group hidden-xs ">
+                                    <label for="file2">Llave (.key)<span id="Alerta_file2">*</span>:</label>
+                                    <input type="file" name="files" id="file2" onchange="ValidarArchivoFiel(this, event)" />
+                                    <small id="Mensaje_file2" style="color: #d0021b"></small>
+                                </div>
+                                <div class="form-group">
+                                    <label>Contraseña<span id="Alerta_RL_ClavePrivada">*</span>:</label>
+                                    @Html.TextBoxFor(model => model.E_ClavePrivada, new { @onblur = "if(MinCaracteres(this,1)){ValidarNombresComunes(this,event)}", @class = "form-control ns_", @type = "password" })
+                                    <small id="Mensaje_RL_ClavePrivada" style="color: #d0021b"></small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="clearfix">
+                                <div class="pull-left text-muted text-vertical-align-button">
+                                    * Campos obligatorios
+                                </div>
+                                <div class="pull-right">
+                                    <button class="btn btn-primary btn" type="submit">Firmar</button>
+                                </div>
+                            </div>
+                        </div>
+                        @*</div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">RFC<span class="form-text" id="Alerta_E_RFC">*</span>:</label>
+                    @Html.TextBoxFor(model => model.E_RFC, new {  maxlength = 13, @onblur = "if(MinCaracteres(this,12)){ValidarRFCEmpresa(this, event);}", @class = "form-control ns_", @placeholder = "Captura RFC" })
+                    <small id="Mensaje_E_RFC" style="color: #d0021b;"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="firstName">Razón social<span class="form-text" id="Alerta_E_RazonSocial">*</span>:</label>
+                    @Html.TextBoxFor(model => model.E_RazonSocial, new { maxlength = 150, @onblur = "if(MinCaracteres(this,1)){ValidarNombresComunes(this,event)}", @class = "form-control ns_", @placeholder = "Razon social de la empresa" })
+                    <small id="Mensaje_E_RazonSocial" style="color: #d0021b;"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="secondName">Nombre comercial<span class="form-text" id="Alerta_E_NombreComercial">*</span>:</label>
+                    @Html.TextBoxFor(model => model.E_NombreComercial, new { maxlength = 150, @onblur = "if(MinCaracteres(this,1)){ValidarNombresComunes(this,event)}", @class = "form-control ns_", @placeholder = "Nombre de la empresa" })
+                    <small id="Mensaje_E_NombreComercial" style="color: #d0021b;"></small>
+                </div>
+            </div>
+        </div>
+       
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group clearfix">
+                    <div class="form-control-lada">
+                        <label for="lada">Lada<span class="form-text" id="Alerta_E_Lada">*</span>:</label>
+                        @Html.TextBoxFor(model => model.E_Lada, new { maxlength = 2, @onkeyup = "ValidarNumeros(this,event)", @onblur = "if(MinCaracteres(this,2)){ValidarNumeros(this,event)}", @class = "form-control ns_", @placeholder = "Lada" })
+                    </div>
+                    <div class="form-control-phone">
+                        <label for="firstName">Teléfono fijo<span class="form-text" id="Alerta_E_TelefonoFijo">*</span>:</label>
+                        @Html.TextBoxFor(model => model.E_TelefonoFijo, new { maxlength = 8, @onkeyup = "ValidarNumeros(this,event)", @onblur = "if(MinCaracteres(this,8)){ValidarNumeros(this,event)}", @class = "form-control ns_", @placeholder = "Número de teléfono" })
+                        <small id="Mensaje_E_TelefonoFijo" style="color: #d0021b"></small>
+                    </div>
+                </div>
+            </div>
+            
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="secondName">Correo electrónico<span class="form-text" id="Alerta_E_CorreoElectronico">*</span>:</label>
+                    @Html.TextBoxFor(model => model.E_CorreoElectronico, new {  maxlength = 320, @onblur = "if(MinCaracteres(this,5)){ValidarEmail(this, event)};", @class = "form-control ns_", @placeholder = "Correo electrónico" })
+                    <small id="Mensaje_E_CorreoElectronico" style="color: #d0021b"></small>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Código postal:</label>
+                    @Html.TextBoxFor(model => model.E_CodigoPostal, new { maxlength = 5, @onkeyup = "ValidarNumeros(this,event)", @onblur = "ValidarCP(this,event)", @class = "form-control ns_", @placeholder = "Código postal" })
+                    <small id="Mensaje_E_CodigoPostal" style="color: #d0021b"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="firstName">Estado<span class="form-text" id="Alerta_E_IdEntidadFederativa">*</span>:</label>
+                    @Html.DropDownListFor(model => model.E_IdEntidadFederativa, ViewBag.EntidadesFederativas as SelectList, "Selecciona un estado", htmlAttributes: new { @onblur = "ValidarObjeto(this,event)", @class = "form-control ns_" })
+                    <small id="Mensaje_E_IdEntidadFederativa" style="color: #d0021b"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="secondName">Municipio o Alcaldía<span class="form-text" id="Alerta_E_IdMunicipio">*</span>:</label>
+                    @Html.DropDownListFor(model => model.E_IdMunicipio, ViewBag.Municipios as SelectList, "Selecciona un municipio", htmlAttributes: new { @onblur = "ValidarObjeto(this,event)", @class = "form-control ns_" })
+                    <small id="Mensaje_E_IdMunicipio" style="color: #d0021b"></small>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Localidad<span class="form-text" id="Alerta_E_IdLocalidad">*</span>:</label>
+                    @Html.DropDownListFor(model => model.E_IdLocalidad, ViewBag.Localidades as SelectList, "Selecciona una localidad", htmlAttributes: new { @onblur = "ValidarObjeto(this,event)", @class = "form-control ns_" })
+                    <small id="Mensaje_E_IdLocalidad" style="color: #d0021b"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="firstName">Tipo de colonia:</label>
+                    @Html.DropDownListFor(model => model.E_IdTipoAsentamiento, ViewBag.TiposAsentamiento as SelectList, "Selecciona un tipo de colonia", htmlAttributes: new { @onblur = "ValidarObjeto(this,event)", @class = "form-control ns_" })
+                    <small id="Mensaje_E_IdTipoAsentamiento_na" style="color: #d0021b"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="secondName">Colonia<span class="form-text" id="Alerta_E_Colonia">*</span>:</label>
+                    @Html.TextBoxFor(model => model.E_Colonia, new { maxlength = 50, @onblur = "if(MinCaracteres(this,1)){ValidarNombresComunes(this,event)}", @class = "form-control ns_", @placeholder = "Nombre de colonia" })
+                    <small id="Mensaje_E_Colonia" style="color: #d0021b"></small>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Tipo de calle:</label>
+                    @Html.DropDownListFor(model => model.E_IdTipoVialidad, ViewBag.TiposVialidad as SelectList, "Selecciona un tipo de calle", htmlAttributes: new { @onblur = "ValidarObjeto(this,event)", @class = "form-control ns_" })
+                    <small id="Mensaje_E_IdTipoVialidad" style="color: #d0021b"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="firstName">Calle<span class="form-text" id="Alerta_E_Calle">*</span>:</label>
+                    @Html.TextBoxFor(model => model.E_Calle, new { maxlength = 50, @onblur = "if(MinCaracteres(this,1)){ValidarNombresComunes(this,event)}", @class = "form-control ns_", @placeholder = "Nombre de calle" })
+                    <small id="Mensaje_E_Calle" style="color: #d0021b"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="secondName">Número exterior<span class="form-text" id="Alerta_E_NumeroExterior">*</span>: <strong data-placement="right" data-toggle="tooltip" title="" data-original-title="Si no cuentas con número exterior escribe: SN "><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></strong></label> @*07/03/2017*@
+                    @Html.TextBoxFor(model => model.E_NumeroExterior, new { maxlength = 10, @onblur = "if(MinCaracteres(this,1)){ValidarNumeroExterior(this,event)}", @class = "form-control ns_", @placeholder = "Número exterior" })
+                    <small id="Mensaje_E_NumeroExterior" style="color: #d0021b"></small>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Número interior:</label>
+                    @Html.TextBoxFor(model => model.E_NumeroInterior, new { maxlength = 10, @onblur = "if(MinCaracteres(this,0)){ValidarNumeroInterior(this,event)}", @class = "form-control ns_", @placeholder = "Número interior" })
+                    <small id="Mensaje_E_NumeroInterior" style="color: #d0021b"></small>
+                </div>
+            </div>
+        </div>
+        @Html.HiddenFor(model => model.E_IdEmpresa);
+
+        <div class="col-md-8 col-md-offset-4">
+            <hr>
+        </div>
+
+        <div class="clearfix">
+                <div class="pull-left text-muted text-vertical-align-button">
+                    * Campos obligatorios
+                </div>
+
+                <div class="pull-right">
+                    <button class="btn btn-primary btn" type="button" onclick="javascript: if (ValidarFormulario(event, $('#FormularioActualizarEmpresa'))) { PedirFIEL(); }">Actualizar</button>
+                </div>
+            </div>
+
+
+
+        
+
+    }
+</div>
+
+
+

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="10850221-0f7b-4f44-98d1-fc1ae7d70de3" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://api-interoperabilidad-qa.azurewebsites.net/NotificacionDeInteroperabilidad.svc?wsdl" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="NotificacionDeInteroperabilidad.xsd" MetadataType="Schema" ID="fed5e601-69db-4455-bd4d-0a4ec4bb6471" SourceId="1" SourceUrl="http://api-interoperabilidad-qa.azurewebsites.net/NotificacionDeInteroperabilidad.svc?xsd=xsd1" />
+    <MetadataFile FileName="NotificacionDeInteroperabilidad1.xsd" MetadataType="Schema" ID="6bcbf270-ea53-4602-b931-81c2e327b68d" SourceId="1" SourceUrl="http://api-interoperabilidad-qa.azurewebsites.net/NotificacionDeInteroperabilidad.svc?xsd=xsd2" />
+    <MetadataFile FileName="NotificacionDeInteroperabilidad2.xsd" MetadataType="Schema" ID="20f82bef-bea0-4c99-9771-6253d0023297" SourceId="1" SourceUrl="http://api-interoperabilidad-qa.azurewebsites.net/NotificacionDeInteroperabilidad.svc?xsd=xsd3" />
+    <MetadataFile FileName="NotificacionDeInteroperabilidad3.xsd" MetadataType="Schema" ID="02d8a411-e8ce-410a-9ce8-673a64d1f02c" SourceId="1" SourceUrl="http://api-interoperabilidad-qa.azurewebsites.net/NotificacionDeInteroperabilidad.svc?xsd=xsd4" />
+    <MetadataFile FileName="NotificacionDeInteroperabilidad4.xsd" MetadataType="Schema" ID="1c4ff3d4-05a8-423f-94a2-c3a5135994c6" SourceId="1" SourceUrl="http://api-interoperabilidad-qa.azurewebsites.net/NotificacionDeInteroperabilidad.svc?xsd=xsd5" />
+    <MetadataFile FileName="NotificacionDeInteroperabilidad5.xsd" MetadataType="Schema" ID="6535c9bf-e50e-4461-91d1-59b3598120d3" SourceId="1" SourceUrl="http://api-interoperabilidad-qa.azurewebsites.net/NotificacionDeInteroperabilidad.svc?xsd=xsd6" />
+    <MetadataFile FileName="NotificacionDeInteroperabilidad.wsdl" MetadataType="Wsdl" ID="e5af3b2a-31c1-4fe0-bc89-a08af2e4a9ee" SourceId="1" SourceUrl="http://api-interoperabilidad-qa.azurewebsites.net/NotificacionDeInteroperabilidad.svc?wsdl" />
+    <MetadataFile FileName="NotificacionDeInteroperabilidad6.xsd" MetadataType="Schema" ID="e4b277aa-4aaf-49b5-87a4-69a99578be5f" SourceId="1" SourceUrl="http://api-interoperabilidad-qa.azurewebsites.net/NotificacionDeInteroperabilidad.svc?xsd=xsd0" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

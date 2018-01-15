@@ -1,0 +1,376 @@
+﻿@model ENREL.Models.RepresentantesLegales.CatRepresentantesLegales
+@{
+    ViewBag.Title = "Crear Representante legal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string NombreUsuarioSession = "";
+    if (Session["NombreUsuario"] != null)
+    {
+        NombreUsuarioSession = Session["NombreUsuario"].ToString();
+    }
+    string MensajePrivacidad = Session["MensajePrivacidad"].ToString();
+}
+
+<!-- Begin Digital Analytix Tag 1.1302.13 -->
+<script type="text/javascript">
+    udm_('https://sb.scorecardresearch.com/b?c1=2&c2=17183199&ns_site=gobmx&name=SENER.ENREL.INVERSIONISTA.REPRESENTANTES.CREAR_REPRESENTANTE');
+</script>
+<noscript><p><img src="'https://sb.scorecardresearch.com/b?c1=2&c2=17183199&ns_site=gobmx&id_usuario=' + @NombreUsuarioSession + '&name=SENER.ENREL.INVERSIONISTA.REPRESENTANTES.CREAR_REPRESENTANTE" height="1" width="1" alt="*"></p></noscript>
+<!-- End Digital Analytix Tag 1.1302.13 -->
+@*Breadcum y usuario*@
+<div class="row" style="margin-top:94px">
+    <div class="col-sm-8">
+        <ol class="breadcrumb">
+            <li><a href="https://www.gob.mx/" target="_blank"><i class="icon icon-home"></i></a></li>
+            <li><a href="@Url.Action("InicioInversionista","Home")">Inicio</a></li>
+            <li><a href="@Url.Action("Index","RepresentantesLegales")">Representantes legales</a></li>
+            <li class="active">Crear Representante legal</li>
+        </ol>
+    </div>
+    <div class="col-sm-4">
+        <div class="user-credencials">
+            <ul class="list-unstyled">
+                <li>
+                    <span class="user-credencials__name">@NombreUsuarioSession</span>
+                    <button type="button" class="btn btn-link pull-right" onclick="location.href = '@Url.Action("Logout", "Home")'">Salir</button>
+                </li>
+                <li><a href="@Url.Action("Actualizar", "Usuarios")">Modificar usuario</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+@*Título *@
+<h2>Crear Representante legal </h2>
+<div class="bottom-buffer"></div>
+<div class="row">
+    <div class="col-sm-8">
+        <div class="bottom-buffer">
+            <p>
+                Para registrar un nuevo Representante legal será necesario agregar los documentos que lo acrediten como Representante de esta empresa además de
+                la información que se solicita en el siguiente formulario.
+            </p>
+        </div>
+    </div>
+</div>
+
+@*Contenido: *@
+
+@if (TempData["notice"] != null)
+{
+    <div id="divAlerta" class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>@TempData["notice"]</strong>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <div id="divAlertaFormulario" class="alert alert-danger alert-dismissible" style="display:none">
+            <strong>Uno o más campos son incorrectos, por favor verifica la información.</strong>
+        </div>
+    </div>
+</div>
+
+<div style="width:100%;">
+    @using (Html.BeginForm("InsertarRepresentanteLegal", "RepresentantesLegales", new { Accion = "Insertar", @class = "ns_" }, FormMethod.Post, new { onsubmit = "ValidarFIEL(event, this)", id = "FormularioCrearRepresentante", enctype = "multipart/form-data", @class = "clearfix" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div id="MyModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="display:none;">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Ingresa tu firma electrónica</h4>
+                    </div>
+                    <div class="modal-body" id="modal-content">
+                        @*<div id="modal-content">*@
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="form-group hidden-xs ">
+                                    <label for="file1">Certificado (.cer)<span id="Alerta_file1">*</span>:</label>
+                                    <input type="file" name="files" id="file1" onchange="ValidarArchivoFiel(this, event)" />
+                                    <small id="Mensaje_file1" style="color: #d0021b"></small>
+                                </div>
+                                <div class="form-group hidden-xs ">
+                                    <label for="file2">Llave (.key)<span id="Alerta_file2">*</span>:</label>
+                                    <input type="file" name="files" id="file2" onchange="ValidarArchivoFiel(this, event)" />
+                                    <small id="Mensaje_file2" style="color: #d0021b"></small>
+                                </div>
+                                <div class="form-group">
+                                    <label>RFC:</label>
+                                    @Html.TextBox("RFC", (string)@ViewBag.RFCRepresentante, new { @class = "form-control ns_", @readonly = "true" })
+                                </div>
+                                <div class="form-group">
+                                    <label>Contraseña<span id="Alerta_RL_ClavePrivada">*</span>:</label>
+                                    @Html.TextBoxFor(model => model.RL_ClavePrivada, new { @onblur = "if(MinCaracteres(this,1)){ValidarObjeto(this,event)}", @class = "form-control ", @type = "password" })
+                                    <small id="Mensaje_RL_ClavePrivada" style="color: #d0021b"></small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Aviso de privacidad colapsable-->
+                        <div class="panel-group ficha-collapse" id="accordion0">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-parent="#accordion" data-toggle="collapse" href="#panel-0" aria-expanded="false" aria-controls="panel-0">
+                                            Aviso de privacidad y protección de datos personales
+                                        </a>
+                                    </h4>
+                                    <button type="button" class="collpase-button collapsed" data-parent="#accordion" data-toggle="collapse" href="#panel-0"></button>
+                                </div>
+                                <div class="panel-collapse collapse" id="panel-0">
+                                    <div class="panel-body">
+                                        LLa Secretaria de Energía hace de su conocimiento que los datos personales por usted proporcionados en la aplicación de Energías Renovables en Línea (ENRELmx), están protegidos en términos de lo establecido en la Ley General de Protección de Datos Personales en Posesión de Sujetos Obligados y serán utilizados con la siguiente finalidad:
+•	Registro de los promoventes interesados en presentar proyectos.
+•	Contar con la información para la realización de los trámites necesarios.
+•	Hacer llegar las notificaciones y estados de avance de los trámites realizados al titular de los datos proporcionados.
+En caso de requerir el acceso, rectificación, cancelación u oposición al tratamiento de los datos personales que le conciernen de conformidad con los artículos 48, 49, 50, 51 y 52 de la LGPDPPSO podrá tramitar su solicitud ante la Unidad de Transparencia de la Secretaría de Energía con domicilio en Av. Insurgentes Sur No. 890, Planta Baja, Col. Del Valle, C.P. 03100, Ciudad de México, y/o al teléfono (55) 5000-6000 ext. 1441.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-warning">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="LeerCompartirDatos" onchange="AutorizacionInformacionSeleccionada();">
+                                    He leído el Aviso de privacidad y protección de datos personales de la Secretaría de Energía.
+                                    <br /><br />
+                                    <select class='form-control ns_ form-control-error' data-val='true' data-val-number='The field P_IdTecnologia must be a number.' data-val-required='El campo P_IdPregunta es obligatorio.' id="CompartirDatos" name="CompartirDatos" onchange='AutorizacionInformacionSeleccionada();'>
+                                        <option value='0'>Por favor registra tu respuesta:</option>
+                                        <option value='1'>Sí autorizo compartir esta información</option>
+                                        <option value='2'>No autorizo compartir esta información</option>
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="clearfix">
+                            <div class="pull-left text-muted text-vertical-align-button">
+                                * Campos obligatorios
+                            </div>
+                            <div class="pull-right">
+                                <button class="btn btn-primary btn" id="BtnEnviarRegistro" style="visibility:hidden" type="submit" onclick="javascript: uid_call('SENER.ENREL.REPRESENTANTES.INSERTAR.BTN_FIRMAR', 'clickin');">Firmar</button>
+                            </div>
+                        </div>
+                        @*</div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>CURP<span class="form-text" id="Alerta_DatosPromovente_T_CURP">*</span>: <strong data-placement="right" data-toggle="tooltip" title="" data-original-title="Clave Única de Registro de Población"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></strong></label>
+                    @Html.TextBoxFor(model => model.RL_CURP, new { maxlength = 18, @onblur = "if(MinCaracteres(this,18)){ValidarCURP(this,event)}", @class = "form-control ns_", @placeholder = "Ej.: AAAA900503HCLMLS09" })
+                    <small id="Mensaje_RL_CURP" style="color: #d0021b"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>RFC<span class="form-text" id="Alerta_DatosPromovente_T_RFC">*</span>: <strong data-placement="right" data-toggle="tooltip" title="" data-original-title="Registro Federal de Contribuyente"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></strong></label>
+                    @Html.TextBoxFor(model => model.RL_RFC, new { maxlength = 13, @onblur = "if(MinCaracteres(this,13)){ValidarRFCPersona(this, event);}", @class = "form-control ns_", @placeholder = "Ej.: AAAA850219C21" })
+                    <small id="Mensaje_RL_RFC" style="color: #d0021b"></small>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Nombre(s)<span class="form-text" id="Alerta_RL_Nombre">*</span>:</label>
+                    @Html.TextBoxFor(model => model.RL_Nombre, new { maxlength = 50, @onblur = "if(MinCaracteres(this,1)){ValidarNombresEstrictamente(this,event)}", @class = "form-control ns_", @placeholder = "Nombre(s)" })
+                    <small id="Mensaje_RL_Nombre" style="color: #d0021b"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="firstName">Primer apellido<span class="form-text" id="Alerta_RL_PrimerApellido">*</span>:</label>
+                    @Html.TextBoxFor(model => model.RL_PrimerApellido, new { maxlength = 50, @onblur = "if(MinCaracteres(this,1)){ValidarNombresEstrictamente(this,event)}", @class = "form-control ns_", @placeholder = "Primer apellido" })
+                    <small id="Mensaje_RL_PrimerApellido" style="color: #d0021b"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="secondName">Segundo apellido<span class="form-text" id="Alerta_RL_SegundoApellido">*</span>:</label>
+                    @Html.TextBoxFor(model => model.RL_SegundoApellido, new { maxlength = 50, @onblur = "if(MinCaracteres(this,1)){ValidarNombresEstrictamente(this,event)}", @class = "form-control ns_", @placeholder = "Segundo apellido" })
+                    <small id="Mensaje_RL_SegundoApellido" style="color: #d0021b"></small>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group clearfix">
+                    <div class="form-control-lada">
+                        <label for="lada">Lada<span class="form-text" id="Alerta_RL_Lada">*</span>:</label>
+                        @Html.TextBoxFor(model => model.RL_Lada, new { maxlength = 2, @onkeyup = "ValidarNumeros(this,event)", @onblur = "if(MinCaracteres(this,2)){ValidarObjeto(this,event)}", @class = "form-control ns_", @placeholder = "Lada" })
+                    </div>
+                    <div class="form-control-phone">
+                        <label for="firstName">Teléfono fijo<span class="form-text" id="Alerta_RL_TelefonoFijo">*</span>:</label>
+                        @Html.TextBoxFor(model => model.RL_TelefonoFijo, new { maxlength = 8, @onkeyup = "ValidarNumeros(this,event)", @onblur = "if(MinCaracteres(this,8)){ValidarObjeto(this,event)}", @class = "form-control ns_", @placeholder = "Número de teléfono" })
+                        <small id="Mensaje_RL_TelefonoFijo" style="color: #d0021b"></small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="secondName">Extensión:</label>
+                    @Html.TextBoxFor(model => model.RL_ExtensionTelefonica, new { maxlength = 8, @onkeyup = "ValidarNumeros(this,event)", @onblur = "ValidarObjeto(this,event)", @class = "form-control ns_", @placeholder = "Extensión" })
+                    <small id="Mensaje_NoSeMuestra" style="color: #d0021b"></small>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Teléfono móvil<span class="form-text" id="Alerta_RL_TelefonoCelular">*</span>:</label>
+                    @Html.TextBoxFor(model => model.RL_TelefonoCelular, new { maxlength = 10, @onkeyup = "ValidarNumeros(this,event)", @onblur = "if(MinCaracteres(this,10)){ValidarNumeros(this,event)}", @class = "form-control ns_", @placeholder = "Teléfono móvil" })
+                    <small id="Mensaje_RL_TelefonoCelular" style="color: #d0021b"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="firstName">Correo electrónico<span class="form-text" id="Alerta_RL_CorreoElectronico">*</span>:</label>
+                    @Html.TextBoxFor(model => model.RL_CorreoElectronico, new { maxlength = 320, @onblur = "if(MinCaracteres(this,5)){ValidarEmail(this, event);}", @class = "form-control ns_", @placeholder = "Correo electrónico" })
+                    <small id="Mensaje_RL_CorreoElectronico" style="color: #d0021b"></small>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Código postal:</label>
+                    @Html.TextBoxFor(model => model.RL_CodigoPostal, new { maxlength = 5, @onkeyup = "ValidarNumeros(this,event)", @onblur = "ValidarCP(this,event)", @class = "form-control ns_", @placeholder = "Código postal" })
+                    <small id="Mensaje_RL_CodigoPostal" style="color: #d0021b"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="firstName">Estado<span class="form-text" id="Alerta_RL_IdEntidadFederativa">*</span>:</label>
+                    @Html.DropDownListFor(m => m.RL_IdEntidadFederativa, ViewBag.EntidadesFederativas as SelectList, "Selecciona un estado", htmlAttributes: new { @onchange = "ValidarObjeto(this,event)", @class = "form-control ns_" })
+                    <small id="Mensaje_RL_IdEntidadFederativa" style="color: #d0021b"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="secondName">Municipio o Alcaldía<span class="form-text" id="Alerta_RL_IdMunicipio">*</span>:</label>
+                    @Html.DropDownListFor(m => m.RL_IdMunicipio, ViewBag.Municipios as SelectList, "Selecciona un municipio", htmlAttributes: new { @onchange = "ValidarObjeto(this,event)", @class = "form-control ns_" })
+                    <small id="Mensaje_RL_IdMunicipio" style="color: #d0021b"></small>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Localidad<span class="form-text" id="Alerta_RL_IdLocalidad">*</span>:</label>
+                    @Html.DropDownListFor(m => m.RL_IdLocalidad, ViewBag.Localidades as SelectList, "Selecciona una localidad", htmlAttributes: new { @onchange = "ValidarObjeto(this,event)", @class = "form-control ns_" })
+                    <small id="Mensaje_RL_IdLocalidad" style="color: #d0021b"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="firstName">Tipo de colonia:</label>
+                    @Html.DropDownListFor(m => m.RL_IdTipoAsentamiento, ViewBag.TiposAsentamiento as SelectList, "Selecciona un tipo de colonia", htmlAttributes: new { @onblur = "ValidarObjeto(this,event)", @class = "form-control ns_" })
+                    <small id="Mensaje_RL_IdAsentamiento_na" style="color: #d0021b"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="secondName">Colonia<span class="form-text" id="Alerta_RL_Colonia">*</span>:</label>
+                    @Html.TextBoxFor(model => model.RL_Colonia, new { maxlength = 50, @onblur = "if(MinCaracteres(this,1)){ValidarNombresComunes(this,event)}", @class = "form-control ns_", @placeholder = "Nombre de la colonia" })
+                    <small id="Mensaje_RL_Colonia" style="color: #d0021b"></small>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Tipo de calle:</label>
+                    @Html.DropDownListFor(m => m.RL_IdTipoVialidad, ViewBag.TiposVialidad as SelectList, "Selecciona un tipo de calle", htmlAttributes: new { @onblur = "ValidarObjeto(this,event)", @class = "form-control ns_" })
+                    <small id="Mensaje_RL_IdTipoVialidad_na" style="color: #d0021b"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="firstName">Calle<span class="form-text" id="Alerta_RL_Calle">*</span>:</label>
+                    @Html.TextBoxFor(model => model.RL_Calle, new { maxlength = 50, @onblur = "if(MinCaracteres(this,1)){ValidarNombresComunes(this,event)}", @class = "form-control ns_", @placeholder = "Nombre de calle" })
+                    <small id="Mensaje_RL_Calle" style="color: #d0021b"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="secondName">Número exterior<span class="form-text" id="Alerta_RL_NumeroExterior">*</span>: <strong data-placement="right" data-toggle="tooltip" title="" data-original-title="Si no cuentas con número exterior escribe: SN "><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></strong></label> @*7/3/17*@
+                    @Html.TextBoxFor(model => model.RL_NumeroExterior, new { maxlength = 10, @onblur = "if(MinCaracteres(this,1)){ValidarNumeroExterior(this,event)}", @class = "form-control ns_", @placeholder = "Número exterior" })
+                    <small id="Mensaje_RL_NumeroExterior" style="color: #d0021b"></small>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Número interior:</label>
+                    @Html.TextBoxFor(model => model.RL_NumeroInterior, new { maxlength = 10, @onblur = "if(MinCaracteres(this,0)){ValidarNumeroInterior(this,event)}", @class = "form-control ns_", @placeholder = "Número interior" })
+                    <small id="Mensaje_RL_NumeroInterior" style="color: #d0021b"></small>
+                </div>
+            </div>
+        </div>
+
+        <h3>Documentos de acreditación</h3>
+        <hr class="red" />
+        <small class="form-text">Solo se permiten documentos .PDF con un tamaño máximo de 5MB (megas).</small>
+        <br />
+        <br />
+        <div class="form-group">
+            <label class="control-label">Acta constitutiva<span id="Alerta_RL_ActaConstitutiva">*</span>:</label>
+            <input type="file" name="ActaConstitutiva" id="RL_ActaConstitutiva" onchange="ValidarArchivos(this, event)" maxlength="5000" accept="application/pdf" />
+            <small id="Mensaje_RL_ActaConstitutiva" style="color: #d0021b"></small>
+        </div>
+        <br />
+        <div class="form-group">
+            <label>Poder notarial<span id="Alerta_RL_PoderNotarial">*</span>:</label>
+            <input type="file" name="PoderNotarial" id="RL_PoderNotarial" onchange="ValidarArchivos(this, event)" maxlength="5000" accept="application/pdf" />
+            <small id="Mensaje_RL_PoderNotarial" style="color: #d0021b"></small>
+        </div>
+        <br />
+        <div class="form-group">
+            <label>Cédula RFC<span id="Alerta_RL_CedulaRFC">*</span>:</label>
+            <input type="file" name="CedulaRFC" id="RL_CedulaRFC" onchange="ValidarArchivos(this, event)" maxlength="5000" accept="application/pdf" />
+            <small id="Mensaje_RL_CedulaRFC" style="color: #d0021b"></small>
+        </div>
+        <br />
+        <div class="form-group">
+            <label class="control-label">Identificación oficial<span id="Alerta_RL_NumIdenOficial">*</span>:</label>
+            <input type="file" name="NumIdenOficial" id="RL_NumIdenOficial" onchange="ValidarArchivos(this, event)" maxlength="5000" accept="application/pdf" />
+            <small id="Mensaje_RL_NumIdenOficial" style="color: #d0021b"></small>
+        </div>
+
+        <div class="col-md-8 col-md-offset-4">
+            <hr>
+        </div>
+        <div class="clearfix">
+            <div class="pull-left text-muted text-vertical-align-button">
+                * Campos obligatorios
+            </div>
+
+            <div class="pull-right">
+                <button class="btn btn-primary btn" type="button" onclick="javascript: uid_call('SENER.ENREL.REPRESENTANTES.CREARNUEVO.BTN_SUBMIT', 'clickin'); if (ValidarFormulario(event, $('#FormularioCrearRepresentante'))) { PedirFIEL(); }">Crear</button>
+            </div>
+        </div>
+
+
+
+
+    }
+</div>
+
+

@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Error 500";
+}
+
+<div class="bottom-buffer"></div>
+<div class="bottom-buffer"></div>
+<br />
+<br />
+
+<div class="section section-error vertical-buffer">
+    <div class="row">
+        <div class="col-sm-7">
+            <h2>Acceso denegado/prohibido</h2>
+            <h3>Error 500</h3>
+            <p>El servidor web encontró una condición inesperada que le impidió completar tu solicitud para acceder a la URL requerida</p>
+            <p>Por favor intentalo más tarde.</p>
+            <hr>
+        </div>
+        <div class="col-sm-4 col-sm-offset-1">
+            <figure>
+                <img src="~/Content/Imagenes/error.svg">
+            </figure>
+            <h3>Otras opciones:</h3>
+            <ul>
+                <li><a href="@Url.Action("InicioInversionista","Home")">Regresar al inicio</a></li>
+                <li><a href="http://www.gob.mx/busqueda">Buscar en gob.mx</a></li>
+                <li><a href="javascript:history.back();">Volver a la página anterior</a></li>
+            </ul>
+        </div>
+    </div>
+</div>

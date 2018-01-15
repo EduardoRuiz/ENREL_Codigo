@@ -1,0 +1,509 @@
+﻿@model IEnumerable<ENREL.Models.Tramites.CatTramites>
+    @{
+        ViewBag.Title = "Tramites";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+
+        var Imagen = "/Content/Imagenes/MapasDeProceso/" + @ViewBag.NombreTecnologia + ".jpg";
+        var Plantilla = "/Content/Imagenes/MapasDeProceso/" + @ViewBag.NombreTecnologia + "_Plantilla.jpg";
+
+        string IdGlobalMacroTramite = ViewBag.IdGlobal;
+        string IdProyecto = ViewBag.IdProyecto;
+        string IdTecnologia = ViewBag.IdTecnologia;
+        string RFCRepresentante = ViewBag.RFCRepresentante;
+        string NombreUsuarioSession = "";
+        if (Session["NombreUsuario"] != null)
+            NombreUsuarioSession = Session["NombreUsuario"].ToString();
+    }
+
+    <!-- Begin Digital Analytix Tag 1.1302.13 -->
+    <script type="text/javascript">
+        udm_('https://sb.scorecardresearch.com/b?c1=2&c2=17183199&ns_site=gobmx&name=SENER.ENREL.INVERSIONISTA.PROYECTOS.PROYECTO_TRÁMITES');
+    </script>
+    <noscript><p><img src="'https://sb.scorecardresearch.com/b?c1=2&c2=17183199&ns_site=gobmx&id_usuario=' + @NombreUsuarioSession + '&name=SENER.ENREL.INVERSIONISTA.PROYECTOS.PROYECTO_TRÁMITES" height="1" width="1" alt="*"></p></noscript>
+    <!-- End Digital Analytix Tag 1.1302.13 -->
+    @*Breadcum y usuario*@
+    <div class="row" style="margin-top:94px">
+        <div class="col-sm-8">
+            <ol class="breadcrumb">
+                <li><a href="https://www.gob.mx/" target="_blank"><i class="icon icon-home"></i></a></li>
+                <li><a href="@Url.Action("InicioInversionista","Home")">Inicio</a></li>
+                <li><a href="@Url.Action("Index","Proyectos")">Catálogo de proyectos</a></li>
+                <li class="active">Trámites</li>
+            </ol>
+        </div>
+        <div class="col-sm-4">
+            <div class="user-credencials">
+                <ul class="list-unstyled">
+                    <li>
+                        <span class="user-credencials__name">@NombreUsuarioSession</span>
+                        <button type="button" class="btn btn-link pull-right" onclick="javascript: uid_call('SENER.ENREL.INVERSIONISTA.BTN_CERRARSESIÓN', 'clickout'); location.href = '@Url.Action("Logout", "Home" )'">Salir</button>
+                    </li>
+                    <li><a href="@Url.Action("Actualizar", "Usuarios" )">Modificar usuario</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    @*Título *@
+    <h2>Gestión de trámites </h2>
+    <div class="bottom-buffer"></div>
+    <div class="recuadro-informativo">
+        <table style="width: auto; border-collapse: separate; border-spacing: 10px 0px;">
+            <tr>
+                <td>Nombre del Macro-Trámite:</td>
+                <td>@ViewBag.NombreProyecto</td>
+            </tr>
+            <tr>
+                <td>Fecha de inicio:</td>
+                <td>@ViewBag.FechaInicio</td>
+            </tr>
+            <tr>
+                <td>Identificador Global:</td>
+                <td>@IdGlobalMacroTramite</td>
+            </tr>
+            <tr>
+                <td>Tecnología:</td>
+                <td>@ViewBag.NombreTecnologia</td>
+            </tr>
+        </table>
+
+        <br />
+        <br />
+        <table class="table table-striped" style="width:100%; text-align:center">
+            <thead>
+                <tr>
+                    <th style="text-align:center">Estatus</th>
+                    <th style="text-align:center">Tramites finalizado</th>
+                    <th style="text-align:center">Porcentaje de avance</th>
+                    <th style="text-align:center">Días agregados</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@ViewBag.EstatusProyecto</td>
+                    <td><div>@ViewBag.TramitesFinalizados de @ViewBag.TramitesTotales trámites</div></td>
+                    <td>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="@ViewBag.PorcentajePositivo"
+                                 aria-valuemin="0" aria-valuemax="100" style="width: @ViewBag.PorcentajePositivo%">
+                                @ViewBag.PorcentajePositivo%
+                            </div>
+                        </div>
+                    </td>
+                    @if (ViewBag.DiasAgregados > 0)
+                    {
+                        <td style="color:#D0021B;">@ViewBag.DiasAgregados</td>
+                    }
+                    else
+                    {
+                        <td>@ViewBag.DiasAgregados</td>
+                    }
+
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+
+    @*Ventana Modal: *@
+    <div id="MyModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="display:none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Acerca de este reporte</h4>
+                </div>
+                <div class="modal-body" style="text-align:left;" id="modal-content">
+                    Cargando...
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @*Contenido: *@
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#tab-01">Diagrama informativo del Macro Trámite</a></li>
+        <li><a data-toggle="tab" href="#tab-02">Preguntas técnicas</a></li>
+        <li><a data-toggle="tab" href="#tab-03">Seguimiento del Macro Trámite</a></li>
+        <li><a data-toggle="tab" href="#tab-04">Gestión de trámites</a></li>
+    </ul>
+    <div class="tab-content">
+        @*Mapa fijo*@
+        <div class="tab-pane active" id="tab-01">
+            <div style="width: 100%; overflow: auto; ">
+                <img src="@Imagen" style="width:100%" />
+            </div>
+            <div>
+                <table style="width:100%">
+                    <tr>
+                        <td style="width:10%"><div class="circulo" style="background-color: #D0021B"></div></td>
+                        <td>Puede no aplicar dependiendo de las condiciones del proyecto.</td>
+                    </tr>
+                    <tr>
+                        <td>-----</td>
+                        <td>No es un trámite del CNTSE.</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Nota 1:</td>
+                        <td>
+                            Las líneas indican la rutina crítica del proceso de trámites requeridos para la puesta en operación de una central eléctrica.
+                            Los demás trámites se colocan en las diversas fases solo como recomendación.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Nota 2:</td>
+                        <td>Las letras dentro de los paréntesis indican la existencia de modalidades en el trámite.</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        @*Preguntas técnicas*@
+        <div class="tab-pane" id="tab-02" style="width:100%">
+            @using (Html.BeginForm("ActualizarPreguntas", "Proyectos", new { @class = "ns_" }, FormMethod.Post, new { id = "InsertarProyecto", enctype = "multipart/form-data", @class = "clearfix" }))
+            {
+                @Html.AntiForgeryToken()
+                <table id="Preguntas" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                Pregunta
+                            </th>
+                            <th>
+                                Respuesta
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+                <input hidden name="IdProyecto" value="@IdProyecto" />
+
+            }
+
+        </div>
+
+        @*Mapa dinámico*@
+        <div class="tab-pane" id="tab-03" style="width:100%">
+            <div class="row">
+                Simbología:
+                <br />
+                <br />
+                <table style="width:100%">
+                    <tr>
+                        <td>
+                            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color: #999999; font-size: 1.2em;"></span>
+                            Habilitado
+                        </td>
+                        <td>
+                            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color: #FFA500; font-size: 1.2em; "></span>
+                            Detenido
+                        </td>
+                        <td>
+                            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color: #E7512B; font-size: 1.2em; "></span>
+                            Prorroga
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color: #484949; font-size: 1.2em;"></span>
+                            Enviado
+                        </td>
+                        <td>
+                            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color: #E39532; font-size: 1.2em;"></span>
+                            Prevención
+                        </td>
+                        <td>
+                            <span class="glyphicon glyphicon-unchecked" aria-hidden="true" style="color: #000000; font-size: 1.2em;"></span>
+                            Trámite requerido
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color: #F29FD6; font-size: 1.2em;"></span>
+                            Recibido
+                        </td>
+                        <td>
+                            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color: #136636; font-size: 1.2em;"></span>
+                            Autorizado
+                        </td>
+                        <td>
+                            <span class="glyphicon glyphicon-unchecked" aria-hidden="true" style="color: #0000FF; font-size: 1.2em;"></span>
+                            Trámite no requerido
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color: #810381; font-size: 1.2em;"></span>
+                            Iniciado
+                        </td>
+                        <td>
+                            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color: #D0021B; font-size: 1.2em;"></span>
+                            No autorizado
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color: #6FC4B9; font-size: 1.2em;"></span>
+                            En proceso
+                        </td>
+                        <td>
+                            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color: #FF0000; font-size: 1.2em;"></span>
+                            Cancelado
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="bottom-buffer"></div>
+            <div style="width:100%; overflow:scroll">
+                <div id="myholder" style="width:1800px ; background-color: transparent; background-image: url('@Plantilla'); background-repeat: no-repeat"></div>
+            </div>
+
+        </div>
+
+        @*Lista de trámites*@
+       
+        <div class="tab-pane" id="tab-04">
+            <div class="alert alert-info">
+                <strong>Aviso. </strong>
+                El botón [iniciar] estará inhabilitado hasta que la dependencia valide el trámite correspondiente.
+            </div>
+            <br />
+
+            <div class="row">
+                Simbología:
+                <br />
+                <br />
+                <table style="width:100%">
+                    <tr>
+                        <td>
+                            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color: #999999; font-size: 1.2em;"></span>
+                            Habilitado
+                        </td>
+                        <td>
+                            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color: #FFA500; font-size: 1.2em; "></span>
+                            Detenido
+                        </td>
+                        <td>
+                            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color: #E7512B; font-size: 1.2em; "></span>
+                            Prorroga
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color: #484949; font-size: 1.2em;"></span>
+                            Enviado
+                        </td>
+                        <td>
+                            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color: #E39532; font-size: 1.2em;"></span>
+                            Prevención
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color: #F29FD6; font-size: 1.2em;"></span>
+                            Recibido
+                        </td>
+
+                        <td>
+                            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color: #136636; font-size: 1.2em;"></span>
+                            Autorizado
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color: #810381; font-size: 1.2em;"></span>
+                            Iniciado
+                        </td>
+                        <td>
+                            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color: #D0021B; font-size: 1.2em;"></span>
+                            No autorizado
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color: #6FC4B9; font-size: 1.2em;"></span>
+                            En proceso
+                        </td>
+                        <td>
+                            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" style="color: #FF0000; font-size: 1.2em;"></span>
+                            Cancelado
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="bottom-buffer"></div>
+            <table class="table" style="width:100%;">
+                <thead>
+                    <tr>
+                        <th>
+
+                        </th>
+                        <th>
+                            Fase
+                        </th>
+                        <th>
+                            Dependencia
+                        </th>
+                        <th>
+                            Clave
+                        </th>
+                        <th>
+                            Nombre
+                        </th>
+                        <th>
+                            Inicio
+                        </th>
+                        <th>
+                            Fin
+                        </th>
+                        <th>
+                            % Tiempo transcurrido
+                        </th>
+                        <th>
+                            Días
+                        </th>
+                        <th>
+
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+
+                        if (item.T_Estatus != "INHABILITADO")
+                        {
+                            <tr>
+                                <td style="text-align:center">
+                                    <div class="circulo" style="text-align:center; background-color: #@item.T_Color"></div>
+                                </td>
+                                <td style="text-align:center">
+                                    @Html.DisplayFor(emp => item.T_IdFase)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(emp => item.T_Dependencia)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(emp => item.T_HomoClave)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(emp => item.T_NombreTramite)
+                                </td>
+                                <td>
+
+                                    @Html.DisplayFor(emp => item.T_FechaInicio, "{0:dd/MM/yyyy}")
+                                </td>
+                                <td>
+
+                                    @Html.DisplayFor(emp => item.T_FechaFin, "{0:dd/MM/yyyy}")
+                                </td>
+                                <td style="width:150px">
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="@item.T_PorcentajeAvancePositivo"
+                                             aria-valuemin="0" aria-valuemax="100" style="width: @item.T_PorcentajeAvancePositivo%">
+                                            @item.T_PorcentajeAvancePositivo%
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="text-align:center">
+                                    @Html.DisplayFor(emp => item.T_DiasTranscurridos)
+                                </td>
+                                <td>
+
+                                    @if (item.T_Estatus == "HABILITADO" || item.T_Estatus == "ENVIADO")
+                                    {
+                                        <input type="button" value="Iniciar" class="btn btn-primary btn-sm" onclick="javascript: uid_call('SENER.ENREL.INVERSIONISTA.PROYECTOS_TRÁMITES.BTN_ENVÍO_TRÁMITE', 'clickout'); EnviarTramite('@item.T_URLDependencia','@IdGlobalMacroTramite','@RFCRepresentante','@item.T_HomoClave','@IdProyecto')" />
+                                    }
+
+
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>
+
+
+
+
+        </div>
+
+
+    </div>
+
+    <br />
+
+    <script type="text/javascript">
+
+
+        try {
+            var graph = new joint.dia.Graph;
+
+            var paper = new joint.dia.Paper({
+                el: $('#myholder'),
+                width: 1500,
+                height: 1300,
+                model: graph,
+                gridSize: 1,
+                interactive: false
+            });
+
+            var tramites = new Array();
+            var links = new Array();
+
+            var image = new joint.shapes.basic.Image({
+                position: {
+                    x: 0,
+                    y: 0
+                },
+                size: {
+                    width: 1072,
+                    height: 1600
+                },
+                attrs: {
+                    image: {
+                        "xlink:href": "/Content/Imagenes/HIDROELECTRICA.jpg",
+                        width: 1500,
+                        height: 6000
+                    }
+                }
+            });
+
+            graph.addCell(image);
+
+
+        }
+        catch (error) {
+        }
+        ActualizaProyectoPreguntas('@IdProyecto');
+
+    </script>
+
+    @foreach (var item in Model)
+    {
+        <script type="text/javascript">
+            CrearTramiteEnDiagrama('@item.T_HomoClave', '@item.T_Color', '@item.T_PosicionX', '@item.T_PosicionY', '@item.T_URLRequisitos', '@item.T_Requerido');
+        </script>
+    }
+
+
+
+
+
+
+
+
+

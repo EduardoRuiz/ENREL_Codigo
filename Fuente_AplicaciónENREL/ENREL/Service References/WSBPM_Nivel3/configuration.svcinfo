@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configurationSnapshot xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:schemas-microsoft-com:xml-wcfconfigurationsnapshot">
+  <behaviors />
+  <bindings>
+    <binding digest="System.ServiceModel.Configuration.BasicHttpBindingElement, System.ServiceModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089:&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?&gt;&lt;Data name=&quot;ProcessNivel3PortTypeCallBackBinding&quot; /&gt;" bindingType="basicHttpBinding" name="ProcessNivel3PortTypeCallBackBinding" />
+    <binding digest="System.ServiceModel.Configuration.CustomBindingElement, System.ServiceModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089:&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?&gt;&lt;Data name=&quot;ProcessNivel3Binding&quot;&gt;&lt;httpTransport /&gt;&lt;textMessageEncoding messageVersion=&quot;Soap11WSAddressing10&quot; /&gt;&lt;/Data&gt;" bindingType="customBinding" name="ProcessNivel3Binding" />
+  </bindings>
+  <endpoints>
+    <endpoint normalizedDigest="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?&gt;&lt;Data address=&quot;http://senerbpm03-ib:8001/soa-infra/services/default/Nivel1/ProcessNivel3.service&quot; binding=&quot;customBinding&quot; bindingConfiguration=&quot;ProcessNivel3Binding&quot; contract=&quot;WSBPM_Nivel3.ProcessNivel3PortType&quot; name=&quot;ProcessNivel3PortType&quot; /&gt;" digest="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?&gt;&lt;Data address=&quot;http://senerbpm03-ib:8001/soa-infra/services/default/Nivel1/ProcessNivel3.service&quot; binding=&quot;customBinding&quot; bindingConfiguration=&quot;ProcessNivel3Binding&quot; contract=&quot;WSBPM_Nivel3.ProcessNivel3PortType&quot; name=&quot;ProcessNivel3PortType&quot; /&gt;" contractName="WSBPM_Nivel3.ProcessNivel3PortType" name="ProcessNivel3PortType" />
+  </endpoints>
+</configurationSnapshot>

@@ -1,0 +1,166 @@
+﻿@model IEnumerable<ENREL.Models.DiasInhabiles.CatDiasInhabiles>
+
+    @*@model IEnumerable<ver.models.usuarios.catusuarios>*@
+
+    @{
+        ViewBag.Title = "CalendarioDiasInhábiles";
+        string NombreUsuarioSession = "";
+        if (Session["NombreUsuario"] != null)
+        {
+            NombreUsuarioSession = Session["NombreUsuario"].ToString();
+        }
+    }
+
+    @*Breadcum y usuario*@
+    <div class="row" style="margin-top:94px">
+        <div class="col-sm-8">
+            <ol class="breadcrumb">
+                <li><a href="https://www.gob.mx/" target="_blank"><i class="icon icon-home"></i></a></li>
+                <li><a href="@Url.Action("InicioAdministrador","Home")">Inicio</a></li>
+                @*<li><a href="@Url.Action("Index","RepresentantesLegales")">Representantes Legales</a></li>*@
+                <li class="active">Calendario de días inhábiles</li>
+            </ol>
+        </div>
+        <div class="col-sm-4">
+            <div class="user-credencials">
+                <ul class="list-unstyled">
+                    <li>
+                        <span class="user-credencials__name">@NombreUsuarioSession</span>
+                        <button type="button" class="btn btn-link pull-right" onclick="javascript: uid_call('SENER.ENREL.INVERSIONISTA.BTN_CERRARSESIÓN', 'clickout'); location.href = '@Url.Action("Logout", "Home")'">Salir</button>
+                    </li>
+                    <li><a href="@Url.Action("Actualizar", "Usuarios")">Modificar usuario</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    @*Título *@
+    <h2>Calendario de días inhábiles</h2>
+    <div class="bottom-buffer"></div>
+
+    <p>
+        Selecciona una fecha para agregarla a la lista de días inhábiles que se encuentra debajo del calendario. Puedes remover las fechas
+        de la lista dando click en el botón de acción de cada una.
+    </p>
+    <br />
+
+    @*Alertas:*@
+    @if (TempData["notice"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>@TempData["notice"]</strong>
+        </div>
+    }
+
+
+    @*Contenido: *@
+    @using (Html.BeginForm("Index", "DiasInhabiles", FormMethod.Post, new { id = "FormularioDiasInhabiles", enctype = "multipart/form-data" }))
+    {
+        <input type="hidden" value="" id="IdEstado" />
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div id="datepicker"></div>
+                </div>
+            </div>
+        </div>
+
+    }
+
+
+
+    <div id="divFechasInhabiles"></div>
+
+
+
+    <script type="text/javascript">
+        $(function () {
+            try {
+
+
+                //$("#datepicker").datepicker()
+                //    .on('click.dp', function (e) {
+                //        var fecha = $("#datepicker").val().split('/');
+                //        año = Number(fecha[2]);
+                //        mes = Number(fecha[1]) + 1;
+                //        dia = Number(fecha[0]);
+
+
+                //        $.ajax(
+                //        {
+                //            type: 'POST',
+                //            data: { "Año": año, "Mes": mes },
+                //            dataType: 'html',
+                //            url: '/DiasInhabiles/FechasHabiles',
+
+                //            success: function (result) {
+                //                $("#divFechasInhabiles").html(result);
+                //            },
+
+                //            error: function (error) {
+                //                //alert(error.message);
+                //            }
+                //        });
+                //    });
+
+                $("#datepicker").datepicker()
+                .on('change.dp', function (e) {
+
+                    var fecha = $("#datepicker").val().split('/');
+                    año = Number(fecha[2]);
+                    mes = Number(fecha[1]);
+                    dia = Number(fecha[0]);
+
+                    $.ajax(
+                    {
+                        type: 'POST',
+                        data: JSON.stringify({ "Dia": dia, "Mes": mes, "Año": año }),
+                        contentType: "application/json; charset=utf-8",
+                        traditional: true,
+                        url: '/DiasInhabiles/InsertarDiaInhabil',
+
+                        success: function (result) {
+                            window.location.href = '/DiasInhabiles/Index';
+                        },
+
+                        error: function (error) {
+                            //alert(error.message);
+                        }
+                    });
+                });
+
+                if ('@TempData["FechaCalendario"]' != null && '@TempData["FechaCalendario"]' != "") {
+                    $('#datepicker').datepicker('setvalue', '@TempData["FechaCalendario"]');
+                }
+
+                var fecha = $("#datepicker").val().split('/');
+                año = Number(fecha[2]);
+                mes = Number(fecha[1]) + 1;
+                dia = Number(fecha[0]);
+
+                $.ajax(
+                {
+                    type: 'POST',
+                    data: { "Año": año, "Mes": mes },
+                    dataType: 'html',
+                    url: '/DiasInhabiles/FechasHabiles',
+
+                    success: function (result) {
+                        $("#divFechasInhabiles").html(result);
+                    },
+
+                    error: function (error) {
+                        //alert(error.message);
+                    }
+                });
+            }
+            catch (error) {
+                //alert(error.message)
+            }
+        });
+
+
+
+    </script>

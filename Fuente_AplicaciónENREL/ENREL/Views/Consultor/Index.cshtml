@@ -1,0 +1,372 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string NombreUsuarioSession = "";
+    if (Session["NombreUsuario"] != null)
+    {
+        NombreUsuarioSession = Session["NombreUsuario"].ToString();
+    }
+
+}
+
+@*Breadcum y usuario*@
+<div class="row">
+    <div id="Breadcum" class="container">
+        <div class="row" >
+            <div class="col-sm-8">
+                <ol class="breadcrumb">
+                    <li><a href="https://www.gob.mx/" target="_blank"><i class="icon icon-home"></i></a></li>
+                    <li class="active">Inicio</li>
+                </ol>
+            </div>
+            <div class="col-sm-4">
+                <div class="user-credencials">
+                    <ul class="list-unstyled">
+                        <li>
+                            <span class="user-credencials__name">@NombreUsuarioSession</span>
+                            <button type="button" class="btn btn-link pull-right" onclick="javascript: uid_call('SENER.ENREL.INVERSIONISTA.BTN_CERRARSESIÓN', 'clickout'); location.href = '@Url.Action("Logout", "Home")'">Salir</button>
+                        </li>
+                        <li><a href="@Url.Action("Actualizar", "Usuarios")">Modificar usuario</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div>
+                    <img src="~/Content/Imagenes/Logotipo_SENER.png" />
+                </div>
+            </div>
+            <div class="col-md-4" style="text-align:right;">
+                <div>
+                    <img src="~/Content/Imagenes/Logotipo_ENREL_120.jpg" />
+                </div>
+            </div>
+            <div class="col-sm-4">
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@*Título *@
+<div class="bottom-buffer"></div>
+<h2>Análisis de información de ENREL </h2>
+<br />
+
+
+<table style="width:100%">
+    <tr>
+        <td style="text-align:left">
+            Desde esta pantalla podrás consultar información referente a los proyectos registrados, así como de empresas,
+            montos de inversión y otra información de interés.
+            <br />
+            <br />
+            Selecciona alguno de los reportes en el menú para ir al detalle.
+        </td>
+    </tr>
+</table>
+
+
+<br />
+<br />
+<div class="panel-group ficha-collapse" id="accordion">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-parent="#accordion" data-toggle="collapse" href="#panel-01" aria-expanded="false" aria-controls="panel-01">
+                    Reportes
+                </a>
+            </h4>
+            <button type="button" class="collpase-button" data-parent="#accordion" data-toggle="collapse" href="#panel-01"></button>
+        </div>
+        <div class="panel-collapse collapse in" id="panel-01">
+            <div class="panel-body">
+                <table class="table" style="width:100%;">
+
+                    <tr>
+                        <td style="width:50px;">
+                            <strong>Id</strong>
+                        </td>
+                        <td >
+                            <strong>Reporte</strong>
+                        </td>
+                        <td >
+                            <strong>Descripción</strong>
+                        </td>
+                        <td >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            1
+                        </td>
+                        <td>
+                            Proyectos y trámites
+                        </td>
+                        <td>
+                            Listado de proyectos activos en la base de datos y su correspondiente lista de trámites.
+                        </td>
+                        <td style="text-align:right">
+                            
+                            <a href="@Url.Action("ReporteProyectos", "ReportesProyecto")"><i class="glyphicon glyphicon-hand-right" style="color:black" data-toggle="tooltip" data-placement="top" title="Reporte de proyectos"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            2
+                        </td>
+                        <td>
+                            Empresas
+                        </td>
+                        <td>
+                            Listado de empresas.
+                        </td>
+                        <td style="text-align:right">
+                            
+                            <a href="@Url.Action("Index", "ReporteEmpresas")"><i class="glyphicon glyphicon-hand-right" style="color:black" data-toggle="tooltip" data-placement="top" title="Reporte de empresa"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            3
+                        </td>
+                        <td>
+                            Montos de inversión
+                        </td>
+                        <td>
+                            Descripción de montos de inversión.
+                        </td>
+                        <td style="text-align:right">
+                            
+                            <a href="@Url.Action("Index", "ReporteMontos")"><i class="glyphicon glyphicon-hand-right" style="color:black" data-toggle="tooltip" data-placement="top" title="Reporte de montos de inversión"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel-group ficha-collapse" id="accordion2">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-parent="#accordion2" data-toggle="collapse" href="#panel-02" aria-expanded="false" aria-controls="panel-02">
+                    Información descriptiva actual
+                </a>
+            </h4>
+            <button type="button" class="collpase-button" data-parent="#accordion2" data-toggle="collapse" href="#panel-02"></button>
+        </div>
+        <div class="panel-collapse collapse in" id="panel-02">
+            <div class="panel-body">
+                <table style="width:100%">
+                    <tr>
+                        <td style="width:49%">
+                            <div id="chart_div1"></div>
+                            <small>Monto de inversión en dólares (usd)</small>
+                        </td>
+                        <td style="width:49%">
+                            <div id="chart_div2"></div>
+                            <small>Monto de inversión en dólares (usd)</small>
+                        </td>
+                    </tr>
+                    <tr><td><br /></td></tr>
+                    <tr><td><br /></td></tr>
+                    <tr>
+                        <td style="width:49%">
+                            <div id="chart_div3"></div>
+                            <small>Proyectos existentes en la base de datos</small>
+                        </td>
+                        <td style="width:49%">
+                            <div id="chart_div4"></div>
+                            <small>Proyectos existentes en la base de datos</small>
+                        </td>
+                    </tr>
+                    <tr><td><br /></td></tr>
+                    <tr><td><br /></td></tr>
+                    <tr>
+                        <td style="width:49%">
+                            <div id="chart_div5"></div>
+                            <small>Empresas existentes en la base de datos</small>
+                        </td>
+                        <td style="width:49%">
+                            <div id="chart_div6"></div>
+                            <small>Empresas existentes en la base de datos</small>
+                        </td>
+                    </tr>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="~/scripts/graficas/loader.js"></script>
+<script type="text/javascript">
+
+        $(function () {
+            try {
+                $('#FechaInicio').datepicker({ changeYear: true });
+                $('#FechaFin').datepicker({ changeYear: true });
+            }
+            catch (error) {
+                //alert(error.message)
+            }
+        });
+
+        try {
+            google.charts.load('current', { 'packages': ['corechart'] });
+
+            //Grafica 1: Inversión por tecnología
+            var data1 = JSON.parse('@ViewBag.InversionPorTectnologia');
+            google.charts.setOnLoadCallback(drawChart1);
+
+            //Grafica 2: Inversión por estados
+            var data2 = JSON.parse('@ViewBag.InversionPorEntidadFederativa');
+            google.charts.setOnLoadCallback(drawChart2);
+
+            //Grafica 3: Proyectos por tecnología
+            var data3 = JSON.parse('@ViewBag.ProyectosPorTecnologia');
+            google.charts.setOnLoadCallback(drawChart3);
+
+            //Grafica 4: Proyectos por estados
+            var data4 = JSON.parse('@ViewBag.ProyectosPorEntidadFederativa');
+            google.charts.setOnLoadCallback(drawChart4);
+
+            //Grafica 5: Empresas por tecnología
+            var data5 = JSON.parse('@ViewBag.EmpresasPorTecnologia');
+            google.charts.setOnLoadCallback(drawChart5);
+
+            //Grafica 6: Empresas por estados
+            var data6 = JSON.parse('@ViewBag.EmpresasPorEntidadFederativa');
+            google.charts.setOnLoadCallback(drawChart6);
+
+        }
+        catch (error) {
+            //alert(error.message);
+        }
+
+
+    function drawChart1() {
+            var chartData = new google.visualization.arrayToDataTable(data1);
+            if (data1.length > 1)
+            {
+                var options = {
+                    'title': 'Porcentaje de inversión por tecnologías',
+                };
+
+                var chart = new google.visualization.PieChart(document.getElementById('chart_div1'));
+                chart.draw(chartData, options);
+            }
+            else
+            {
+                document.getElementById('chart_div1').textContent = "Sin información disponible";
+            }
+
+        }
+
+        function drawChart2() {
+            var chartData = new google.visualization.arrayToDataTable(data2);
+
+            if (data2.length > 1)
+            {
+                var options = {
+                    'title': 'Monto de inversión por estado',
+                };
+
+                var chart = new google.visualization.ColumnChart(document.getElementById('chart_div2'));
+                chart.draw(chartData, options);
+            }
+            else {
+                document.getElementById('chart_div2').textContent = "Sin información disponible";
+            }
+
+
+        }
+
+        function drawChart3() {
+            var chartData = new google.visualization.arrayToDataTable(data3);
+            if (data3.length > 1)
+            {
+                var options = {
+                    'title': 'Porcentaje de proyectos por tecnologías',
+                };
+
+                var chart = new google.visualization.PieChart(document.getElementById('chart_div3'));
+                chart.draw(chartData, options);
+            }
+            else {
+                document.getElementById('chart_div3').textContent = "Sin información disponible";
+            }
+            
+        }
+
+        function drawChart4() {
+            var chartData = new google.visualization.arrayToDataTable(data4);
+
+            if (data4.length > 1)
+            {
+                var options = {
+                    'title': 'Número de proyectos por estado',
+                };
+
+                var chart = new google.visualization.ColumnChart(document.getElementById('chart_div4'));
+                chart.draw(chartData, options);
+            }
+            else {
+                document.getElementById('chart_div4').textContent = "Sin información disponible";
+            }
+
+            
+        }
+
+        function drawChart5() {
+            var chartData = new google.visualization.arrayToDataTable(data5);
+
+            if (data5.length > 1)
+            {
+                var options = {
+                    'title': 'Número de empresas por tecnologías',
+                };
+
+                var chart = new google.visualization.ColumnChart(document.getElementById('chart_div5'));
+                chart.draw(chartData, options);
+            }
+            else
+            {
+                document.getElementById('chart_div5').textContent = "Sin información disponible";
+            }
+
+            
+        }
+
+        function drawChart6() {
+            var chartData = new google.visualization.arrayToDataTable(data6);
+
+            if (data6.length > 1)
+            {
+                var options = {
+                    'title': 'Número de empresas por estado',
+                };
+
+                var chart = new google.visualization.ColumnChart(document.getElementById('chart_div6'));
+                chart.draw(chartData, options);
+            }
+            else {
+                document.getElementById('chart_div6').textContent = "Sin información disponible";
+            }
+
+
+        }
+
+</script>

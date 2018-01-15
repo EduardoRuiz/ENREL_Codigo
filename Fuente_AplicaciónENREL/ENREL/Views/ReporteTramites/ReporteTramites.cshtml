@@ -1,0 +1,94 @@
+﻿@model IEnumerable<ENREL.Models.Tramites.CatTramites>
+    @{
+        ViewBag.Title = "InformacionInversion";
+        string NombreUsuarioSession = "";
+        string TipoUsuarioSession = "";
+        if (Session["TipoUsuario"] != null && Session["TipoUsuario"].ToString() != "")
+        {
+            TipoUsuarioSession = Session["TipoUsuario"].ToString();
+        }
+        if (Session["NombreUsuario"] != null)
+        {
+            NombreUsuarioSession = Session["NombreUsuario"].ToString();
+        }
+    }
+
+    @*Breadcum y usuario*@
+    <div class="row" style="margin-top:94px">
+        <div class="col-sm-8">
+            <ol class="breadcrumb">
+                <li><a href="https://www.gob.mx/" target="_blank"><i class="icon icon-home"></i></a></li>
+                <li><a href="@Url.Action("Index","Consultor")">Inicio</a></li>
+                <li><a href="@Url.Action("ReporteProyectos", "ReportesProyecto")">Información de proyectos</a></li>
+                <li class="active">Información de trámites</li>
+            </ol>
+        </div>
+        <div class="col-sm-4">
+            <div class="user-credencials">
+                <ul class="list-unstyled">
+                    <li>
+                        <span class="user-credencials__name">@NombreUsuarioSession</span>
+                        <button type="button" class="btn btn-link pull-right" onclick="javascript: uid_call('SENER.ENREL.INVERSIONISTA.BTN_CERRARSESIÓN', 'clickout'); location.href = '@Url.Action("Logout", "Home")'">Salir</button>
+                    </li>
+                    <li><a href="@Url.Action("Actualizar", "Usuarios")">Modificar usuario</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    @*Título *@
+    <h2>Información sobre trámites</h2>
+    <div class="bottom-buffer"></div>
+
+    @*Contenido *@
+
+    <h4>
+        Nombre del proyecto: @ViewBag.NombreProyecto
+    </h4>
+    <br />
+    @if (Model.Count() > 0)
+    {
+        <div>
+            <input type="button" value="XML" onclick="location.href='@Url.Action("ExportToXML", "ReporteTramites")'" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Exportar a XML" style="display:inline-block" />
+            <input type="button" value="TXT" onclick="location.href='@Url.Action("ExportToTxt", "ReporteTramites")'" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Exportar a TXT" style="display:inline-block" />
+            <input type="button" value="CSV" onclick="location.href='@Url.Action("ExportToCsv", "ReporteTramites")'" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Exportar a CSV" style="display:inline-block" />
+            <input type="button" value="Excel" onclick="location.href='@Url.Action("ExportarExcel", "ReporteTramites")'" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Exportar a Excel" style="display:inline-block" />
+            <input type="button" value="PDF" onclick="location.href='@Url.Action("PDF", "ReporteTramites")'" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Exportar a PDF" style="display:inline-block" />
+        </div>
+
+        <br />
+        <table class="table table-striped" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>
+                        Tramite
+                    </th>
+                    <th>
+                        Estatus
+                    </th>
+                    <th>
+                        Fecha de inicio
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(emp => item.T_NombreTramite)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(emp => item.T_Estatus)
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(emp => item.T_FechaInicio, "{0:dd-MMMM-yyyy}", new { style = "border-style:none" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+

@@ -1,0 +1,160 @@
+﻿@model ENREL.Models.Usuarios.CatUsuarios
+@{
+    ViewBag.Title = "CambiarContraseñaPorExtravio";
+}
+
+<!-- Begin Digital Analytix Tag 1.1302.13 -->
+<script type="text/javascript">
+    udm_('https://sb.scorecardresearch.com/b?c1=2&c2=17183199&ns_site=gobmx&name=SENER.ENREL.INVERSIONISTA.USUARIOS.EXTRAVÍO_DE_CONTRASEÑA');
+</script>
+<noscript><p><img src="'https://sb.scorecardresearch.com/b?c1=2&c2=17183199&ns_site=gobmx&id_usuario=null&name=SENER.ENREL.INVERSIONISTA.USUARIOS.EXTRAVÍO_DE_CONTRASEÑA" height="1" width="1" alt="*"></p></noscript>
+<!-- End Digital Analytix Tag 1.1302.13 -->
+@*Breadcum: *@
+<div class="row" style="margin-top:94px">
+    <div class="col-sm-8">
+        <ol class="breadcrumb">
+            <li>
+                <a target="_blank" href="https://www.gob.mx/">
+                    <i class='icon icon-home'></i>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index","Home")">
+                    Inicio
+                </a>
+            </li>
+            <li class="active">
+                Cambio de contraseña
+            </li>
+        </ol>
+    </div>
+</div>
+
+@*Título *@
+<h2>Cambio de contraseña</h2>
+<div class="bottom-buffer"></div>
+
+<div class="row">
+    <div class="col-sm-8">
+        <div class="bottom-buffer">
+            <p>
+                Hola @ViewBag.NombreUsuario, si has olvidado tu contraseña ingresa una nueva y da click en "Cambiar".
+            </p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <div id="divExplicacion" class="alert alert-info">
+            La contraseña debe contener al menos 6 caracteres y debe incluir letras mayúsculas, minúsculas y números.
+        </div>
+    </div>
+</div>
+
+@if (TempData["notice"] != null)
+{
+    <div class="row">
+        <div class="col-md-8">
+            <div id="divAlerta" class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>@TempData["notice"]</strong>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <div id="divAlertaFormulario" class="alert alert-danger alert-dismissible" style="display:none">
+            <strong>Uno o más campos son incorrectos, por favor verifica la información.</strong>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div id="divAlertaCoincidencia" class="alert alert-danger alert-dismissible" style="display:none">
+            <strong>Las contraseñas no coinciden.</strong>
+        </div>
+    </div>
+</div>
+
+<div>
+    @using (Html.BeginForm("ActualizarContraseñaExtravio", "Usuarios", new { Caracteristica = "Contraseña", ClaveReset = ViewBag.ClaveReset }, FormMethod.Post, new { id = "ActualizarContraseña", @class = "ns_", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div id="MyModalConfirmarCambioPassword" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="display:none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Mensaje de confirmación</h4>
+                    </div>
+                    <div class="modal-body" id="modal-content">
+                        <b>¿Cambiar contraseña?</b>
+                        <div class="bottom-buffer"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button class="btn btn-primary" type="submit">Continuar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>
+                        @*<span class="icon-infocircle" style="color:black" data-toggle="tooltip" data-placement="top" title="Mínimo 6 caracteres. Debe incluir al menos una letra mayúscula, una letra minúscula y un dígito."></span>*@
+                        Contraseña<span id="Alerta_U_NuevoPassword">*</span>:
+                    </label>
+                    @Html.TextBoxFor(model => model.U_NuevoPassword, new { @onblur = "if(MinCaracteres(this,6)){ValidarContraseña(this, event)}", @class = "form-control ", @type = "password", @placeholder = "Nueva contraseña" })
+                    <small id="Mensaje_U_NuevoPassword" style="color: #d0021b"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Confirmar nueva contraseña<span id="Alerta_U_ConfirmarPassword">*</span>:</label>
+                    @Html.TextBoxFor(model => model.U_ConfirmarPassword, new { @onblur = "if(MinCaracteres(this,6)){ValidarContraseña(this, event)}", @class = "form-control ", @type = "password", @placeholder = "Confirmar nueva contraseña" })
+                    <small id="Mensaje_U_ConfirmarPassword" style="color: #d0021b"></small>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <div class="pull-left text-muted text-vertical-align-button">
+                        * Campos obligatorios
+                    </div>
+                    <div style="text-align:right;">
+                        <button class="btn btn-primary" type="button" value="Rechazar" onclick="javascript: ValidarSimilitudContraseñas('#U_NuevoPassword', '#U_ConfirmarPassword'); uid_call('SENER.ENREL.USUARIOS.EXTRAVÍO_CONTRASEÑA.BTN_SUBMIT', 'clickin'); ">Cambiar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @Html.HiddenFor(model => model.U_Nombre);
+        @Html.HiddenFor(model => model.U_CorreoElectronico);
+        @Html.HiddenFor(model => model.U_Activo);
+        @Html.HiddenFor(model => model.U_IdUsuario);
+
+
+    }
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

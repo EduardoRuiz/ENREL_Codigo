@@ -1,0 +1,104 @@
+﻿@*@model IList<ver.models.empresas.catempresas>*@
+
+@{
+    ViewBag.Title = "Grafica de barras";
+
+}
+
+
+@*Breadcum*@
+<div class="row" style="margin-top:94px">
+    <div class="col-sm-8">
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("MenuConsultor","Home")">
+                    <i class='icon icon-home'></i>
+                </a>
+            </li>
+            <li class="active">
+                Gráficos de interés
+            </li>
+        </ol>
+    </div>
+</div>
+@*<div >
+        <table style="width:100%;margin-top:94px">
+            <tr>
+                <td style="width:49%; text-align:left; vertical-align:top">
+                    <ol class='breadcrumb' style="padding:8px 8px 8px 8px; margin-bottom:0px;">
+                        <li>
+                            <a href="@Url.Action("MenuConsultor","Home")">
+                                <i class='icon icon-home'></i>
+                            </a>
+                        </li>
+                        <li class="active">
+                            Gráficos de interés
+                        </li>
+                    </ol>
+                </td>
+            </tr>
+        </table>
+    </div>*@
+
+@*Título *@
+<h3>
+    Gráficos de interés
+</h3>
+<br />
+
+@*Contenido *@
+
+<h3>Distribución de proyectos activos por tecnología</h3>
+<hr class="red" />
+
+<div id="chart_div"></div>
+
+<h3>Distribución de la inversión</h3>
+<hr class="red" />
+<br />
+<div id="chart_div2"></div>
+
+<script src="~/scripts/graficas/loader.js"></script>
+
+<script type="text/javascript">
+
+    var data = JSON.parse('@ViewBag.Tectnologias');
+    var data2 = JSON.parse('@ViewBag.MontoInversion');
+
+
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.load("visualization", "1", { packages: ["corechart"] });
+
+
+    google.charts.setOnLoadCallback(drawChart);
+    google.charts.setOnLoadCallback(drawChart2);
+
+    function drawChart() {
+        var chartData = new google.visualization.arrayToDataTable(data);
+
+        var options = {
+            'title': '',
+            'width': 1000,
+            'height': 500
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(chartData, options);
+    }
+
+
+    function drawChart2() {
+        var chartData2 = new google.visualization.arrayToDataTable(data2);
+
+        var options = {
+            'title': '',
+            'width': 1000,
+            'height': 500
+        };
+
+        var chart2 = new google.visualization.PieChart(document.getElementById('chart_div2'));
+        chart2.draw(chartData2, options);
+    }
+
+</script>
+

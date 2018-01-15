@@ -1,0 +1,170 @@
+﻿@model ENREL.Models.RepresentantesLegales.CatRepresentantesLegales
+@{
+    ViewBag.Title = "Información Representante legal";
+
+    string NombreUsuarioSession = "";
+    if (Session["NombreUsuario"] != null)
+    {
+        NombreUsuarioSession = Session["NombreUsuario"].ToString();
+    }
+}
+
+    <!-- Begin Digital Analytix Tag 1.1302.13 -->
+<script type="text/javascript">
+    udm_('https://sb.scorecardresearch.com/b?c1=2&c2=17183199&ns_site=gobmx&name=SENER.ENREL.INVERSIONISTA.REPRESENTANTES.DETALLE');
+</script>
+<noscript><p><img src="'https://sb.scorecardresearch.com/b?c1=2&c2=17183199&ns_site=gobmx&id_usuario=' + @NombreUsuarioSession + '&name=SENER.ENREL.INVERSIONISTA.REPRESENTANTES.DETALLE" height="1" width="1" alt="*"></p></noscript>
+<!-- End Digital Analytix Tag 1.1302.13 -->
+
+@*Breadcum y usuario*@
+<div class="row" style="margin-top:94px">
+    <div class="col-sm-8">
+        <ol class="breadcrumb">
+            <li><a href="https://www.gob.mx/" target="_blank"><i class="icon icon-home"></i></a></li>
+            <li><a href="@Url.Action("InicioInversionista","Home")">Inicio</a></li>
+            <li><a href="@Url.Action("Index","RepresentantesLegales")">Representantes legales</a></li>
+            <li class="active">Información Representante legal</li>
+        </ol>
+    </div>
+    <div class="col-sm-4">
+        <div class="user-credencials">
+            <ul class="list-unstyled">
+                <li>
+                    <span class="user-credencials__name">@NombreUsuarioSession</span>
+                    <button type="button" class="btn btn-link pull-right" onclick="javascript: uid_call('SENER.ENREL.INVERSIONISTA.BTN_CERRARSESIÓN', 'clickout'); location.href = '@Url.Action("Logout", "Home")'">Salir</button>
+                </li>
+                <li><a href="@Url.Action("Actualizar", "Usuarios")">Modificar usuario</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+@*Título *@
+<h2>Información del Representante legal </h2>
+<div class="bottom-buffer"></div>
+
+@*Contenido: *@
+@using (Html.BeginForm( ))
+{
+    <table class="table" style="width:50%;">
+
+    <tbody>
+        <tr>
+            <td>
+                @Html.Label("Nombre")
+            </td>
+            <td>
+                @Html.DisplayFor(rep => rep.RL_Nombre) &nbsp; @Html.DisplayFor(rep => rep.RL_PrimerApellido) &nbsp; @Html.DisplayFor(rep => rep.RL_SegundoApellido)
+ 
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("CURP")
+            </td>
+            <td>
+                @Html.DisplayFor(rep => rep.RL_CURP)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("RFC")
+            </td>
+            <td>
+                @Html.DisplayFor(rep => rep.RL_RFC)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Teléfono fijo")
+            </td>
+            <td>
+                @Html.TextBoxFor(rep => rep.RL_Lada, new { style = "border:none; width:2em;", @readonly = true }) - &nbsp; @Html.DisplayFor(rep => rep.RL_TelefonoFijo)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Teléfono móvil")
+            </td>
+            <td>
+                @Html.DisplayFor(rep => rep.RL_TelefonoCelular)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Correo electrónico")
+            </td>
+            <td>
+                @Html.DisplayFor(rep => rep.RL_CorreoElectronico)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Código postal")
+            </td>
+            <td>
+                @Html.TextBoxFor(rep => rep.RL_CodigoPostal, new { style = "border:none;", @readonly = true })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Estado")
+            </td>
+            <td>
+                @Html.DisplayFor(rep => rep.RL_EntidadFederativa)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Municipio o Alcaldía")
+            </td>
+            <td>
+                @Html.DisplayFor(rep => rep.RL_Municipio)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Localidad")
+            </td>
+            <td>
+                @Html.DisplayFor(rep => rep.RL_Localidad)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Colonia")
+            </td>
+            <td>
+                @Html.DisplayFor(rep => rep.RL_Colonia)
+            </td>
+        </tr>        
+        <tr>
+            <td>
+                @Html.Label("Calle")
+            </td>
+            <td>
+                @Html.DisplayFor(rep => rep.RL_Calle)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Número exterior")
+            </td>
+            <td>
+                @Html.DisplayFor(rep => rep.RL_NumeroExterior)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.Label("Número interior")
+            </td>
+            <td>
+                @Html.DisplayFor(rep => rep.RL_NumeroInterior)
+            </td>
+        </tr>
+    </tbody>
+</table>
+}
+
+

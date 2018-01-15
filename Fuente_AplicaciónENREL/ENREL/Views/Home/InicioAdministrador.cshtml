@@ -1,0 +1,86 @@
+﻿@{
+    ViewBag.Title = "Inicio administrador";
+    string NombreUsuarioSession = "";
+    if (Session["NombreUsuario"] != null)
+    {
+        NombreUsuarioSession = Session["NombreUsuario"].ToString();
+    }
+}
+
+@*Breadcum y usuario*@
+<div class="row" style="margin-top:94px">
+    <div id="Breadcum" class="container">
+        <div class="row">
+            <div class="col-sm-8">
+                <ol class="breadcrumb">
+                    <li><a href="https://www.gob.mx/" target="_blank"><i class="icon icon-home"></i></a></li>
+                    <li class="active">Inicio</li>
+                </ol>
+            </div>
+            <div class="col-sm-4">
+                <div class="user-credencials">
+                    <ul class="list-unstyled">
+                        <li>
+                            <span class="user-credencials__name">@NombreUsuarioSession</span>
+                            <button type="button" class="btn btn-link pull-right" onclick="javascript: uid_call('SENER.ENREL.INVERSIONISTA.BTN_CERRARSESIÓN', 'clickout'); location.href = '@Url.Action("Logout", "Home")'">Salir</button>
+                        </li>
+                        <li><a href="@Url.Action("Actualizar", "Usuarios")">Modificar usuario</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div>
+                    <img src="~/Content/Imagenes/Logotipo_SENER.png" />
+                </div>
+            </div>
+            <div class="col-md-4" style="text-align:right;">
+                <div>
+                    <img src="~/Content/Imagenes/Logotipo_ENREL_120.jpg" />
+                </div>
+            </div>
+            <div class="col-sm-4">
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+@*Título *@
+<div class="bottom-buffer"></div>
+<h2>Administración de ENREL </h2>
+<br />
+<div class="bottom-buffer"></div>
+
+
+<table style="width:100%">
+    <tr>
+        <td style="text-align:left">
+            Desde esta pantalla podrás gestionar la administración de la aplicación, validar nuevas solicitudes de registro
+            para empresas y representantes legales, así como administrar los diferentes catálogos.
+            <br />
+            <br />
+            Selecciona alguna de las opciones del menú superior.
+        </td>
+    </tr>
+</table>
+
+
+
+
+
+
+
+
+
+
+<br />
+<br />
+

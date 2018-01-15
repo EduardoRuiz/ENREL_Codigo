@@ -1,0 +1,118 @@
+﻿@model ENREL.Models.Usuarios.CatUsuarios
+@{
+    ViewBag.Title = "Inicio";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string NombreUsuarioSession = "";
+    if (Session["NombreUsuario"] != null)
+    {
+        NombreUsuarioSession = Session["NombreUsuario"].ToString();
+    }
+}
+
+<!-- Begin Digital Analytix Tag 1.1302.13 -->
+<script type="text/javascript">
+    udm_('https://sb.scorecardresearch.com/b?c1=2&c2=17183199&ns_site=gobmx&name=Inicio');
+</script>
+<noscript><p><img src="https://sb.scorecardresearch.com/p?c1=2&amp;c2=17183199&amp;ns_site=gobmx&amp;name=SENER.ENREL.Inicio.Inversionista" height="1" width="1" alt="*"></p></noscript>
+<!-- End Digital Analytix Tag 1.1302.13 -->
+@*Breadcum*@
+<div class="row" style="margin-top:0px">
+    <div class="col-sm-8">
+        <ol class="breadcrumb">
+            <li><a target="_blank" href="https://www.gob.mx/"><i class='icon icon-home'></i></a></li>
+            <li><a href="@Url.Action("Index","Home")">Inicio</a></li>
+            <li class="active">Acceso</li>
+        </ol>
+    </div>
+</div>
+@*<table style="width:100%;margin-top:0px">
+        <tr>
+            <td style="width:49%; text-align:left; vertical-align:top">
+                <ol class='breadcrumb' style="padding:8px 8px 8px 0px; margin-bottom:0px;">
+                    <li><a target="_blank" href="https://www.gob.mx/"><i class='icon icon-home'></i></a></li>
+                    <li><a href="@Url.Action("Index","Home")">Inicio</a></li>
+                    <li class="active">Acceso</li>
+                </ol>
+            </td>
+        </tr>
+    </table>*@
+
+<div class="row">
+    <div class="col-sm-8">
+        <h2>Energías Renovables en Línea</h2>
+        <br />
+        <p>
+            Esta aplicación tiene como propósito contribuir a fomentar la inversión en proyectos de energías renovables a partir de 0.5
+            MW facilitando la ejecución y seguimiento de los trámites solicitados a los desarrolladores. <br /><br />
+
+            Ingresa a la aplicación para revisar el estado de tus proyectos y trámites. Si aún no cuentas con tu usuario y contraseña,
+            acude a la sección <b>Regístrate</b> en la parte superior, en donde también encontrarás más información sobre esta aplicación.
+            <br /><br />
+        </p>
+
+        @using (Html.BeginForm("Ingresar", "Home", FormMethod.Post, new { @class = "form-horizontal", id = "ValidaUsuario", enctype = "multipart/form-data", onsubmit = "ValidarFormulario(event, this, 2)" }))
+        {
+            @Html.AntiForgeryToken()
+            if (TempData["notice"] != null)
+            {
+                <div id="divAlerta" class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>@TempData["notice"]</strong>
+                </div>
+            }
+
+            <div id="divAlertaFormulario" class="alert alert-danger alert-dismissible" style="display:none">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>Uno o más campos son incorrectos, por favor verifica la información.</strong>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="email-03" style="text-align:right">Usuario:</label>
+                <div class="col-sm-9">
+                    @Html.EditorFor(model => model.U_Nombre, new { htmlAttributes = new { @onblur = "if(MinCaracteres(this,6)){ValidarNombreUsuario(this,event)}", @class = "form-control ns_", @placeholder = "Ingresa tu usuario" } })
+                    <small id="Mensaje_U_Nombre" style="color: #d0021b; text-align:left"></small>
+                </div>
+            </div>
+            <div class="form-group">
+
+                <label class="col-sm-3 control-label" for="password-03" style="text-align:right">
+                    @*<span class="icon-infocircle" style="color:black" data-toggle="tooltip" data-placement="top" title=""></span>*@
+                    Contraseña:
+                </label>
+                <div class="col-sm-9">
+                    @Html.EditorFor(model => model.U_Password, new { htmlAttributes = new { @onblur = "if(MinCaracteres(this,6)){ValidarContraseña(this, event)}", @class = "form-control ns_", @type = "password", @placeholder = "Ingresa tu contraseña"} })
+                    <small id="Mensaje_U_Password" style="color: #d0021b; text-align: left"></small>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    <table style="width:100%">
+                        <tr>
+                            <td style="text-align:left; width:49%"></td>
+                            <td style="text-align:right; width:49%">
+                                <a href="@Url.Action("SolicitudCambioDeContraseña", "Home", new { })"><small>Olvidé mi contraseña</small></a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="clearfix">
+                <div class="pull-right">
+                    &nbsp;
+                    <button class="btn btn-primary " type="submit">Ingresar</button>
+                </div>
+
+                <div class="pull-right">
+                    <button class="btn btn-default " type="button" onclick="location.href='@Url.Action("Index", "RegistrosInversionista")';return false;">Regístrate aquí</button>
+                </div>
+
+            </div>
+
+        }
+
+    </div>
+
+</div>
+<br />
+<br />
+

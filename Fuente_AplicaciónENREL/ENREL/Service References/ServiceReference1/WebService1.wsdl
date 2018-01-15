@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="GetSiteListCount">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetSiteListCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSiteListCountResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="recibirTramite">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="empresa" type="tns:CatEmpresas" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="CatEmpresas">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="E_IdEmpresa" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="E_NombreComercial" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="E_RazonSocial" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="E_RFC" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="E_IdTipoVialidad" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="E_Calle" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="E_NumeroExterior" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="E_NumeroInterior" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="E_IdTipoAsentamiento" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="E_Colonia" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="E_IdLocalidad" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="E_IdMunicipio" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="E_IdEntidadFederativa" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="E_CodigoPostal" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="E_Lada" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="E_TelefonoFijo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="E_CorreoElectronico" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="E_Activo" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="E_Localidad" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="E_Municipio" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="E_EntidadFederativa" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="E_ClavePrivada" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="E_FechaInicio" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="E_FechaFin" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="E_Tecnologia" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="E_MontoInversion" type="s:double" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="recibirTramiteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="recibirTramiteResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetSiteListCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSiteListCount" />
+  </wsdl:message>
+  <wsdl:message name="GetSiteListCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSiteListCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="recibirTramiteSoapIn">
+    <wsdl:part name="parameters" element="tns:recibirTramite" />
+  </wsdl:message>
+  <wsdl:message name="recibirTramiteSoapOut">
+    <wsdl:part name="parameters" element="tns:recibirTramiteResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WebService1Soap">
+    <wsdl:operation name="GetSiteListCount">
+      <wsdl:input message="tns:GetSiteListCountSoapIn" />
+      <wsdl:output message="tns:GetSiteListCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="recibirTramite">
+      <wsdl:input message="tns:recibirTramiteSoapIn" />
+      <wsdl:output message="tns:recibirTramiteSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WebService1Soap" type="tns:WebService1Soap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetSiteListCount">
+      <soap:operation soapAction="http://tempuri.org/GetSiteListCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="recibirTramite">
+      <soap:operation soapAction="http://tempuri.org/recibirTramite" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebService1Soap12" type="tns:WebService1Soap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetSiteListCount">
+      <soap12:operation soapAction="http://tempuri.org/GetSiteListCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="recibirTramite">
+      <soap12:operation soapAction="http://tempuri.org/recibirTramite" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WebService1">
+    <wsdl:port name="WebService1Soap" binding="tns:WebService1Soap">
+      <soap:address location="http://uvo10f9bsj834jv140h.env.cloudshare.com/_layouts/15/FBA2/WebService1.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebService1Soap12" binding="tns:WebService1Soap12">
+      <soap12:address location="http://uvo10f9bsj834jv140h.env.cloudshare.com/_layouts/15/FBA2/WebService1.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

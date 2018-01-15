@@ -1,0 +1,173 @@
+﻿@{
+    ViewBag.Title = "INERE";
+}
+
+
+
+@model ENREL.Models.Proyectos.CatProyectos
+@{
+    ViewBag.Title = "APGV";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string NombreUsuarioSession = "";
+    if (Session["NombreUsuario"] != null)
+    {
+        NombreUsuarioSession = Session["NombreUsuario"].ToString();
+    }
+
+    string tecnoINERE = ViewBag.Tecnologia;
+    
+    if (tecnoINERE == "HIDROELECTRICA")
+    {
+        tecnoINERE = "Hidraulica";
+    }
+    else if (tecnoINERE == "GEOTERMOELECTRICA EXPLORACION" ) 
+    {
+        tecnoINERE = "Geotermica";
+    }
+    else if (tecnoINERE == "GEOTERMOELECTRICA EXPLOTACION")
+    {
+        tecnoINERE = "Geotermica";
+    }
+    else if (tecnoINERE == "SOLAR FOTOVOLTAICA")
+    {
+        tecnoINERE = "Solar";
+    }
+    else if (tecnoINERE == "EOLOELECTRICA")
+    {
+        tecnoINERE = "Eolica";
+    }
+    else
+    {
+        tecnoINERE = "Otros";
+    }
+    
+
+}
+<script src="https://js.arcgis.com/3.15/"></script>
+<script src="~/scripts/enrel/INERE.js"></script>
+<!-- Begin Digital Analytix Tag 1.1302.13 -->
+<script type="text/javascript">
+    udm_('https://sb.scorecardresearch.com/b?c1=2&c2=17183199&ns_site=gobmx&name=SENER.ENREL.INVERSIONISTA.PROYECTOS.INERE');
+</script>
+<noscript><p><img src="'https://sb.scorecardresearch.com/b?c1=2&c2=17183199&ns_site=gobmx&id_usuario=' + @NombreUsuarioSession + '&name=SENER.ENREL.INVERSIONISTA.PROYECTOS.INERE" height="1" width="1" alt="*"></p></noscript>
+<!-- End Digital Analytix Tag 1.1302.13 -->
+@*Breadcum*@
+<div class="row" style="margin-top:94px">
+    <div class="col-sm-8">
+        <ol class="breadcrumb">
+            <li><a href="https://www.gob.mx/" target="_blank"><i class="icon icon-home"></i></a></li>
+            <li><a href="@Url.Action("InicioInversionista","Home")">Inicio</a></li>
+            <li><a href="@Url.Action("Index","Proyectos")">Proyectos</a></li>
+            <li class="active">APGV</li>
+        </ol>
+    </div>
+</div>
+@*<div >
+        <table style="width:100%;margin-top:94px">
+            <tr>
+                <td style="width:49%; text-align:left; vertical-align:top">
+                    <ol class='breadcrumb' style="padding:8px 8px 8px 8px; margin-bottom:0px;">
+                        <li><a href="https://www.gob.mx/" target="_blank"><i class="icon icon-home"></i></a></li>
+                        <li><a href="@Url.Action("InicioInversionista","Home")">Inicio</a></li>
+                        <li><a href="@Url.Action("Index","Proyectos")">Proyectos</a></li>
+                        <li class="active">APGV</li>
+                    </ol>
+                </td>
+            </tr>
+        </table>
+    </div>*@
+
+@*Título y descripción: *@
+<h3>Análisis Preliminar Geográfico de Viabilidad (APGV) </h3>
+<br />
+<div class="row">
+    <div class="col-sm-8">
+        <div class="bottom-buffer">
+            <p>
+                En un momento se desplegará un archivo en formato pdf con el APGV generado de acuerdo a las coordenandas que has ingresado
+                previamente. Este documento es muy útil para conocer las características del área geográfica en las que se desarrollará tu
+                proyecto. Te recordamos que una vez que des inicio a los trámites del proyecto este documento ya no podrás ser generado, antes
+                de esto, puedes modificar la información de tu proyecto y observar el resultado de tu APGV.
+            </p>
+        </div>
+    </div>
+</div>
+
+@*Contenido: *@
+<div id="mapDiv"></div>
+<div id="localiza">
+    <form role="form" method="post" id="myForm" action='https://dgel.energia.gob.mx/pdf/create_pdf_js.php'>
+        @*<form role="form" method="post" id="myForm" action='http://inere.energia.gob.mx/pdf/create_pdf_js.php'>*@
+        <p>Obteniendo información para el APGV...</p>
+        <br />
+        <br />
+        <table style="width:100%;text-align:center; vertical-align:central">
+            <tr>
+                <td>
+                    <img id="cargandoinere" src="~/Content/Imagenes/cargandoinere.gif" />
+                </td>
+            </tr>
+        </table>
+        <input type="text" name="PagEne" id="PagEne" value=@tecnoINERE readonly="readonly" hidden />
+        <br />
+        <input type="number" name="sLat" id="sLat" value=@ViewBag.Latitud readonly="readonly" hidden />
+        <br />
+        <input type="number" name="sLong" id="sLong" value=@ViewBag.Longitud readonly="readonly" hidden />
+        <br />
+        <button type="submit"  id="crear" data-dojo-type="dijit.form.Button" value="" style="visibility:hidden" ></button>
+
+        @*<button type="submit"  class="btn btn-primary">Crear PDF</button>*@
+        <br />
+        <br />
+        <input type="text" value="" name="spop0" id="spop0" hidden />
+        <br />
+        <input type="text" value="" name="spop1" id="spop1" hidden />
+        <br />
+        <input type="text" value="" name="spop2" id="spop2" hidden />
+        <br />
+        <input type="text" value="" name="spop3" id="spop3" hidden />
+        <br />
+        <input type="text" value="" name="spop4" id="spop4" hidden />
+        <br />
+        <input type="text" value="" name="spop5" id="spop5" hidden />
+        <br />
+        <input type="text" value="" name="spop6" id="spop6" hidden />
+        <br />
+        <input type="text" value="" name="spop7" id="spop7" hidden />
+        <br />
+        <input type="text" value="" name="sCar0" id="sCar0" hidden />
+        <br />
+        <input type="text" value="" name="sCar1" id="sCar1" hidden />
+        <br />
+        <input type="text" value="" name="sCar2" id="sCar2" hidden />
+        <br />
+        <input type="text" value="" name="sCar3" id="sCar3" hidden />
+        <br />
+        <input type="text" value="" name="sCar4" id="sCar4" hidden />
+        <br />
+        <input type="text" value="" name="sCar5" id="sCar5" hidden />
+        <br />
+        <input type="text" value="" name="sCar6" id="sCar6" hidden />
+        <br />
+        <input type="text" value="" name="sCar7" id="sCar7" hidden />
+        <br />
+        <input type="text" value="" name="sDis0" id="sDis0" hidden />
+        <br />
+        <input type="text" value="" name="sDis1" id="sDis1" hidden />
+        <br />
+        <input type="text" value="" name="sDis2" id="sDis2" hidden />
+        <br />
+        <input type="text" value="" name="sDis3" id="sDis3" hidden />
+        <br />
+        <input type="text" value="" name="sDis4" id="sDis4" hidden />
+        <br />
+        <input type="text" value="" name="sDis5" id="sDis5" hidden />
+        <br />
+        <input type="text" value="" name="sDis6" id="sDis6" hidden />
+        <br />
+        <input type="text" value="" name="sDis7" id="sDis7" hidden />
+    </form>
+</div>
+
+
+

@@ -1,0 +1,79 @@
+﻿@model ENREL.Models.Tecnologias.CatTecnologias
+@{
+    ViewBag.Title = "Crear Proyecto";
+    string NombreUsuarioSession = "";
+    if (Session["NombreUsuario"] != null)
+    {
+        NombreUsuarioSession = Session["NombreUsuario"].ToString();
+    }
+}
+
+@*Breadcum y usuario*@
+<div class="row" style="margin-top:94px">
+    <div class="col-sm-8">
+        <ol class="breadcrumb">
+            <li><a href="https://www.gob.mx/" target="_blank"><i class="icon icon-home"></i></a></li>
+            <li><a href="@Url.Action("InicioAdministrador","Home")">Inicio</a></li>
+            <li><a href="@Url.Action("Index","Tecnologias")">Representantes Legales</a></li>
+            <li class="active">Crear tecnología</li>
+        </ol>
+    </div>
+    <div class="col-sm-4">
+        <div class="user-credencials">
+            <ul class="list-unstyled">
+                <li>
+                    <span class="user-credencials__name">@NombreUsuarioSession</span>
+                    <button type="button" class="btn btn-link pull-right" onclick="javascript: uid_call('SENER.ENREL.INVERSIONISTA.BTN_CERRARSESIÓN', 'clickout'); location.href = '@Url.Action("Logout", "Home")'">Salir</button>
+                </li>
+                <li><a href="@Url.Action("Actualizar", "Usuarios")">Modificar usuario</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+@*Título y descripción: *@
+<h3>Crear tecnología </h3>
+<br />
+<div class="row">
+    <div class="col-sm-8">
+        <div class="bottom-buffer">
+            <p>
+                En esta sección podrás dar de alta una nuevo tecnología, recuerda colocar la imágen correspondiente en la carpeta de mapas
+                de tecnología.
+            </p>
+        </div>
+    </div>
+</div>
+
+@*Contenido: *@
+<div class="row">
+    <div class="col-sm-12 col-md-7">
+        @using (Html.BeginForm("EjecutarAccionTecnología", "Tecnologias", new { Accion = "Insertar" }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            if (TempData["notice"] != null)
+            {
+                <div class="form-group">
+                    <div id="divAlerta" class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong>@TempData["notice"]</strong>
+                    </div>
+                </div>
+            }
+            <div class="form-group">
+                <label>Nombre de la tecnología<span id="Alerta_Nombre">*</span>:</label>
+                @Html.EditorFor(model => model.Tecnologia, new { htmlAttributes = new { @onblur = "ValidarObjeto(this)", @class = "form-control ns_", @placeholder = "Nombre de la tecnología" } })
+                <label id="Mensaje_Nombre" style="color: #d0021b"></label>
+            </div>
+            <div class="form-group">
+                * Campo obligatorio
+            </div>
+
+
+            <div style="text-align:right;">
+
+                <button class="btn btn-primary btn" type="submit">Crear</button>
+            </div>
+        }
+    </div>
+</div>

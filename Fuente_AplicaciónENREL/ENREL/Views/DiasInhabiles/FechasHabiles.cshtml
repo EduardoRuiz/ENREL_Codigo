@@ -1,0 +1,61 @@
+﻿@model IEnumerable<ENREL.Models.DiasInhabiles.CatDiasInhabiles>
+
+    @{
+        ViewBag.Title = "FechasDiasHábiles";
+    }
+
+
+
+
+    @*Alertas:*@
+    @if (TempData["notice"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>@TempData["notice"]</strong>
+        </div>
+    }
+
+
+
+    <table class="table" style="width:100%;">
+        <thead>
+            <tr>
+                <th>
+                    Fecha
+                </th>
+                <th style="text-align:center;">
+                    Acción
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(emp => item.FechaCompleta)
+                        </td>
+                        <td style="width:130px;text-align:center">
+                            <a href="@Url.Action("CambiarEstatusFechaInhabil", "DiasInhabiles", new { IdDiaInhabil = item.IdDiaInhabil, IdEstatusDiaInhabil = item.Activo })">
+                                @if (item.Activo == true)
+                                {
+                                    <i class="glyphicon glyphicon-remove" style="color:black" data-toggle="tooltip" data-placement="top" title="Desactivar usuario"></i>
+                                }
+                                else
+                                {
+                                    <i class="glyphicon glyphicon-ok" style="color:black" data-toggle="tooltip" data-placement="top" title="Activar usuario"></i>
+                                }
+                            </a>
+                        </td>
+
+                    </tr>
+                }
+        </tbody>
+    </table>
+
+
+
+
+
+    

@@ -1,0 +1,88 @@
+﻿@model ENREL.Models.Usuarios.CatUsuarios
+@{
+    ViewBag.Title = "SolicitudCambioContraseña";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Begin Digital Analytix Tag 1.1302.13 -->
+<script type="text/javascript">
+    udm_('https://sb.scorecardresearch.com/b?c1=2&c2=17183199&ns_site=gobmx&name=Inicio');
+</script>
+<noscript><p><img src="https://sb.scorecardresearch.com/p?c1=2&amp;c2=17183199&amp;ns_site=gobmx&amp;name=SENER.ENREL.Inicio.Inversionista" height="1" width="1" alt="*"></p></noscript>
+<!-- End Digital Analytix Tag 1.1302.13 -->
+
+@*Logos*@
+<div style="margin-top:94px; width:100%">
+    <table style="width:100%">
+        <tr>
+            <td style="width:49%; text-align:left">
+                <div>
+                    <img src="~/Content/Imagenes/Logotipo_SENER.png" />
+                </div>
+            </td>
+            <td style="width:49%; text-align:right">
+                <div>
+                    <img src="~/Content/Imagenes/Logotipo_ENREL_120.jpg" />
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+@*Título y descripción: *@
+
+@*Título *@
+<h3>Solicitar cambio de contraseña </h3>
+<br />
+
+<table style="width:100%">
+    <tr>
+        <td style="text-align:left">
+            Si has olvidado tu nombre de usuario o contraseña ingresa tu correo electrónico, en un momento recibirás un enlace a una
+            página en la que podrás cambiar tu contraseña.
+            <br />
+            El enlace será válido por 24 horas, si no realizas
+            el cambio de contraseña en ese tiempo, tendrás que volver a solicitar un cambio de contraseña en esta misma página.
+        </td>
+    </tr>
+</table>
+
+
+
+
+
+<div class="col-sm-8">
+
+    @using (Html.BeginForm("EnviarCambioDeContraseña", "Home", FormMethod.Post, new { @class = "form-horizontal", id = "ValidaUsuario", enctype = "multipart/form-data", onsubmit = "ValidarFormulario(event, this, 2)" }))
+    {
+        @Html.AntiForgeryToken()
+        
+        if (TempData["notice"] != null)
+        {
+            <div class="alert alert-warning alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>@TempData["notice"]</strong>
+            </div>
+        }
+        <div id="divAlertaFormulario" class="alert alert-danger alert-dismissible col-sm-8" style="display:none">
+            <strong>Uno o más campos son incorrectos, por favor verifica la información.</strong>
+        </div>
+
+        <div class="form-group">
+            <label>Nombre de Usuario<span id="Alerta_U_Nombre">*</span>:</label>
+            @Html.TextBoxFor(model => model.U_Nombre, new { maxlength = 30, @onblur = "if(MinCaracteres(this,1)){ValidarNombresComunes(this,event)}", @class = "form-control ns_", @placeholder = "Nombre del usuario operativo" })
+            <small id="Mensaje_U_Nombre" style="color: #d0021b"></small>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9" style="text-align:right">
+                <button class="btn btn-primary " type="submit">Solicitar</button>
+            </div>
+        </div>
+    }
+
+</div>
+
+<br />
+<br />
+

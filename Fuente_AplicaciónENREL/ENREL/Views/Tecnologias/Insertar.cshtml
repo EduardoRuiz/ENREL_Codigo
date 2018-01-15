@@ -1,0 +1,192 @@
+﻿@model ENREL.Models.Tecnologias.CatTecnologias
+@{
+    ViewBag.Title = "Crear Proyecto";
+    string NombreUsuarioSession = "";
+    if (Session["NombreUsuario"] != null)
+    {
+        NombreUsuarioSession = Session["NombreUsuario"].ToString();
+    }
+}
+
+@*Breadcum y usuario*@
+<div class="row" style="margin-top:94px">
+    <div class="col-sm-8">
+        <ol class="breadcrumb">
+            <li><a href="https://www.gob.mx/" target="_blank"><i class="icon icon-home"></i></a></li>
+            <li><a href="@Url.Action("InicioAdministrador","Home")">Inicio</a></li>
+            <li><a href="@Url.Action("Index","Tecnologias")">Representantes Legales</a></li>
+            <li class="active">Crear tecnología</li>
+        </ol>
+    </div>
+    <div class="col-sm-4">
+        <div class="user-credencials">
+            <ul class="list-unstyled">
+                <li>
+                    <span class="user-credencials__name">@NombreUsuarioSession</span>
+                    <button type="button" class="btn btn-link pull-right" onclick="javascript: uid_call('SENER.ENREL.INVERSIONISTA.BTN_CERRARSESIÓN', 'clickout'); location.href = '@Url.Action("Logout", "Home")'">Salir</button>
+                </li>
+                <li><a href="@Url.Action("Actualizar", "Usuarios")">Modificar usuario</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+@*Título y descripción: *@
+<h3>Crear tecnología </h3>
+<br />
+<div class="row">
+    <div class="col-sm-8">
+        <div class="bottom-buffer">
+            <p>
+                En esta sección podrás dar de alta una nuevo tecnología, recuerda colocar la imágen correspondiente en la carpeta de mapas
+                de tecnología.
+            </p>
+        </div>
+    </div>
+</div>
+
+@*Contenido: *@
+@if (TempData["notice"] != null)
+{
+    <div class="form-group">
+        <div id="divAlerta" class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>@TempData["notice"]</strong>
+        </div>
+    </div>
+}
+
+<div class="row">
+    <div class="col-sm-12 col-md-7">
+        @using (Html.BeginForm("Accion_Insertar", "Tecnologias", new { Accion = "Insertar" }, FormMethod.Post, new { onsubmit = "ValidarFormularioTecnologia(event, this)", id = "FormularioCrearTecnologia", enctype = "multipart/form-data", @class = "clearfix" }))
+        {
+            @Html.AntiForgeryToken()
+            
+            
+            <div class="form-group">
+                <label>Nombre de la tecnología<span id="Alerta_Tecnologia">*</span>:</label>
+                @Html.EditorFor(model => model.Tecnologia, new { htmlAttributes = new { @onblur = "if(MinCaracteres(this, 1)){ValidarObjeto(this)}", @class = "form-control ns_", @placeholder = "Nombre de la tecnología" } })
+                <small id="Mensaje_Tecnologia" style="color: #d0021b"></small>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Mapa de flujo de proceso<span id="Alerta_MapaFlujo">*</span>:</label>
+                <input type="file" name="files" id="MapaFlujo" onchange="ValidarImagenes(this, event)" maxlength="5000" accept="image/jpeg, image/jpeg, image/png" />
+                <small id="Mensaje_MapaFlujo" style="color: #d0021b"></small>
+            </div>
+            <br />
+            <div class="form-group">
+                <label>Plantilla de proceso<span id="Alerta_PlantillaFlujo">*</span>:</label>
+                <input type="file" name="files" id="PlantillaFlujo" onchange="ValidarImagenes(this, event)" maxlength="5000" accept="image/jpeg, image/jpeg, image/png" />
+                <small id="Mensaje_PlantillaFlujo" style="color: #d0021b"></small>
+            </div>
+            <br />
+
+            <h3>Reglas de negocio actuales</h3>
+            <hr class="red" />
+            
+            <div class="form-group">
+                <label>Nueva regla de negocio:</label>
+                <table>
+                    <tr>
+                        <td>
+                            @Html.EditorFor(model => model.UltimaReglaNegocio, new { htmlAttributes = new { @onblur = "if(MinCaracteres(this, 1) && this.length > 0){ValidarObjeto(this)}", @class = "form-control ns_", @placeholder = "¿El proyecto generará residuos peligrosos?" } })
+                        </td>
+                        <td>
+                            &nbsp;
+                            <i class="glyphicon glyphicon-import" style="color:black" data-toggle="tooltip" data-placement="top" title="Aregar regla de negocio" onclick="AgregarReglaDeNegocio();"></i>
+                            &nbsp;
+                        </td>
+                    </tr>
+                </table> 
+                <small id="Mensaje_UltimaReglaNegocio" style="color: #d0021b"></small>                  
+            </div>
+            <hr />
+            <table id="TablaReglasNegocio"></table>
+            <br />
+            
+            <h3>Trámites asociados</h3>
+            <hr class="red" />
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Nuevo trámite:</label>
+                        @Html.DropDownListFor(m => m.UltimoTramite, ViewBag.ListaTramites as SelectList, "Elige homoclave", htmlAttributes: new { @onblur = "ValidarObjeto(this,event)", @class = "form-control ns_" })
+                        <small id="Mensaje_UltimoTramite" style="color: #d0021b"></small> 
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Posición:</label>
+                        @Html.EditorFor(model => model.PosicionUltimoTramite, new { htmlAttributes = new { @onblur = "if(MinCaracteres(this, 1)){ValidarObjeto(this)}", @class = "form-control ns_", @placeholder = "" } })
+                        <small id="Mensaje_PosicionUltimoTramite" style="color: #d0021b"></small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <i class="glyphicon glyphicon-import" style="color:black" data-toggle="tooltip" data-placement="top" title="Aregar tramite" onclick="AgregarTramite();"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <hr />
+            <table id="TablaTramites"></table>
+            <br />
+
+            
+            
+            <div class="form-group">
+                * Campo obligatorio
+            </div>
+
+            <div style="text-align:right;">
+                <button class="btn btn-primary btn" type="submit">Crear</button>
+            </div>
+        }
+    </div>
+</div>
+
+<br />
+<hr />
+
+
+<script type="text/javascript">
+    function AgregarReglaDeNegocio()
+    {
+        Pregunta = "Pregunta/" + $('#UltimaReglaNegocio').val() + "/1/0";
+        if ($('#UltimaReglaNegocio').val() != null && $('#UltimaReglaNegocio').val() != "")
+        {
+            $("#TablaReglasNegocio").append('<tr><td>' +
+            $('#UltimaReglaNegocio').val() +
+            '</td><td><i class="glyphicon glyphicon-remove" style="color:black" title="Eliminar regla de negocio" onclick="EliminarReglaDeNegocio(this);"></i></td>' +
+            '<td><input type="hidden" name="' + Pregunta + '"  value="' + Pregunta + '"></td></tr>');
+            $('#UltimaReglaNegocio').val("");
+        }
+        
+    }
+
+    function AgregarTramite()
+    {
+        Tramite = "Tramite/" + $('#UltimoTramite').val() + "/1/" + $('#PosicionUltimoTramite').val();
+        if ($('#UltimoTramite').val() != null && $('#UltimoTramite').val() > 0 && $('#PosicionUltimoTramite').val() && $('#PosicionUltimoTramite').val() != "")
+        {
+            $("#TablaTramites").append('<tr><td>' +
+            $('#UltimoTramite :selected').text() + '</td>' +
+            '<td>' + $('#PosicionUltimoTramite').val() + '</td>' +
+            '<td><i class="glyphicon glyphicon-remove" style="color:black" title="Eliminar tramite" onclick="EliminarTramite(this);"></i></td>' +
+            '<td><input type="hidden" name="' + Tramite + '"  value="' + Tramite + '"></td></tr>');
+            $('#UltimoTramite').val("");
+        }
+        
+    }
+
+    function EliminarReglaDeNegocio(item)
+    {
+        $(item).parents('tr').remove();
+    }
+
+    function EliminarTramite(item) {
+        $(item).parents('tr').remove();
+    }
+
+</script>

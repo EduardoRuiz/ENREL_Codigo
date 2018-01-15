@@ -1,0 +1,207 @@
+﻿@model ENREL.Models.Usuarios.CatUsuarios
+
+@{
+    ViewBag.Title = "Solicitud de registro";
+}
+
+<!-- Begin Digital Analytix Tag 1.1302.13 -->
+<script type="text/javascript">
+    udm_('https://sb.scorecardresearch.com/b?c1=2&c2=17183199&ns_site=gobmx&name=SENER.ENREL.REGISTRO.USUARIO');
+</script>
+<noscript><p><img src="'https://sb.scorecardresearch.com/b?c1=2&c2=17183199&ns_site=gobmx&id_usuario=null&name=SENER.ENREL.REGISTRO.USUARIO" height="1" width="1" alt="*"></p></noscript>
+<!-- End Digital Analytix Tag 1.1302.13 -->
+@*Breadcum*@
+<div class="row" style="margin-top:94px">
+    <div class="col-sm-8">
+        <ol class="breadcrumb">
+            <li>
+                <a target="_blank" href="https://www.gob.mx/">
+                    <i class='icon icon-home'></i>
+                </a>
+            </li>
+            <li>
+                <a target="_blank" href="@Url.Action("Index","Home")">
+                    Inicio
+                </a>
+            </li>
+            <li class="active">
+                Solicitud de registro
+            </li>
+        </ol>
+    </div>
+</div>
+@*<div >
+    <table style="width:100%;margin-top:94px">
+        <tr>
+            <td style="width:49%; text-align:left; vertical-align:top">
+                <ol class='breadcrumb' style="padding:8px 8px 8px 8px; margin-bottom:0px;">
+                    <li>
+                        <a target="_blank" href="https://www.gob.mx/">
+                            <i class='icon icon-home'></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="@Url.Action("Index","Home")">
+                            Inicio
+                        </a>
+                    </li>
+                    <li class="active">
+                        Solicitud de registro
+                    </li>
+                </ol>
+            </td>
+        </tr>
+    </table>
+</div>*@
+
+@*Presentacion *@
+<h2>Solicitud de registro de usuario </h2>
+<br />
+<div class="row">
+    <div class="col-sm-8">
+        <p>
+            Puedes crear un usuario adicional al que recibirá el representante legal completando la información que se solicita a continuación y pulsa el botón "Siguiente".
+            Este usuario podrá dar seguimiento a los proyectos en curso.  <br /><br />
+
+            Si no requieres de este usuario operativo simplemente pulsa el botón "No registrar".
+        </p>
+    </div>
+</div>
+
+<div class="small-bottom-buffer"></div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div id="divExplicacion" class="alert alert-info">
+            La contraseña debe contener al menos 6 caracteres y debe incluir letras mayúsculas, minúsculas y números.
+        </div>
+    </div>
+</div>
+
+@*Pasos *@
+<div>
+    <ul class="wizard-steps">
+        <li class="completed">
+            <h5>Paso 1</h5>
+            <span>Empresa</span>
+        </li>
+        <li class="completed">
+            <h5>Paso 2</h5>
+            <span>Representante legal</span>
+        </li>
+        <li class="completed">
+            <h5>Paso 3</h5>
+            <span>Usuario operarivo</span>
+        </li>
+        <li>
+            <h5>Paso 4</h5>
+            <span>Enviar</span>
+        </li>
+        <li class=@ViewBag.ClaseFinalizado>
+            <i class="glyphicon glyphicon-ok-circle"></i>
+        </li>
+    </ul>
+</div>
+
+<div class="bottom-buffer"></div>
+
+
+
+@*Contenido *@
+@if (TempData["notice"] != null)
+{
+    <div class="row">
+        <div class="col-md-8">
+            <div id="divAlerta" class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>@TempData["notice"]</strong>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+<div class="row">
+    <div class="col-md-8">
+        <div id="divAlertaFormulario" class="alert alert-danger alert-dismissible" style="display:none">
+            <strong>Uno o más campos son incorrectos, por favor verifica la información.</strong>
+        </div>
+    </div>
+</div>
+
+
+
+@using (Html.BeginForm("DatosAcreditacion", "RegistrosInversionista", FormMethod.Post, new { id = "Registro_DatosUsuario", @class = "ns_", enctype = "multipart/form-data", onsubmit = "javascript: ValidarFormulario(event, this)" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Nombre de usuario<span id="Alerta_U_Nombre">*</span>:</label>
+                    @Html.TextBoxFor(model => model.U_Nombre, new { maxlength = 30, @onblur = "if(MinCaracteres(this,6)){ValidarNombreUsuario(this,event)}", @class = "form-control ns_", @placeholder = "Nombre del usuario operativo" })
+                    <small id="Mensaje_U_Nombre" style="color: #d0021b"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Correo electrónico<span id="Alerta_U_CorreoElectronico">*</span>:</label>
+                    @Html.TextBoxFor(model => model.U_CorreoElectronico, new { maxlength = 320, @onblur = "if(MinCaracteres(this,5)){ValidarEmail(this,event)}", @class = "form-control ns_", @placeholder = "Correo del usuario operativo" })
+                    <small id="Mensaje_U_CorreoElectronico" style="color: #d0021b"></small>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>
+                        @*<span class="icon-infocircle" style="color:black" data-toggle="tooltip" data-placement="top" title="Mínimo 6 caracteres. Debe incluir al menos una letra mayúscula, una letra minúscula y un dígito."></span>*@
+                    Contraseña<span id="Alerta_U_Password">*</span>:</label>
+                    @Html.TextBoxFor(model => model.U_Password, new { @onblur = "if(MinCaracteres(this,6)){ValidarContraseña(this, event)}", @class = "form-control ns_", @type = "password", @placeholder = "Contraseña" })
+                    <small id="Mensaje_U_Password" style="color: #d0021b"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Confirmar contraseña<span id="Alerta_U_ConfirmarPassword">*</span>:</label>
+                    @Html.TextBoxFor(model => model.U_ConfirmarPassword, new { @onblur = "if(MinCaracteres(this,6)){ValidarContraseña(this, event)}", @class = "form-control ns_", @type = "password", @placeholder = "Confirma la contraseña" })
+                    <small id="Mensaje_U_ConfirmarPassword" style="color: #d0021b"></small>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="bottom-buffer"></div>
+    <div class="col-md-8 col-md-offset-4">
+        <hr>
+    </div>
+    <div class="clearfix">
+        <div class="pull-left text-muted text-vertical-align-button">
+            * Campos obligatorios
+        </div>
+
+        <div class="pull-right">
+            <button class="btn btn-default btn" type="button" onclick="javascript: uid_call('SENER.ENREL.REGISTRO.USUARIO.BTN_REGRESAR', 'clickin'); Registro_RegresarARepresentante();">Regresar</button>
+            <button class="btn btn-danger btn" type="button" onclick="javascript: uid_call('SENER.ENREL.REGISTRO.USUARIO.BTN_NOREGISTRAR', 'clickin'); location.href='@Url.Action("DatosAcreditacionB", "RegistrosInversionista")'">No registrar</button>
+            <button class="btn btn-primary btn" type="submit" onclick="uid_call('SENER.ENREL.REGISTRO.USUARIO.BTN_SIGUIENTE', 'clickin')">Siguiente</button>
+        </div>
+    </div>
+
+
+}
+
+
+
+
+
+
+
+
+
+
+

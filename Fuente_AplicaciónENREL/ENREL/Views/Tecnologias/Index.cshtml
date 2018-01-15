@@ -1,0 +1,85 @@
+﻿@model IEnumerable<ENREL.Models.Tecnologias.CatTecnologias>
+
+
+    @{
+        ViewBag.Title = "GestionTecnologias";
+        string NombreUsuarioSession = "";
+        if (Session["NombreUsuario"] != null)
+        {
+            NombreUsuarioSession = Session["NombreUsuario"].ToString();
+        }
+    }
+
+    @*Breadcum y usuario*@
+    <div class="row" style="margin-top:94px">
+        <div class="col-sm-8">
+            <ol class="breadcrumb">
+                <li><a href="https://www.gob.mx/" target="_blank"><i class="icon icon-home"></i></a></li>
+                <li><a href="@Url.Action("InicioAdministrador","Home")">Inicio</a></li>
+                <li class="active">Catálogo de tecnologías</li>
+            </ol>
+        </div>
+        <div class="col-sm-4">
+            <div class="user-credencials">
+                <ul class="list-unstyled">
+                    <li>
+                        <span class="user-credencials__name">@NombreUsuarioSession</span>
+                        <button type="button" class="btn btn-link pull-right" onclick="javascript: uid_call('SENER.ENREL.INVERSIONISTA.BTN_CERRARSESIÓN', 'clickout'); location.href = '@Url.Action("Logout", "Home")'">Salir</button>
+                    </li>
+                    <li><a href="@Url.Action("Actualizar", "Usuarios")">Modificar usuario</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    @*Tpitulo *@
+    <h3>Catálogo de tecnologías </h3>
+    <br />
+
+
+    @*Alertas:*@
+    @if (TempData["notice"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>@TempData["notice"]</strong>
+        </div>
+    }
+
+
+
+    <table class="table" style="width:100%;">
+        <thead>
+            <tr>
+                <th>
+                    Tecnologia
+                </th>
+                <th style="text-align:center;">
+                    Acción
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(emp => item.Tecnologia)
+                    </td>
+                    <td style="width:130px;text-align:center">
+                        <a href="@Url.Action("EliminarTecnologia", "Tecnologias", new { IdTecnologia = item.IdTecnologia, Tecnologia = item.Tecnologia })"><i class="glyphicon glyphicon-trash" style="color:black;" data-toggle="tooltip" data-placement="top" title="Eliminar tecnología"></i></a>
+                        <a href="@Url.Action("ActualizarTecnologia", "Tecnologias", new { IdTecnologia = item.IdTecnologia })"><i class="glyphicon glyphicon-pencil" style="color:black" data-toggle="tooltip" data-placement="top" title="Actualizar tecnología"></i></a>
+                        @*
+
+
+                            <a style="text-decoration:none" target="_blank" href="@Url.Action("INERE", "Proyectos", new { P_IdProyecto = item.P_IdProyecto, tecnologia = item.P_Tecnologia, latitud = item.P_Latitud, longitud = item.P_Longitud })"><i class="icon icon-world" style="color:black; text-decoration:none" data-toggle="tooltip" data-placement="top" title="INERE"></i></a>
+                            <a href="@Url.Action("Index", "Tramites", new { idProyecto = item.P_IdProyecto })"><i class="glyphicon glyphicon-th-list" style="color:black" data-toggle="tooltip" data-placement="top" title="Ir a tramites"></i></a>*@
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+

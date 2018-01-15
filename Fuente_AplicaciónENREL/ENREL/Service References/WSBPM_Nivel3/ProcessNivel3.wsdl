@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://xmlns.oracle.com/bpmn/bpmnProcess/ProcessNivel3" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" targetNamespace="http://xmlns.oracle.com/bpmn/bpmnProcess/ProcessNivel3" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation>
+    <abstractWSDL>http://senerbpm03-ib:8001/soa-infra/services/default/Nivel1!3.0/WSDLs/ProcessNivel3.wsdl</abstractWSDL>
+  </wsdl:documentation>
+  <plnk:partnerLinkType name="ProcessNivel3PortTypePartnerLinkType">
+    <plnk:role name="ProcessNivel3PortTypeProvider">
+      <plnk:portType name="tns:ProcessNivel3PortType" />
+    </plnk:role>
+  </plnk:partnerLinkType>
+  <wsp:Policy xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" wsu:Id="wsaddr_policy" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
+    <wsaw:UsingAddressing xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" />
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://xmlns.oracle.com/bpmn/bpmnProcess/ProcessNivel3">
+      <xsd:element name="receiveTask">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="Idproyecto" type="xsd:string" />
+            <xsd:element name="Homoclave" type="xsd:string" />
+            <xsd:element name="Estatus" type="xsd:string" />
+            <xsd:element name="Prorroga" type="xsd:int" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="start">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="Idproyecto" type="xsd:string" />
+            <xsd:element name="Homoclave" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="endResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="Idproyecto" type="xsd:string" />
+            <xsd:element name="Homoclave" type="xsd:string" />
+            <xsd:element name="Estatus" type="xsd:string" />
+            <xsd:element name="Prorroga" type="xsd:int" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="receiveTask">
+    <wsdl:part name="parameters" element="tns:receiveTask" />
+  </wsdl:message>
+  <wsdl:message name="start">
+    <wsdl:part name="parameters" element="tns:start" />
+  </wsdl:message>
+  <wsdl:message name="endResponse">
+    <wsdl:part name="parameters" element="tns:endResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ProcessNivel3PortType">
+    <wsdl:operation name="receiveTask">
+      <wsdl:input message="tns:receiveTask" />
+    </wsdl:operation>
+    <wsdl:operation name="start">
+      <wsdl:input message="tns:start" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="ProcessNivel3PortTypeCallBack">
+    <wsdl:operation name="end">
+      <wsdl:input message="tns:endResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ProcessNivel3Binding" type="tns:ProcessNivel3PortType">
+    <wsdlsoap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsp:PolicyReference xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" URI="#wsaddr_policy" wsdl:required="false" />
+    <wsdl:operation name="receiveTask">
+      <wsdlsoap:operation soapAction="receiveTask" style="document" />
+      <wsdl:input>
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="start">
+      <wsdlsoap:operation soapAction="start" style="document" />
+      <wsdl:input>
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ProcessNivel3PortTypeCallBackBinding" type="tns:ProcessNivel3PortTypeCallBack">
+    <wsdlsoap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="end">
+      <wsdlsoap:operation soapAction="end" style="document" />
+      <wsdl:input>
+        <wsdlsoap:body use="literal" namespace="http://xmlns.oracle.com/bpmn/bpmnProcess/ProcessNivel3" />
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ProcessNivel3.service">
+    <wsdl:port name="ProcessNivel3PortType" binding="tns:ProcessNivel3Binding">
+      <wsdlsoap:address location="http://senerbpm03-ib:8001/soa-infra/services/default/Nivel1/ProcessNivel3.service" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

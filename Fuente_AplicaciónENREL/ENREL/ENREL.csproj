@@ -1,0 +1,590 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{91F02813-9258-486E-80A0-D4DC2D023317}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ENREL</RootNamespace>
+    <AssemblyName>ENREL</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Gma.QrCodeNet.Encoding">
+      <HintPath>..\packages\QrCode.Net.0.4.0.0\lib\net45\Gma.QrCodeNet.Encoding.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>..\..\..\..\19735\VisualStudio\Aplicación VER\VER_20160329\VER\packages\iTextSharp.5.5.9\lib\itextsharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker">
+      <HintPath>..\..\..\..\19735\VisualStudio\Aplicación VER\VER_20160329\VER\packages\itextsharp.xmlworker.5.5.9\lib\itextsharp.xmlworker.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.0.1011, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector, Version=1.2.3.246, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.1.2.3\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector, Version=1.2.3.246, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.1.2.3\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel, Version=1.2.3.246, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.1.2.3\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web, Version=1.2.3.246, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.1.2.3\lib\net45\Microsoft.AI.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer, Version=1.2.3.246, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.1.2.3\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights, Version=1.2.3.490, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.1.2.3\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Word, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Web.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Webpages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Deployment">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Webpages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Webpages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Helpers">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Imagenes\Cargandoinere.gif" />
+    <Content Include="Content\Imagenes\error.svg" />
+    <Content Include="Content\Imagenes\favicon.ico" />
+    <Content Include="Content\Imagenes\gobmx.png" />
+    <Content Include="Content\Imagenes\ImagenInicio1.jpg" />
+    <Content Include="Content\Imagenes\LogoSenerbg.png" />
+    <Content Include="Content\Imagenes\Logotipo_ENREL_120.jpg" />
+    <Content Include="Content\Imagenes\Logotipo_SENER.png" />
+    <Content Include="Content\Imagenes\Logotivo VER.jpg" />
+    <Content Include="Content\Imagenes\MapasDeProceso\BIOTERMOELECTRICA BIOGAS.jpg" />
+    <Content Include="Content\Imagenes\MapasDeProceso\BIOTERMOELECTRICA BIOGAS_Plantilla.jpg" />
+    <Content Include="Content\Imagenes\MapasDeProceso\BIOTERMOELECTRICA FORESTAL.jpg" />
+    <Content Include="Content\Imagenes\MapasDeProceso\BIOTERMOELECTRICA FORESTAL_Plantilla.jpg" />
+    <Content Include="Content\Imagenes\MapasDeProceso\EOLOELECTRICA.jpg" />
+    <Content Include="Content\Imagenes\MapasDeProceso\EOLOELECTRICA_Plantilla.jpg" />
+    <Content Include="Content\Imagenes\MapasDeProceso\GEOTERMOELECTRICA EXPLORACION.jpg" />
+    <Content Include="Content\Imagenes\MapasDeProceso\GEOTERMOELECTRICA EXPLORACION_Plantilla.jpg" />
+    <Content Include="Content\Imagenes\MapasDeProceso\GEOTERMOELECTRICA EXPLOTACION.jpg" />
+    <Content Include="Content\Imagenes\MapasDeProceso\GEOTERMOELECTRICA EXPLOTACION_Plantilla.jpg" />
+    <Content Include="Content\Imagenes\MapasDeProceso\GEOTERMOELECTRICA_Plantilla.jpg" />
+    <Content Include="Content\Imagenes\MapasDeProceso\HIDROELECTRICA.jpg" />
+    <Content Include="Content\Imagenes\MapasDeProceso\HIDROELECTRICA_Plantilla.jpg" />
+    <Content Include="Content\Imagenes\MapasDeProceso\PlantillaGeneral.jpg" />
+    <Content Include="Content\Imagenes\MapasDeProceso\SOLAR FOTOVOLTAICA.jpg" />
+    <Content Include="Content\Imagenes\MapasDeProceso\SOLAR FOTOVOLTAICA_Plantilla.jpg" />
+    <Content Include="Content\Imagenes\moverMexico.png" />
+    <Content Include="Content\Imagenes\Pasos.png" />
+    <Content Include="Content\Imagenes\pasos_2.png" />
+    <Content Include="Content\Imagenes\PlantillaHidroelectrica2.jpg" />
+    <Content Include="Content\Imagenes\PlantillaTramites.jpg" />
+    <Content Include="Content\Imagenes\SENER.png" />
+    <Content Include="Content\Site.css" />
+    <Content Include="CSS\ENREL.css" />
+    <Content Include="CSS\joint.min.css" />
+    <Content Include="CSS\jquery-ui.css" />
+    <Content Include="CSS\jquery-ui.min.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="HTMLTemplates\AceptacionRepresentanteLegal.html" />
+    <Content Include="HTMLTemplates\NegacionRepresentanteLegal.html" />
+    <Content Include="scripts\backbone-min.js" />
+    <Content Include="scripts\bootstrap.js" />
+    <Content Include="scripts\bootstrap.min.js" />
+    <None Include="Properties\PublishProfiles\enrel.pubxml" />
+    <None Include="scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="scripts\dojo.js" />
+    <Content Include="scripts\dojo.js.uncompressed.js" />
+    <Content Include="scripts\enrel\Actualizaciones.js" />
+    <Content Include="scripts\enrel\General.js" />
+    <Content Include="scripts\enrel\INERE.js" />
+    <Content Include="scripts\enrel\Reportes.js" />
+    <Content Include="scripts\enrel\Validaciones.js" />
+    <Content Include="scripts\enrel\VentanasModales.js" />
+    <Content Include="scripts\enrel_general.js" />
+    <Content Include="scripts\graficas\loader.js" />
+    <Content Include="scripts\joint.min.js" />
+    <Content Include="scripts\Joint\backbone-min.js" />
+    <Content Include="scripts\Joint\joint.min.css" />
+    <Content Include="scripts\Joint\joint.min.js" />
+    <Content Include="scripts\Joint\jquery.min.js" />
+    <Content Include="scripts\Joint\lodash.min.js" />
+    <Content Include="scripts\jquery-1.10.2.js" />
+    <Content Include="scripts\jquery-1.10.2.min.js" />
+    <None Include="scripts\jquery-1.11.1.intellisense.js" />
+    <Content Include="scripts\jquery-1.11.1.js" />
+    <Content Include="scripts\jquery-ui.min.js" />
+    <Content Include="scripts\jquery.min.js" />
+    <Content Include="scripts\lodash.min.js" />
+    <Content Include="scripts\modernizr-2.6.2.js" />
+    <Content Include="scripts\respond.js" />
+    <Content Include="scripts\respond.min.js" />
+    <None Include="Service References\NotificacionesIOP\configuration91.svcinfo" />
+    <None Include="Service References\NotificacionesIOP\configuration.svcinfo" />
+    <Content Include="Service References\NotificacionesIOP\ENREL.NotificacionesIOP.Client.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\NotificacionesIOP\ENREL.NotificacionesIOP.EstatusEntregaMensaje.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\NotificacionesIOP\ENREL.NotificacionesIOP.NotificacionDeInteroperabilidadResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\NotificacionesIOP\ENREL.NotificacionesIOP.Service.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Service References\NotificacionesIOP\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\NotIOPCENACE\configuration91.svcinfo" />
+    <None Include="Service References\NotIOPCENACE\configuration.svcinfo" />
+    <Content Include="Service References\NotIOPCENACE\ENREL.NotIOPCENACE.NotificacionDeInteroperabilidadResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Service References\NotIOPCENACE\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="Service References\ServiceReference1\ENREL.ServiceReference1.GetSiteListCountResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\ServiceReference1\ENREL.ServiceReference1.recibirTramiteResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Service References\NotificacionesIOP\NotificacionDeInteroperabilidad.wsdl" />
+    <None Include="Service References\NotificacionesIOP\NotificacionDeInteroperabilidad.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\NotificacionesIOP\NotificacionDeInteroperabilidad1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\NotificacionesIOP\NotificacionDeInteroperabilidad2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\NotificacionesIOP\NotificacionDeInteroperabilidad3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\NotificacionesIOP\NotificacionDeInteroperabilidad4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\NotificacionesIOP\NotificacionDeInteroperabilidad5.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\NotificacionesIOP\NotificacionDeInteroperabilidad6.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\NotIOPCENACE\service.wsdl" />
+    <None Include="Service References\NotIOPCENACE\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\NotIOPCENACE\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\NotIOPCENACE\VUN.Middleware.Models.VUN_SENER.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceReference1\WebService1.wsdl" />
+    <None Include="Service References\WSBPM_Nivel0\ProcessNivel0.wsdl" />
+    <None Include="Service References\WSBPM_Nivel3\configuration91.svcinfo" />
+    <None Include="Service References\WSBPM_Nivel3\configuration.svcinfo" />
+    <None Include="Service References\WSBPM_Nivel3\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\WSBPM_Nivel0\configuration91.svcinfo" />
+    <None Include="Service References\WSBPM_Nivel0\configuration.svcinfo" />
+    <None Include="Service References\WSBPM_Nivel0\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\ServiceReference1\WebService1.disco" />
+    <None Include="Service References\ServiceReference1\configuration91.svcinfo" />
+    <None Include="Service References\ServiceReference1\configuration.svcinfo" />
+    <None Include="Service References\ServiceReference1\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\DescripcionAplicacion.cshtml" />
+    <Content Include="Views\Home\GuiaDeUso.cshtml" />
+    <Content Include="Views\RegistrosInversionista\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\Administrador\AdministradorController.cs" />
+    <Compile Include="Controllers\Auxiliar\AuxiliarController.cs" />
+    <Compile Include="Controllers\Auxiliar\ErrorController.cs" />
+    <Compile Include="Controllers\Auxiliar\Ubicacion.cs" />
+    <Compile Include="Controllers\Auxiliar\WS_Gobmx.cs" />
+    <Compile Include="Controllers\Auxiliar\Crypto\CertificateUtils.cs" />
+    <Compile Include="Controllers\Auxiliar\Crypto\Class1.cs" />
+    <Compile Include="Controllers\Auxiliar\Crypto\IoUtils.cs" />
+    <Compile Include="Controllers\Auxiliar\Crypto\JavaScience\opensslkey.cs" />
+    <Compile Include="Controllers\Auxiliar\Crypto\JavaScience\Structures.cs" />
+    <Compile Include="Controllers\Auxiliar\Crypto\JavaScience\Win32.cs" />
+    <Compile Include="Controllers\Auxiliar\Crypto\OCSP.cs" />
+    <Compile Include="Controllers\Auxiliar\Crypto\ValidaCertificado.cs" />
+    <Compile Include="Controllers\Auxiliar\Crypto\XMLSign.cs" />
+    <Compile Include="Controllers\Auxiliar\MetodosGenerales.cs" />
+    <Compile Include="Controllers\Consultor\ConsultorController.cs" />
+    <Compile Include="Controllers\CrearDoctos\Impersonate.cs" />
+    <Compile Include="Controllers\DiasInhabilesController.cs" />
+    <Compile Include="Controllers\Empresas\EmpresasController.cs" />
+    <Compile Include="Controllers\Home\HomeController.cs" />
+    <Compile Include="Controllers\Proyectos\ProyectosController.cs" />
+    <Compile Include="Controllers\RegistroInversionistas\RegistrosInversionistaController.cs" />
+    <Compile Include="Controllers\Reportes\ReporteMontosController.cs" />
+    <Compile Include="Controllers\Reportes\ReporteEmpresasController.cs" />
+    <Compile Include="Controllers\Reportes\ReportesProyectoController.cs" />
+    <Compile Include="Controllers\Reportes\ReporteTramitesController.cs" />
+    <Compile Include="Controllers\RepresentantesLegales\RepresentantesLegalesController.cs" />
+    <Compile Include="Controllers\Tecnologias\TecnologiasController.cs" />
+    <Compile Include="Controllers\Tramites\TramitesController.cs" />
+    <Compile Include="Controllers\Usuarios\UsuariosController.cs" />
+    <Compile Include="Controllers\InterOp\NotificacionIOP.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Asentamientos\CatTiposAsentamiento.cs" />
+    <Compile Include="Models\Asentamientos\DatosTiposAsentamiento.cs" />
+    <Compile Include="Models\Asentamientos\LogicaTiposAsentamiento.cs" />
+    <Compile Include="Models\DiasInhabiles\CatDiasInhabiles.cs" />
+    <Compile Include="Models\DiasInhabiles\DatosDiasInhabiles.cs" />
+    <Compile Include="Models\DiasInhabiles\LogicaDiasInhabiles.cs" />
+    <Compile Include="Models\CodigosPostales\CatCodigosPostales.cs" />
+    <Compile Include="Models\CodigosPostales\DatosCodigosPostales.cs" />
+    <Compile Include="Models\CodigosPostales\LogicaCodigosPostales.cs" />
+    <Compile Include="Models\Consultor\CatMontosInversion.cs" />
+    <Compile Include="Models\Empresas\CatEmpresas.cs" />
+    <Compile Include="Models\Empresas\DatosEmpresas.cs" />
+    <Compile Include="Models\Empresas\LogicaEmpresas.cs" />
+    <Compile Include="Models\EntidadesFederativas\CatEntidadesFederativas.cs" />
+    <Compile Include="Models\EntidadesFederativas\DatosEntidadesFederativas.cs" />
+    <Compile Include="Models\EntidadesFederativas\LogicaEntidadesFederativas.cs" />
+    <Compile Include="Models\EstatusProyecto\CatEstatusProyecto.cs" />
+    <Compile Include="Models\EstatusProyecto\DatosEstatusProyecto.cs" />
+    <Compile Include="Models\EstatusProyecto\LogicaEstatusProyecto.cs" />
+    <Compile Include="Models\Graficas\CatGraficas.cs" />
+    <Compile Include="Models\Graficas\DatosGraficas.cs" />
+    <Compile Include="Models\Graficas\LogicaGraficas.cs" />
+    <Compile Include="Models\Home\DatosHome.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Models\Home\LogicaHome.cs" />
+    <Compile Include="Models\Localidades\CatLocalidades.cs" />
+    <Compile Include="Models\Localidades\DatosLocalidades.cs" />
+    <Compile Include="Models\Localidades\LogicaLocalidades.cs" />
+    <Compile Include="Models\Municipios\CatMunicipios.cs" />
+    <Compile Include="Models\Municipios\DatosMunicipios.cs" />
+    <Compile Include="Models\Municipios\LogicaMunicipios.cs" />
+    <Compile Include="Models\Proyectos\CatProyectos.cs" />
+    <Compile Include="Models\Proyectos\DatosProyectos.cs" />
+    <Compile Include="Models\Proyectos\LogicaProyectos.cs" />
+    <Compile Include="Models\RepresentantesLegales\CatRepresentantesLegales.cs" />
+    <Compile Include="Models\RepresentantesLegales\DatosRepresentantesLegales.cs" />
+    <Compile Include="Models\RepresentantesLegales\LogicaRepresentantesLegales.cs" />
+    <Compile Include="Models\RespuestasWS\Datos_ENREL_Dep_WS.cs" />
+    <Compile Include="Models\RespuestasWS\LogicaENRELRespuestasWS.cs" />
+    <Compile Include="Models\RespuestasWS\RespuestasWSdep.cs" />
+    <Compile Include="Models\RespuestasWS\Serializar.cs" />
+    <Compile Include="Models\ServiciosWeb\CatServiciosWeb.cs" />
+    <Compile Include="Models\ServiciosWeb\consultarEstatusMacroTramiteResponse .cs" />
+    <Compile Include="Models\Tecnologias\CatTecnologias.cs" />
+    <Compile Include="Models\Tecnologias\DatosTecnologias.cs" />
+    <Compile Include="Models\Tecnologias\LogicaTecnologias.cs" />
+    <Compile Include="Models\TiposDia\CatTiposDia.cs" />
+    <Compile Include="Models\TiposDia\DatosTiposDia.cs" />
+    <Compile Include="Models\TiposDia\LogicaTiposDias.cs" />
+    <Compile Include="Models\Tramites\CatTramites.cs" />
+    <Compile Include="Models\Tramites\DatosTramites.cs" />
+    <Compile Include="Models\Tramites\LogicaTramites.cs" />
+    <Compile Include="Models\Usuarios\CatUsuarios.cs" />
+    <Compile Include="Models\Usuarios\DatosUsuarios.cs" />
+    <Compile Include="Models\Usuarios\LogicaUsuarios.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Models\Vialidades\CatTiposVialidad.cs" />
+    <Compile Include="Models\Vialidades\DatosTiposVialidad.cs" />
+    <Compile Include="Models\Vialidades\LogicaTiposVialidad.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\NotificacionesIOP\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\NotIOPCENACE\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ServiceReference1\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\WSBPM_Nivel0\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\WSBPM_Nivel3\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="packages.config" />
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\RegistrosInversionista\DatosRepresentante.cshtml" />
+    <Content Include="Views\RegistrosInversionista\DatosUsuario.cshtml" />
+    <Content Include="Views\RegistrosInversionista\DatosAcreditacion.cshtml" />
+    <Content Include="Views\RegistrosInversionista\InsertarPrimerusuario.cshtml" />
+    <Content Include="Views\Administrador\Index.cshtml" />
+    <Content Include="Views\Administrador\GestionarSolicitudesRegistro.cshtml" />
+    <Content Include="Views\Administrador\ValidarSolicitud.cshtml" />
+    <Content Include="Views\Home\InicioInversionista.cshtml" />
+    <Content Include="Views\Home\InicioAdministrador.cshtml" />
+    <Content Include="Views\Home\InicioConsultor.cshtml" />
+    <Content Include="Views\Proyectos\Index.cshtml" />
+    <Content Include="Views\Proyectos\Insertar.cshtml" />
+    <Content Include="Views\Proyectos\Detalles.cshtml" />
+    <Content Include="Views\Tramites\Index.cshtml" />
+    <Content Include="Views\Empresas\Actualizar.cshtml" />
+    <Content Include="Views\Empresas\Detalles.cshtml" />
+    <Content Include="Views\Empresas\Eliminar.cshtml" />
+    <Content Include="Views\RepresentantesLegales\Index.cshtml" />
+    <Content Include="Views\RepresentantesLegales\Detalles.cshtml" />
+    <Content Include="Views\RepresentantesLegales\Actualizar.cshtml" />
+    <Content Include="Views\RepresentantesLegales\Insertar.cshtml" />
+    <Content Include="Views\RepresentantesLegales\Eliminar.cshtml" />
+    <Content Include="Views\Usuarios\Index.cshtml" />
+    <Content Include="Views\Usuarios\Insertar.cshtml" />
+    <Content Include="Views\Usuarios\Detalles.cshtml" />
+    <Content Include="Views\Usuarios\Eliminar.cshtml" />
+    <Content Include="Views\Usuarios\Actualizar.cshtml" />
+    <Content Include="Views\Proyectos\INERE.cshtml" />
+    <Content Include="Views\Consultor\Index.cshtml" />
+    <Content Include="Views\Consultor\Error.cshtml" />
+    <Content Include="Views\ReportesProyecto\ReporteProyectos.cshtml" />
+    <Content Include="Views\Tecnologias\Index.cshtml" />
+    <Content Include="Views\Tecnologias\EliminarTecnologia.cshtml" />
+    <Content Include="Views\Tecnologias\InsertarTecnologia.cshtml" />
+    <Content Include="Views\Tecnologias\Insertar.cshtml" />
+    <Content Include="Views\ReporteTramites\ReporteTramites.cshtml" />
+    <Content Include="Views\ReporteMontos\ReporteMontoInversion.cshtml" />
+    <Content Include="Views\GraficasHelpers\Graficas.cshtml" />
+    <Content Include="Views\ReporteEmpresas\Index.cshtml" />
+    <Content Include="Views\ReporteMontos\Index.cshtml" />
+    <Content Include="Views\Administrador\GestionUsuariosSENER.cshtml" />
+    <Content Include="Views\Administrador\InsertarUsuarioSENER.cshtml" />
+    <Content Include="Views\DiasInhabiles\Index.cshtml" />
+    <Content Include="Views\DiasInhabiles\FechasHabiles.cshtml" />
+    <Content Include="Views\Home\ExtravioDeContraseña.cshtml" />
+    <Content Include="Views\Usuarios\CambioDeContraseñaPorExtravio.cshtml" />
+    <Content Include="Views\Home\SolicitudCambioDeContraseña.cshtml" />
+    <Content Include="Views\Tecnologias\ActualizarTecnologia.cshtml" />
+    <Content Include="Views\Tramites\ProyectoTramites.cshtml" />
+    <Content Include="Views\Tramites\EliminarTramite.cshtml" />
+    <Content Include="Views\Tramites\InsertarTramite.cshtml" />
+    <Content Include="Views\Tramites\ActualizarTramite.cshtml" />
+    <None Include="Service References\WSBPM_Nivel3\ProcessNivel3.wsdl" />
+    <Content Include="Views\Usuarios\InsertarUsuarioSENER.cshtml" />
+    <Content Include="Views\RegistrosInversionista\ProyectoTramites.cshtml" />
+    <Content Include="Views\Error\HttpError403.cshtml" />
+    <Content Include="Views\Error\HttpError404.cshtml" />
+    <Content Include="Views\Error\HttpError500.cshtml" />
+    <Content Include="Views\Error\HttpError502.cshtml" />
+    <Content Include="Views\Error\HttpError503.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\Proyectos\ProyectoTramites.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Views\ExportarReporteProyectos\" />
+    <Folder Include="Views\NotificacionIOP\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\NotificacionesIOP\" />
+    <WCFMetadataStorage Include="Service References\NotIOPCENACE\" />
+    <WCFMetadataStorage Include="Service References\ServiceReference1\" />
+    <WCFMetadataStorage Include="Service References\WSBPM_Nivel0\" />
+    <WCFMetadataStorage Include="Service References\WSBPM_Nivel3\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>58012</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:58029/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

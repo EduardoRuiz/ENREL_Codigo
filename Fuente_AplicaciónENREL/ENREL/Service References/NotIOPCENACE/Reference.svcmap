@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="65acd7de-9c64-4d86-9750-389c829ca5b8" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="https://servicios.cenace.gob.mx/vun/VUN.Middleware.vunsvc.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="VUN.xsd" MetadataType="Schema" ID="f4df4559-8c6b-48ef-b949-58588fa6f219" SourceId="1" SourceUrl="https://servicios.cenace.gob.mx/vun/VUN.Middleware.VunSvc.svc?xsd=xsd1" />
+    <MetadataFile FileName="VUN.disco" MetadataType="Disco" ID="ea5a3c91-b4f5-42f8-b8cd-3eb339a8e358" SourceId="1" SourceUrl="https://servicios.cenace.gob.mx/vun/VUN.Middleware.VunSvc.svc?disco" />
+    <MetadataFile FileName="VUN1.xsd" MetadataType="Schema" ID="c6f33502-8b80-489e-abd5-1d43c260d092" SourceId="1" SourceUrl="https://servicios.cenace.gob.mx/vun/VUN.Middleware.VunSvc.svc?xsd=xsd2" />
+    <MetadataFile FileName="VunSvc.wsdl" MetadataType="Wsdl" ID="31a872a0-5772-4864-8683-36857e646a0c" SourceId="1" SourceUrl="https://servicios.cenace.gob.mx/vun/VUN.Middleware.VunSvc.svc?wsdl" />
+    <MetadataFile FileName="VUN2.xsd" MetadataType="Schema" ID="cf38a045-d3ff-430d-860b-1da3e74fe637" SourceId="1" SourceUrl="https://servicios.cenace.gob.mx/vun/VUN.Middleware.VunSvc.svc?xsd=xsd0" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

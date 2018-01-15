@@ -1,0 +1,236 @@
+﻿@model ENREL.Models.RepresentantesLegales.CatRepresentantesLegales
+
+@{
+    ViewBag.Title = "Crear Usuario";
+    string MensajePrivacidad = Session["MensajePrivacidad"].ToString();
+    bool RFCEMP = ViewBag.MostrarDocumento;
+}
+
+<!-- Begin Digital Analytix Tag 1.1302.13 -->
+<script type="text/javascript">
+    udm_('https://sb.scorecardresearch.com/b?c1=2&c2=17183199&ns_site=gobmx&name=SENER.ENREL.REGISTRO.ACREDITACIÓN');
+</script>
+<noscript><p><img src="'https://sb.scorecardresearch.com/b?c1=2&c2=17183199&ns_site=gobmx&id_usuario=null&name=SENER.ENREL.REGISTRO.ACREDITACIÓN" height="1" width="1" alt="*"></p></noscript>
+<!-- End Digital Analytix Tag 1.1302.13 -->
+@*Breadcum*@
+<div class="row" style="margin-top:94px">
+    <div class="col-sm-8">
+        <ol class="breadcrumb">
+            <li>
+                <a target="_blank" href="https://www.gob.mx/">
+                    <i class='icon icon-home'></i>
+                </a>
+            </li>
+            <li>
+                <a target="_blank" href="@Url.Action("Index","Home")">
+                    Inicio
+                </a>
+            </li>
+            <li class="active">
+                Solicitud de registro
+            </li>
+        </ol>
+    </div>
+</div>
+
+@*Título *@
+<h2>Solicitud de registro de usuario </h2>
+<br />
+<div class="row">
+    <div class="col-sm-8">
+        <p>
+            Para finalizar y enviar la solicitud, carga los documentos que se piden a continuación e ingresa tu firma electrónica.
+
+        </p>
+    </div>
+</div>
+<br />
+<br />
+@*Pasos *@
+<div>
+    <ul class="wizard-steps">
+        <li class="completed">
+            <h5>Paso 1</h5>
+            <span>Empresa</span>
+        </li>
+        <li class="completed">
+            <h5>Paso 2</h5>
+            <span>Representante legal</span>
+        </li>
+        <li class="completed">
+            <h5>Paso 3</h5>
+            <span>Usuario operativo</span>
+        </li>
+        <li class="completed">
+            <h5>Paso 4</h5>
+            <span>Enviar</span>
+        </li>
+        <li>
+            <i class="glyphicon glyphicon-ok-circle"></i>
+        </li>
+    </ul>
+</div>
+<br />
+@if (TempData["notice"] != null)
+{
+    <div class="row">
+        <div class="col-md-8">
+            <div id="divAlerta" class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>@TempData["notice"]</strong>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <div id="divAlertaFormulario" class="alert alert-danger alert-dismissible" style="display:none">
+            <strong>Uno o más campos son incorrectos, por favor verifica la información.</strong>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("InsertarPrimerusuario", "RegistrosInversionista", FormMethod.Post, new { id = "Registro_DatosAcreditacion", @class = "ns_", enctype = "multipart/form-data", onsubmit = "ValidarFIEL(event, this)" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div id="MyModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="display:none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Ingresa tu firma electrónica</h4>
+                </div>
+                <div class="modal-body" id="modal-content">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="form-group hidden-xs ">
+                                <label for="file1">Certificado (.cer)<span id="Alerta_file1">*</span>:</label>
+                                <input type="file" name="files" id="file1" onchange="ValidarArchivoFiel(this, event)" />
+                                <small id="Mensaje_file1" style="color: #d0021b"></small>
+                            </div>
+                            <div class="form-group hidden-xs ">
+                                <label for="file2">Llave (.key)<span id="Alerta_file2">*</span>:</label>
+                                <input type="file" name="files" id="file2" onchange="ValidarArchivoFiel(this, event)" />
+                                <small id="Mensaje_file2" style="color: #d0021b"></small>
+                            </div>
+                            <div class="form-group">
+                                <label>RFC:</label>
+                                @Html.TextBox("RFC", (string)@ViewBag.RFCRepresentante, new { @class = "form-control ns_", @readonly = "true" })
+                            </div>
+                            <div class="form-group">
+                                <label>Contraseña<span id="Alerta_RL_ClavePrivada">*</span>:</label>
+                                @Html.TextBoxFor(model => model.RL_ClavePrivada, new { @onblur = "if(MinCaracteres(this,1)){ValidarObjeto(this,event)}", @class = "form-control ns_", @type = "password" })
+                                <small id="Mensaje_RL_ClavePrivada" style="color: #d0021b"></small>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!--Aviso de privacidad colapsable-->
+                    <div class="panel-group ficha-collapse" id="accordion0">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-parent="#accordion" data-toggle="collapse" href="#panel-0" aria-expanded="false" aria-controls="panel-0">
+                                        Aviso de privacidad y protección de datos personales
+                                    </a>
+                                </h4>
+                                <button type="button" class="collpase-button collapsed" data-parent="#accordion" data-toggle="collapse" href="#panel-0"></button>
+                            </div>
+                            <div class="panel-collapse collapse" id="panel-0">
+                                <div class="panel-body">
+                                    La Secretaria de Energía hace de su conocimiento que los datos personales por usted proporcionados en la aplicación de Energías Renovables en Línea (ENRELmx), están protegidos en términos de lo establecido en la Ley General de Protección de Datos Personales en Posesión de Sujetos Obligados y serán utilizados con la siguiente finalidad:
+                                    •	Registro de los promoventes interesados en presentar proyectos.
+                                    •	Contar con la información para la realización de los trámites necesarios.
+                                    •	Hacer llegar las notificaciones y estados de avance de los trámites realizados al titular de los datos proporcionados.
+                                    En caso de requerir el acceso, rectificación, cancelación u oposición al tratamiento de los datos personales que le conciernen de conformidad con los artículos 48, 49, 50, 51 y 52 de la LGPDPPSO podrá tramitar su solicitud ante la Unidad de Transparencia de la Secretaría de Energía con domicilio en Av. Insurgentes Sur No. 890, Planta Baja, Col. Del Valle, C.P. 03100, Ciudad de México, y/o al teléfono (55) 5000-6000 ext. 1441.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-warning">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="LeerCompartirDatos" onchange="AutorizacionInformacionSeleccionada();">
+                                He leído el Aviso de privacidad y protección de datos personales de la Secretaría de Energía.
+                                <br /><br />
+                                <select class='form-control ns_ form-control-error' data-val='true' data-val-number='The field P_IdTecnologia must be a number.' data-val-required='El campo P_IdPregunta es obligatorio.' id="CompartirDatos" name="CompartirDatos" onchange='AutorizacionInformacionSeleccionada();'>
+                                    <option value='0'>Por favor registra tu respuesta:</option>
+                                    <option value='1'>Sí autorizo compartir esta información</option>
+                                    <option value='2'>No autorizo compartir esta información</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                        <div class="pull-left text-muted text-vertical-align-button">
+                            * Campos obligatorios
+                        </div>
+                        <div class="pull-right">
+                            <button class="btn btn-primary btn" id="BtnEnviarRegistro" style="visibility:hidden" type="submit" onclick="javascript: uid_call('SENER.ENREL.REGISTRO.ACREDITACIÓN.BTN_FIRMAR', 'clickin');">Firmar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <small class="form-text">Solo se permiten documentos .PDF con un tamaño máximo de 5MB (megas).</small>
+    <br />
+    <br />
+    <div class="col-md-8">
+        @if (RFCEMP)
+        {
+            <div class="row">
+                <label class="control-label">Acta constitutiva<span id="Alerta_RL_ActaConstitutiva">*</span>:</label>
+                <input type="file" name="ActaConstitutiva" id="RL_ActaConstitutiva" onchange="ValidarArchivos(this, event)" maxlength="5000" accept="application/pdf" />
+                <small id="Mensaje_RL_ActaConstitutiva" style="color: #d0021b"></small>
+            </div>
+            <br />
+
+            <div class="row">
+                <label>Poder notarial<span id="Alerta_RL_PoderNotarial">*</span>:</label>
+                <input type="file" name="PoderNotarial" id="RL_PoderNotarial" onchange="ValidarArchivos(this, event)" maxlength="5000" accept="application/pdf" />
+                <small id="Mensaje_RL_PoderNotarial" style="color: #d0021b"></small>
+            </div>
+            <br />
+        }
+
+        <div class="row">
+            <label>Cédula RFC<span id="Alerta_RL_CedulaRFC">*</span>:</label>
+            <input type="file" name="CedulaRFC" id="RL_CedulaRFC" onchange="ValidarArchivos(this, event)" maxlength="5000" accept="application/pdf" />
+            <small id="Mensaje_RL_CedulaRFC" style="color: #d0021b"></small>
+        </div>
+        <br />
+
+        <div class="row">
+            <label class="control-label">Identificación oficial<span id="Alerta_RL_NumIdenOficial">*</span>:</label>
+            <input type="file" name="NumIdenOficial" id="RL_NumIdenOficial" onchange="ValidarArchivos(this, event)" maxlength="5000" accept="application/pdf" />
+            <small id="Mensaje_RL_NumIdenOficial" style="color: #d0021b"></small>
+        </div>
+
+    </div>
+
+
+    <div class="col-md-8 col-md-offset-4">
+        <hr>
+    </div>
+    <div class="clearfix">
+        <div class="pull-left text-muted text-vertical-align-button">
+            * Campos obligatorios
+        </div>
+
+        <div class="pull-right">
+            <button class="btn btn-default btn" type="button" onclick="javascript: uid_call('SENER.ENREL.REGISTRO.ACREDITACIÓN.BTN_REGRESAR', 'clickin'); Registro_RegresarAUsuario();">Regresar</button>
+            <button class="btn btn-primary btn" type="button" onclick="javascript: uid_call('SENER.ENREL.REGISTRO.ACREDITACIÓN.BTN_SIGUIENTE', 'clickin');if (ValidarFormulario(event, $('#Registro_DatosAcreditacion'))) { PedirFIEL(); }">Solicitar</button>
+        </div>
+    </div>
+
+
+}
+
+
+

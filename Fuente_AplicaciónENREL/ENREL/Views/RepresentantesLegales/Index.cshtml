@@ -1,0 +1,129 @@
+﻿@model IEnumerable<ENREL.Models.RepresentantesLegales.CatRepresentantesLegales>
+
+    @{
+        ViewBag.Title = "Representantes legales";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+        string NombreUsuarioSession = "";
+        if (Session["NombreUsuario"] != null)
+        {
+            NombreUsuarioSession = Session["NombreUsuario"].ToString();
+        }
+
+    }
+    <!-- Begin Digital Analytix Tag 1.1302.13 -->
+    <script type="text/javascript">
+        udm_('https://sb.scorecardresearch.com/b?c1=2&c2=17183199&ns_site=gobmx&name=SENER.ENREL.INVERSIONISTA.REPRESENTANTES.CATÁLOGO');
+    </script>
+    <noscript><p><img src="'https://sb.scorecardresearch.com/b?c1=2&c2=17183199&ns_site=gobmx&id_usuario=' + @NombreUsuarioSession + '&name=SENER.ENREL.INVERSIONISTA.REPRESENTANTES.CATÁLOGO" height="1" width="1" alt="*"></p></noscript>
+    <!-- End Digital Analytix Tag 1.1302.13 -->
+    @*Breadcum y usuario*@
+    <div class="row" style="margin-top:94px">
+        <div class="col-sm-8">
+            <ol class="breadcrumb">
+                <li><a href="https://www.gob.mx/" target="_blank"><i class="icon icon-home"></i></a></li>
+                <li><a href="@Url.Action("InicioInversionista","Home")">Inicio</a></li>
+                <li class="active">Representantes legales</li>
+            </ol>
+        </div>
+        <div class="col-sm-4">
+            <div class="user-credencials">
+                <ul class="list-unstyled">
+                    <li>
+                        <span class="user-credencials__name">@NombreUsuarioSession</span>
+                        <button type="button" class="btn btn-link pull-right" onclick="javascript: uid_call('SENER.ENREL.INVERSIONISTA.BTN_CERRARSESIÓN', 'clickout'); location.href = '@Url.Action("Logout", "Home" )'">Salir</button>
+                    </li>
+                    <li><a href="@Url.Action("Actualizar", "Usuarios" )">Modificar usuario</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    @*Título *@
+    <h2>Representantes legales </h2>
+    <div class="bottom-buffer"></div>
+
+
+    @*Alertas:*@
+    @if (TempData["notice"] != null)
+    {
+        <div id="divAlerta" class="alert alert-warning alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>@TempData["notice"]</strong>
+        </div>
+    }
+
+    <table class="table" style="width:100%;">
+        <thead>
+            <tr>
+                <th>
+                    Representante
+                </th>
+                <th>
+                    Estatus
+                </th>
+                <th>
+                    Observaciones
+                </th>
+                <th style="text-align:center;">
+                    Acción
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(emp => item.RL_Nombre)
+                    </td>
+                    <td>
+                        @if (item.RL_IdEstatusSolicitudRepresentante == 1)
+                        {
+                            @Html.Label("Validación pendiente")
+                        }
+                        @if (item.RL_IdEstatusSolicitudRepresentante == 2)
+                        {
+                            @Html.Label("Rechazado(a)")
+                        }
+                        @if (item.RL_IdEstatusSolicitudRepresentante == 3)
+                        {
+                            @Html.Label("Aprobado(a)")
+                        }
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(emp => item.RL_Observaciones)
+                    </td>
+                    <td style="width:130px;text-align:center">
+                        <span style="float:inherit;">
+                            @using (Html.BeginForm("Detalles", "RepresentantesLegales", FormMethod.Post, new { id = "Index_DetallesProyectos", @class = "ns_", enctype = "multipart/form-data", style = "display:inline-block;" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" value="@item.RL_IdRepresentanteLegal" id="IdRepresentanteLegal" name="IdRepresentanteLegal" />
+                                <button type="submit" style="background:none; outline:none; border:none" onclick="javascript: uid_call('SENER.ENREL.INVERSIONISTA.REPRESENTANTES.CATÁLOGO_DETALLE.BTN_SUBMIT', 'clickin');"><i class="glyphicon glyphicon-eye-open" style="color:black" data-toggle="tooltip" data-placement="top" title="Detalles del representante."></i></button>
+                            }
+                        </span>
+                        <span style="float:inherit;">
+                            @using (Html.BeginForm("Actualizar", "RepresentantesLegales", FormMethod.Post, new { id = "Index_INERE", @class = "ns_", enctype = "multipart/form-data", style = "display:inline-block;" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" value="@item.RL_IdRepresentanteLegal" id="IdRepresentanteLegal" name="IdRepresentanteLegal" />
+                                <button type="submit" style="background:none; outline:none; border:none" onclick="javascript: uid_call('SENER.ENREL.INVERSIONISTA.REPRESENTANTES.CATÁLOGO_ACTUALIZAR.BTN_SUBMIT', 'clickin');"><i class="glyphicon glyphicon-pencil" style="color:black" data-toggle="tooltip" data-placement="top" title="Actualizar representante."></i></button>
+                            }
+                        </span>
+                        <span style="float:inherit;">
+                            @using (Html.BeginForm("Eliminar", "RepresentantesLegales", FormMethod.Post, new { id = "Index_EliminarRepresentante", @class = "ns_", enctype = "multipart/form-data", style = "display:inline-block;" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" value="@item.RL_IdRepresentanteLegal" id="IdRepresentanteLegal" name="IdRepresentanteLegal" />
+                                <button type="submit" style="background:none; outline:none; border:none" onclick="javascript: uid_call('SENER.ENREL.INVERSIONISTA.REPRESENTANTES.CATÁLOGO_ELIMINAR.BTN_SUBMIT', 'clickin');"><i class="glyphicon glyphicon-trash" style="color:black" data-toggle="tooltip" data-placement="top" title="Eliminar representante."></i></button>
+                            }
+                        </span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+

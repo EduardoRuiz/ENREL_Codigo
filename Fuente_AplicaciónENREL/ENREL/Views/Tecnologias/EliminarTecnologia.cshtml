@@ -1,0 +1,74 @@
+﻿@model ENREL.Models.Tecnologias.CatTecnologias
+@{
+    ViewBag.Title = "Eliminar Tecnología";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string NombreUsuarioSession = "";
+    if (Session["NombreUsuario"] != null)
+    {
+        NombreUsuarioSession = Session["NombreUsuario"].ToString();
+    }
+}
+
+@*Breadcum y usuario*@
+<div class="row" style="margin-top:94px">
+    <div class="col-sm-8">
+        <ol class="breadcrumb">
+            <li><a href="https://www.gob.mx/" target="_blank"><i class="icon icon-home"></i></a></li>
+            <li><a href="@Url.Action("InicioAdministrador","Home")">Inicio</a></li>
+            <li><a href="@Url.Action("Index","Tecnologias")">Representantes Legales</a></li>
+            <li class="active">Eliminar tecnología</li>
+        </ol>
+    </div>
+    <div class="col-sm-4">
+        <div class="user-credencials">
+            <ul class="list-unstyled">
+                <li>
+                    <span class="user-credencials__name">@NombreUsuarioSession</span>
+                    <button type="button" class="btn btn-link pull-right" onclick="javascript: uid_call('SENER.ENREL.INVERSIONISTA.BTN_CERRARSESIÓN', 'clickout'); location.href = '@Url.Action("Logout", "Home")'">Salir</button>
+                </li>
+                <li><a href="@Url.Action("Actualizar", "Usuarios")">Modificar usuario</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+@*Título y descripción: *@
+<h3>Eliminar empresa </h3>
+<br />
+<div class="row">
+    <div class="col-sm-8">
+        <div class="bottom-buffer">
+            <p>
+                ¿Estas seguro(a) de que deseas eliminar la tecnología "@ViewBag.NombreTecnologia"? Le recordamos que esta acción surgirá efecto a partir de la creación de nuevos
+                proyectos y no afectará a los proyectos que ya hayan iniciado.
+            </p>
+        </div>
+    </div>
+</div>
+
+@*Contenido: *@
+<div style="width:100%;">
+    @using (Html.BeginForm("EjecutarAccionTecnología", "Tecnologias", new { Accion = "Eliminar" }, FormMethod.Post, new { id = "EliminarTecnologia", enctype = "multipart/form-data", @class = "clearfix" }))
+    {
+        @Html.AntiForgeryToken()
+        if (TempData["notice"] != null)
+        {
+            <div class="caption">
+                <div id="divAlerta" class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>@TempData["notice"]</strong>
+                </div>
+            </div>
+        }
+
+        <div class="clearfix">
+                <div class="pull-left">
+                    <button class="btn btn-danger btn" type="submit">Eliminar</button>
+                </div>
+            </div>
+
+        @Html.HiddenFor(model => model.IdTecnologia);
+
+
+    }
+</div>

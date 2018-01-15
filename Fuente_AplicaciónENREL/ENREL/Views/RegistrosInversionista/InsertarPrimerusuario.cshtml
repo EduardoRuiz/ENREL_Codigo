@@ -1,0 +1,112 @@
+﻿@{
+    ViewBag.Title = "Solicitud Enviada";
+}
+
+<!-- Begin Digital Analytix Tag 1.1302.13 -->
+<script type="text/javascript">
+    udm_('https://sb.scorecardresearch.com/b?c1=2&c2=17183199&ns_site=gobmx&name=SENER.ENREL.REGISTRO.FINALIZADO');
+</script>
+<noscript><p><img src="'https://sb.scorecardresearch.com/b?c1=2&c2=17183199&ns_site=gobmx&id_usuario=null&name=SENER.ENREL.REGISTRO.AUTORIZADO" height="1" width="1" alt="*"></p></noscript>
+<!-- End Digital Analytix Tag 1.1302.13 -->
+@*Breadcum: *@
+<div class="row" style="margin-top:94px">
+    <div class="col-sm-8">
+        <ol class="breadcrumb">
+            <li>
+                <a href="https://www.gob.mx/">
+                    <i class='icon icon-home'></i>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index","Home")">
+                    Inicio
+                </a>
+            </li>
+            <li class="active">
+                Solicitud de registro
+            </li>
+        </ol>
+    </div>
+</div>
+@*<div >
+        <table style="width:100%;margin-top:94px">
+            <tr>
+                <td style="width:49%; text-align:left; vertical-align:top">
+                    <ol class='breadcrumb' style="padding:8px 8px 8px 8px; margin-bottom:0px;">
+                        <li>
+                            <a href="https://www.gob.mx/">
+                                <i class='icon icon-home'></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index","Home")">
+                                Inicio
+                            </a>
+                        </li>
+                        <li class="active">
+                            Solicitud de registro
+                        </li>
+                    </ol>
+                </td>
+            </tr>
+        </table>
+    </div>*@
+
+@*Título *@
+<h2>Solicitud de registro de usuario </h2>
+<br />
+
+
+
+<div class="row">
+    <div class="col-sm-8">
+
+        @if (TempData["notice"] != null)
+        {
+            <div class="form-group">
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>@TempData["notice"]</strong>
+                </div>
+            </div>
+        }
+
+        <p>
+            Agradecemos tu registro. Recibirás un correo con tus datos de acceso una vez que se haya validado la
+            información. Para ir a la página de inicio haz click <a href="@Url.Action("Index","Home")" onclick="javascript: uid_call('SENER.ENREL.REGISTRO.FINALIZADO.LNK_INICIO', 'clickin');"><b>aquí</b></a>.
+        </p>
+    </div>
+</div>
+<br />
+<br />
+@*Pasos *@
+<div>
+    <ul class="wizard-steps">
+        <li class="completed">
+            <h5>Paso 1</h5>
+            <span>Empresa</span>
+        </li>
+        <li class="completed">
+            <h5>Paso 2</h5>
+            <span>Representante legal</span>
+        </li>
+        <li class="completed">
+            <h5>Paso 3</h5>
+            <span>Usuario operativo</span>
+        </li>
+        <li class="completed">
+            <h5>Paso 4</h5>
+            <span>Enviar</span>
+        </li>
+        <li class="success">
+            <i class="glyphicon glyphicon-ok-circle"></i>
+        </li>
+    </ul>
+</div>
+<br />
+
+
+
+<br />
+<br />
+

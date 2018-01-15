@@ -1,0 +1,225 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" type="image/x-icon" href="~/Content/Imagenes/favicon.ico">
+        <title>@ViewBag.Title - ENREL</title>
+
+        @*Hojas de estilos: *@
+        <link href="https://framework-gb.cdn.gob.mx/assets/styles/main.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://js.arcgis.com/3.15/esri/css/esri.css">
+        <link href="~/CSS/joint.min.css" rel="stylesheet" />
+        <link href="~/CSS/ENREL.css" rel="stylesheet" />
+
+        @*Librerías :*@
+        <script src="~/scripts/Joint/jquery.min.js"></script>
+        <script src="https://framework-gb.cdn.gob.mx/gobmx.js"></script>
+        <link href="~/scripts/Joint/joint.min.css" rel="stylesheet" />
+        <script src="~/scripts/Joint/lodash.min.js"></script>
+        <script src="~/scripts/Joint/backbone-min.js"></script>
+        <script src="~/scripts/Joint/joint.min.js"></script>
+        <script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
+        
+        <script type="text/javascript" src="https://sb.scorecardresearch.com/c2/17183199/ct.js"></script>
+        <script src="https://framework-gb.cdn.gob.mx/data/encuesta_v1.0/encuestas.js"> </script>
+
+        <script src="~/scripts/enrel/Actualizaciones.js"></script>
+        <script src="~/scripts/enrel/Validaciones.js"></script>
+        <script src="~/scripts/enrel/VentanasModales.js"></script>
+        <script src="~/scripts/enrel/Reportes.js"></script>
+        <script src="~/scripts/enrel/General.js"></script>
+
+        <link href="/favicon.ico" rel="shortcut icon">
+
+
+
+    </head>
+
+    @{
+        string TipoUsuarioSession = "";
+        string IdEmpresaSession = "";
+        string NombreUsuarioSession = "";
+        string IdUsuario = "";
+        string TipoAlerta = "";
+
+        if (Session["TipoAlerta"] != null && Session["TipoAlerta"].ToString() != "")
+        {
+            TipoAlerta = Session["TipoAlerta"].ToString();
+        }
+
+        if (Session["TipoUsuario"] != null && Session["TipoUsuario"].ToString() != "" && Session["TipoUsuario"].ToString()!= "No disponible")
+        {
+            TipoUsuarioSession = Session["TipoUsuario"].ToString();
+            IdUsuario = Session["IdUsuario"].ToString();
+        }
+        else
+        {
+            TipoUsuarioSession = "No disponible";
+        }
+        
+        if (Session["IdEmpresa"] != null)
+        {
+            IdEmpresaSession = Session["IdEmpresa"].ToString();
+        }
+        if (Session["NombreUsuario"] != null)
+        {
+            NombreUsuarioSession = Session["NombreUsuario"].ToString();
+        }
+    }
+
+<body>
+
+    @*Imágen página de inicio: *@
+    @if (ViewBag.Title == "Inicio")
+    {
+        <div id="ImagenInicio" class="flag-banner">
+            <img class="img-banner" src="~/Content/Imagenes/ImagenInicio1.jpg" style="width:100%" />
+        </div>
+    }
+
+
+    @*Menu de navegación: *@
+    <nav id="MenuEnrel" class="navbar navbar-inverse sub-navbar navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#subenlaces">
+                    <span class="sr-only">Interruptor de Navegación</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="https://www.gob.mx/sener" target="_blank">SENER</a>
+            </div>
+            <div class="collapse navbar-collapse" id="subenlaces">
+                <ul class="nav navbar-nav navbar-right">
+
+                    @if (ViewBag.Title == "Inicio" || TipoUsuarioSession == "No disponible")
+                    {
+                        <li><a href="@Url.Action("Index", "RegistrosInversionista")">Regístrate</a></li>
+                    }
+
+                    @if (TipoUsuarioSession == "Inversionista" || TipoUsuarioSession == "No disponible")
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Información <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="@Url.Action("DescripcionAplicacion", "Home")" data-toggle="tooltip" data-placement="top" title="">
+                                        ¿Qué es ENREL?
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("GuiaDeUso", "Home")" data-toggle="tooltip" data-placement="top" title="">
+                                        Guía de uso
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a target="_blank" href="https://dgel.energia.gob.mx/inere" data-toggle="tooltip" data-placement="top" title=""> 
+                                Descubre INERE
+                            </a>
+                        </li>
+                    }
+
+                    @if (TipoUsuarioSession == "Inversionista")
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Empresa <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="@Url.Action("Detalles", "Empresas")">Información</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Representantes <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="@Url.Action("Index", "RepresentantesLegales")">Catálogo de representantes</a></li>
+                                <li><a href="@Url.Action("Insertar", "RepresentantesLegales")">Nuevo representante</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Usuarios <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="@Url.Action("Index", "Usuarios")">Catálogo de usuarios</a></li>
+                                <li><a href="@Url.Action("Insertar", "Usuarios")">Nuevo usuario</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Proyectos <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="@Url.Action("Index", "Proyectos")">Catálogo de proyectos</a></li>
+                                <li><a href="@Url.Action("Insertar", "Proyectos")">Nuevo proyecto</a></li>
+                            </ul>
+                        </li>
+                    }
+
+                    @if (TipoUsuarioSession == "UsuarioOperativo")
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Proyectos <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="@Url.Action("Index", "Proyectos")">Catálogo de proyectos</a></li>
+                                <li><a href="@Url.Action("Insertar", "Proyectos")">Nuevo proyecto</a></li>
+                            </ul>
+                        </li>
+                    }
+
+                    @if (TipoUsuarioSession == "Consultor" || TipoUsuarioSession == "Administrador")
+                    {
+                        <li><a href="@Url.Action("Index", "Consultor")">Reportes</a></li>
+
+                    }
+
+                    @if (TipoUsuarioSession == "Administrador")
+                    {
+                        <li>
+                            <a href="@Url.Action("GestionarSolicitudesRegistro", "Administrador")" data-toggle="tooltip" data-placement="top" title="">
+                                Solicitudes
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span>Usuarios SENER</span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="@Url.Action("GestionUsuariosSENER", "Administrador")">Gestionar usuarios</a></li>
+                                <li><a href="@Url.Action("InsertarUsuarioSENER", "Usuarios")">Nuevo usuario</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("GestionDiasInhabiles", "Administrador")" data-toggle="tooltip" data-placement="top" title="">
+                                Calendario
+                            </a>
+                        </li>
+                        @*<li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span>Tecnologías</span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="@Url.Action("Index", "Tecnologias")">Gestionar tecnologías</a></li>
+                                <li><a href="@Url.Action("Insertar", "Tecnologias")">Nueva tecnología</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span>Tramites</span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="@Url.Action("Index", "Tramites")">Gestionar trámites</a></li>
+                                <li><a href="@Url.Action("InsertarTramite", "Tramites")">Nuevo trámite</a></li>
+                            </ul>
+                        </li>*@
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    @*Contenido de la página*@
+
+    <div id="Contenido" class="container">
+        @RenderBody()
+    </div>
+    <div class="bottom-buffer"></div>
+    <input type="hidden" id="TipoAlerta" value="@TipoAlerta" />
+
+</body>
+
+</html>

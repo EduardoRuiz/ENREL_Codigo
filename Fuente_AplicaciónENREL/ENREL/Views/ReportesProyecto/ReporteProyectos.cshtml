@@ -1,0 +1,243 @@
+﻿@model IList<ENREL.Models.Proyectos.CatProyectos>
+    @{
+        ViewBag.Title = "InformacionProyectosRegistrados";
+        WebGrid grid = new WebGrid(source: ViewBag.ListadoProyectos, rowsPerPage: 10, canSort: false, canPage: true);
+        string NombreUsuarioSession = "";
+        string TipoUsuarioSession = "";
+        if (Session["TipoUsuario"] != null && Session["TipoUsuario"].ToString() != "")
+        {
+            TipoUsuarioSession = Session["TipoUsuario"].ToString();
+        }
+        if (Session["NombreUsuario"] != null)
+        {
+            NombreUsuarioSession = Session["NombreUsuario"].ToString();
+        }
+    }
+
+    @*Breadcum y usuario*@
+    <div class="row" style="margin-top:94px">
+        <div class="col-sm-8">
+            <ol class="breadcrumb">
+                <li><a href="https://www.gob.mx/" target="_blank"><i class="icon icon-home"></i></a></li>
+                <li><a href="@Url.Action("Index","Consultor")">Inicio</a></li>
+                <li class="active">Información de proyectos registrados</li>
+            </ol>
+        </div>
+        <div class="col-sm-4">
+            <div class="user-credencials">
+                <ul class="list-unstyled">
+                    <li>
+                        <span class="user-credencials__name">@NombreUsuarioSession</span>
+                        <button type="button" class="btn btn-link pull-right" onclick="javascript: uid_call('SENER.ENREL.INVERSIONISTA.BTN_CERRARSESIÓN', 'clickout'); location.href = '@Url.Action("Logout", "Home")'">Salir</button>
+                    </li>
+                    <li><a href="@Url.Action("Actualizar", "Usuarios")">Modificar usuario</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    @*Título *@
+    <h2>Información sobre los proyectos <br /> registrados en ENREL</h2>
+    <div class="bottom-buffer"></div>
+
+    <h4>
+        Filtro
+    </h4>
+    <hr class="red" />
+
+    @*Contenido *@
+
+    @using (Html.BeginForm("ReporteProyectos", "ReportesProyecto", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <input type="hidden" value="" id="IdEstado" />
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Estado:</label>
+                    @Html.DropDownList("selectedEntidad", ViewBag.Estados as IEnumerable<SelectListItem>, "Selecciona un estado", htmlAttributes: new { @class = "form-control ns_", @onchange = "javascript: this.form.submit();" })
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Municipio:</label>
+                    @Html.DropDownList("IdMunicipio", ViewBag.Municipios as IEnumerable<SelectListItem>, "Selecciona tu municipio", htmlAttributes: new { @class = "form-control ns_", @onchange = "javascript: this.form.submit();" })
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Empresa:</label>
+                    @Html.DropDownList("selectedEmpresa", ViewBag.ListadoEmpresas as IEnumerable<SelectListItem>, "Selecciona empresa", htmlAttributes: new { @class = "form-control ns_", @onchange = "javascript: this.form.submit();" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Estatus del proyecto:</label>
+                    @Html.DropDownList("selectedEstatusP", ViewBag.ListaEstatusP as IEnumerable<SelectListItem>, "Selecciona estatus del proyecto", htmlAttributes: new { @class = "form-control ns_", @onchange = "javascript: this.form.submit();" })
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Desde:</label>
+                    <div class="form-group datepicker-group">
+                        <input class="form-control ns_" id="FechaInicio" type="text" name="FechaInicio" value='@TempData["fechainicio"]' onchange="javascript: this.form.submit();">
+                        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Hasta:</label>
+                    <div class="form-group datepicker-group">
+                        <input class="form-control ns_" id="FechaFin" type="text" name="FechaFin" value='@TempData["FechaFin"]' onchange="javascript: this.form.submit();">
+                        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <br />
+    <h4>
+        Reporte
+    </h4>
+    <hr class="red" />
+
+
+    @if (Model.Count() > 0)
+    {
+        <div>
+            <input type="button" value="XML" onclick="location.href='@Url.Action("ExportToXML", "ReportesProyecto")'" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Exportar reporte a XML" style="display:inline-block" />
+            <input type="button" value="TXT" onclick="location.href='@Url.Action("ExportToTxt", "ReportesProyecto")'" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Exportar reporte a TXT" style="display:inline-block" />
+            <input type="button" value="CSV" onclick="location.href='@Url.Action("ExportToCsv", "ReportesProyecto")'" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Exportar reporte a CSV" style="display:inline-block" />
+            <input type="button" value="Excel" onclick="location.href='@Url.Action("ExportarExcel", "ReportesProyecto")'" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Exportar reporte a Excel" style="display:inline-block" />
+            <input type="button" value="PDF" onclick="location.href='@Url.Action("PDF", "ReportesProyecto")'" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Exportar reporte a PDF" style="display:inline-block" />
+        </div>
+        <br />
+        @grid.GetHtml(
+                        tableStyle: "table table-responsive table-striped",
+                        headerStyle: "table table-responsive table-striped",
+                       footerStyle: "table table-responsive",
+                      mode: WebGridPagerModes.All,
+                      firstText: "<<Primero",
+                      lastText: "Último>>",
+
+                      columns: new[]
+                      {
+                        grid.Column("P_EntidadFederativa", "Estado" ),
+                        grid.Column("P_Municipio", "Municipio"),
+                        grid.Column("P_Empresa" ,"Empresa"),
+                        grid.Column("P_NombreProyecto", "Proyecto"),
+                        grid.Column("P_Tecnologia", "Tecnología"),
+                        grid.Column("P_EstatusProyecto", "Estatus"),
+                        grid.Column("P_FechaRegistro", "Registro"),
+                        grid.Column("P_MontoInversion", "Inversión*"),
+                        grid.Column(header: "Edit", format: @<text><a href="@Url.Action("ReporteTramites", "ReporteTramites", new { idProyecto = item.P_IdProyecto })"><i class="glyphicon glyphicon-th-list" style="color:black" data-toggle="tooltip" data-placement="top" title="Ir a tramites"></i></a></text>, style: "colOperation")
+
+                      })
+        <br />
+        <small>*Monto de inversión en dólares (usd)</small>
+    }
+
+    <br />
+    <br />
+    <br />
+
+    @*Título *@
+    <h4>
+        Gráficos descriptivos
+    </h4>
+    <hr class="red" />
+    <h4>
+        Porcentaje de proyectos por tecnologías
+    </h4>
+    <br />
+    <p>Descripción: Número de proyectos existentes en la base de datos y porcentaje por cada tecnología.</p>
+    <br />
+    <div id="chart_div1"></div>
+
+    <br />
+    <h4>
+        Número de proyectos por estado
+    </h4>
+    <br />
+    <p>Descripción: Número de proyectos existentes en la base de datos por cada estado.</p>
+    <br />
+    <div id="chart_div2"></div>
+
+
+    <script src="~/scripts/graficas/loader.js"></script>
+
+    <script type="text/javascript">
+
+        $(function () {
+            try {
+                //Inicializa DatePickers
+                $('#FechaInicio').datepicker({ changeYear: true });
+                $('#FechaFin').datepicker({ changeYear: true });
+            }
+            catch (error) {
+                //alert(error.message);
+            }
+        });
+
+        try {
+            google.charts.load('current', { 'packages': ['corechart'] });
+            var data1 = JSON.parse('@ViewBag.ProyectosPorTecnologia');
+            if (data1.length > 1) { google.charts.setOnLoadCallback(drawChart1); }
+            else { document.getElementById('chart_div1').textContent = "Sin información disponible"; }
+
+            var data2 = JSON.parse('@ViewBag.ProyectosPorEntidadFederativa');
+            if (data2.length > 1) { google.charts.setOnLoadCallback(drawChart2); }
+            else { document.getElementById('chart_div2').textContent = "Sin información disponible"; }
+        }
+        catch (error) {
+            //alert(error.message);
+        }
+
+        //Dibuja gráfica
+        function drawChart1() {
+            if (data1.length > 1) {
+                var chartData = new google.visualization.arrayToDataTable(data1);
+                var options = {
+                    'title': '',
+                    'width': 1000,
+                    'height': 500
+                };
+
+                var chart = new google.visualization.PieChart(document.getElementById('chart_div1'));
+                chart.draw(chartData, options);
+            }
+            else {
+                document.getElementById('chart_div1').textContent = "Sin información disponible";
+            }
+
+        }
+
+        function drawChart2() {
+            if (data2.length > 1) {
+                var chartData = new google.visualization.arrayToDataTable(data2);
+
+                var options = {
+                    'title': '',
+                    'width': 1000,
+                    'height': 500
+                };
+
+                var chart = new google.visualization.ColumnChart(document.getElementById('chart_div2'));
+                chart.draw(chartData, options);
+            }
+            else {
+                document.getElementById('chart_div2').textContent = "Sin información disponible";
+            }
+
+        }
+
+
+
+    </script>
+
+
+

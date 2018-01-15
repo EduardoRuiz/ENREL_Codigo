@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://xmlns.oracle.com/bpmn/bpmnProcess/ProcessNivel0" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" targetNamespace="http://xmlns.oracle.com/bpmn/bpmnProcess/ProcessNivel0" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation>
+    <abstractWSDL>http://senerbpm03-ib:8001/soa-infra/services/default/Nivel1!1.0/WSDLs/ProcessNivel0.wsdl</abstractWSDL>
+  </wsdl:documentation>
+  <plnk:partnerLinkType name="ProcessNivel0PortTypePartnerLinkType">
+    <plnk:role name="ProcessNivel0PortTypeProvider">
+      <plnk:portType name="tns:ProcessNivel0PortType" />
+    </plnk:role>
+  </plnk:partnerLinkType>
+  <wsp:Policy xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" wsu:Id="wsaddr_policy" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
+    <wsaw:UsingAddressing xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" />
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://xmlns.oracle.com/bpmn/bpmnProcess/ProcessNivel0">
+      <xsd:element name="FinNivel0Response">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="Resultado" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="InicioNivel0">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="Idproyecto" type="xsd:string" />
+            <xsd:element name="Idtecnologia" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="InicioNivel0">
+    <wsdl:part name="parameters" element="tns:InicioNivel0" />
+  </wsdl:message>
+  <wsdl:message name="FinNivel0Response">
+    <wsdl:part name="parameters" element="tns:FinNivel0Response" />
+  </wsdl:message>
+  <wsdl:portType name="ProcessNivel0PortType">
+    <wsdl:operation name="InicioNivel0">
+      <wsdl:input message="tns:InicioNivel0" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="ProcessNivel0PortTypeCallBack">
+    <wsdl:operation name="FinNivel0">
+      <wsdl:input message="tns:FinNivel0Response" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ProcessNivel0Binding" type="tns:ProcessNivel0PortType">
+    <wsdlsoap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsp:PolicyReference xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" URI="#wsaddr_policy" wsdl:required="false" />
+    <wsdl:operation name="InicioNivel0">
+      <wsdlsoap:operation soapAction="InicioNivel0" style="document" />
+      <wsdl:input>
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ProcessNivel0PortTypeCallBackBinding" type="tns:ProcessNivel0PortTypeCallBack">
+    <wsdlsoap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="FinNivel0">
+      <wsdlsoap:operation soapAction="FinNivel0" style="document" />
+      <wsdl:input>
+        <wsdlsoap:body use="literal" namespace="http://xmlns.oracle.com/bpmn/bpmnProcess/ProcessNivel0" />
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ProcessNivel0.service">
+    <wsdl:port name="ProcessNivel0PortType" binding="tns:ProcessNivel0Binding">
+      <wsdlsoap:address location="http://senerbpm03-ib:8001/soa-infra/services/default/Nivel1/ProcessNivel0.service" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

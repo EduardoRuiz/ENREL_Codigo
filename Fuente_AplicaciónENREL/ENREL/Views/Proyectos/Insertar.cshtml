@@ -1,0 +1,288 @@
+﻿@model ENREL.Models.Proyectos.CatProyectos
+@{
+    ViewBag.Title = "Crear Proyecto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    WebGrid grid = new WebGrid(source: ViewBag.ListaPreguntas, rowsPerPage: 10, canSort: false, canPage: true);
+
+    string NombreUsuarioSession = "";
+    if (Session["NombreUsuario"] != null)
+    {
+        NombreUsuarioSession = Session["NombreUsuario"].ToString();
+    }
+    string MensajePrivacidad = Session["MensajePrivacidad"].ToString();
+}
+
+<!-- Begin Digital Analytix Tag 1.1302.13 -->
+<script type="text/javascript">
+    udm_('https://sb.scorecardresearch.com/b?c1=2&c2=17183199&ns_site=gobmx&name=SENER.ENREL.INVERSIONISTA.PROYECTOS.NUEVO_PROYECTO');
+</script>
+<noscript><p><img src="'https://sb.scorecardresearch.com/b?c1=2&c2=17183199&ns_site=gobmx&id_usuario=' + @NombreUsuarioSession + '&name=SENER.ENREL.INVERSIONISTA.PROYECTOS.NUEVO_PROYECTO" height="1" width="1" alt="*"></p></noscript>
+
+<!-- End Digital Analytix Tag 1.1302.13 -->
+@*Breadcum y usuario*@
+<div class="row" style="margin-top:94px">
+    <div class="col-sm-8">
+        <ol class="breadcrumb">
+            <li><a href="https://www.gob.mx/" target="_blank"><i class="icon icon-home"></i></a></li>
+            <li><a href="@Url.Action("InicioInversionista","Home")">Inicio</a></li>
+            <li><a href="@Url.Action("Index","Proyectos")">Proyectos</a></li>
+            <li class="active">Crear proyecto</li>
+        </ol>
+    </div>
+    <div class="col-sm-4">
+        <div class="user-credencials">
+            <ul class="list-unstyled">
+                <li>
+                    <span class="user-credencials__name">@NombreUsuarioSession</span>
+                    <button type="button" class="btn btn-link pull-right" onclick="javascript: uid_call('SENER.ENREL.INVERSIONISTA.BTN_CERRARSESIÓN', 'clickout'); location.href = '@Url.Action("Logout", "Home")'">Salir</button>
+                </li>
+                <li><a href="@Url.Action("Actualizar", "Usuarios")">Modificar usuario</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+@*Título *@
+<h2>Crear proyecto </h2>
+<div class="bottom-buffer"></div>
+<div class="row">
+    <div class="col-sm-8">
+        <div class="bottom-buffer">
+            <p>
+                Registra la información sobre tu proyecto que se solicita a continuación.
+            </p>
+        </div>
+    </div>
+</div>
+
+@*Contenido: *@
+
+@if (TempData["notice"] != null)
+{
+    <div id="divAlerta" class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>@TempData["notice"]</strong>
+    </div>
+}
+
+<div id="divAlertaFormulario" class="alert alert-danger alert-dismissible" style="display:none">
+    <strong>Uno o más campos son incorrectos, por favor verifica la información.</strong>
+</div>
+
+<div style="width:100%;">
+    @using (Html.BeginForm("Metodo_InsertarProyecto", "Proyectos", new { Accion = "Insertar", @class="ns_" }, FormMethod.Post, new { onsubmit = "ValidarFIEL(event, this)", id = "InsertarProyecto", enctype = "multipart/form-data", @class = "clearfix" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div id="MyModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="display:none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Ingresa tu firma electrónica</h4>
+                    </div>
+                    <div class="modal-body" id="modal-content">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="form-group hidden-xs ">
+                                    <label for="file1">Certificado (.cer)<span id="Alerta_file1">*</span>:</label>
+                                    <input type="file" name="files" id="file1" onchange="ValidarArchivoFiel(this, event)" />
+                                    <small id="Mensaje_file1" style="color: #d0021b"></small>
+                                </div>
+                                <div class="form-group hidden-xs ">
+                                    <label for="file2">Llave (.key)<span id="Alerta_file2">*</span>:</label>
+                                    <input type="file" name="files" id="file2" onchange="ValidarArchivoFiel(this, event)" />
+                                    <small id="Mensaje_file2" style="color: #d0021b"></small>
+                                </div>
+                                <div class="form-group">
+                                    <label>RFC:</label>
+                                    @Html.TextBox("RFC", (string)@ViewBag.RFCRepresentante, new { @class = "form-control ns_", @readonly = "true" })
+                                </div>
+                                <div class="form-group">
+                                    <label>Contraseña<span id="Alerta_P_ClavePrivada">*</span>:</label>
+                                    @Html.TextBoxFor(model => model.P_ClavePrivada, new { @onblur = "if(MinCaracteres(this,1)){ValidarObjeto(this,event)}", @class = "form-control", @type = "password" })
+                                    <small id="Mensaje_P_ClavePrivada" style="color: #d0021b"></small>
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="alert alert-warning"><a href="@MensajePrivacidad" target="_blank">Aviso de privacidad y protección de datos personales.</a></div>*@
+                        <div class="clearfix">
+                            <div class="pull-left text-muted text-vertical-align-button">
+                                * Campos obligatorios
+                            </div>
+                            <div class="pull-right">
+                                <button id="EnviarFormulario" class="btn btn-primary btn" type="submit" onclick="javascript: uid_call('SENER.ENREL.INVERSIONISTA.PROYECTOS_INSERTAR.BTN_FIRMAR', 'clickin'); $('#EnviarFormulario').attr('disabled', true); $('#InsertarProyecto').submit(); ">Firmar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h3>Información general</h3>
+        <hr class="red" />
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Nombre de proyecto<span class="form-text" id="Alerta_P_NombreProyecto">*</span>:</label>
+                    @Html.TextBoxFor(model => model.P_NombreProyecto, new { @class = "form-control ns_", @placeholder = "Nombre del proyecto", @onblur = "if(MinCaracteres(this,1)){ValidarNombresComunes(this,event)}" })
+                    <small id="Mensaje_P_NombreProyecto" style="color: #d0021b"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Capacidad instalada (MW)<span class="form-text" id="Alerta_P_CapacidadInstalada">*</span>:</label>
+                    @Html.TextBoxFor(model => model.P_CapacidadInstalada, new { maxlength = 20, @onkeyup = "ValidarNumerosDecimales(this, event)", @onblur = "if(MinCaracteres(this,1)){ValidarCapacidad(this,event)}", @class = "form-control ns_", @placeholder = "Rango [0.5, 1000]" })
+                    <small id="Mensaje_P_CapacidadInstalada" style="color: #d0021b"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Unidades de generación:</label>
+                    @Html.TextBoxFor(model => model.P_Unidades, new { maxlength = 4, @onkeyup = "ValidarNumeros(this, event)", @class = "form-control ns_", @placeholder = "Cantidad de generadores" })
+                    <small id="Mensaje_P_Unidadesn" style="color: #d0021b"></small>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Tecnología<span class="form-text" id="Alerta_P_IdTecnologia">*</span>:</label>
+                    @Html.DropDownListFor(m => m.P_IdTecnologia, ViewBag.Tecnologias as SelectList, "Seleccionar tecnología", htmlAttributes: new { @onblur = "ValidarObjeto(this,event);", @class = "form-control ns_" })
+                    <small id="Mensaje_P_IdTecnologia" style="color: #d0021b"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Generación anual (GWh)<span class="form-text" id="Alerta_P_GeneracionAnual">*</span>:</label>
+                    @Html.TextBoxFor(model => model.P_GeneracionAnual, new { maxlength = 20, @onkeyup = "ValidarNumerosDecimales(this, event)", @onblur = "if(MinCaracteres(this,1)){ValidarObjeto(this,event)}", @class = "form-control ns_", @placeholder = "Generación anual producida" })
+                    <small id="Mensaje_P_GeneracionAnual" style="color: #d0021b"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Factor planta<span class="form-text" id="Alerta_P_FactorPlanta">*</span>:</label>
+                    @Html.TextBoxFor(model => model.P_FactorPlanta, new { type = "number", max = "1", min = "0", step = "0.01", @onblur = "ValidarFactorPlanta(this,event)", @class = "form-control ns_", @placeholder = "Rango [0,1]" })
+                    <small id="Mensaje_P_FactorPlanta" style="color: #d0021b"></small>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Código postal:</label>
+                    @Html.TextBoxFor(model => model.P_CodigoPostal, new { maxlength = 5, @onkeyup = "ValidarNumeros(this,event)", @onchange = "ValidarCP(this,event)", @class = "form-control ns_", @placeholder = "Código postal" })
+                    <small id="Mensaje_P_NoRequerido" style="color: #d0021b"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Estado<span class="form-text" id="Alerta_P_IdEntidadFederativa">*</span>:</label>
+                    @Html.DropDownListFor(model => model.P_IdEntidadFederativa, ViewBag.EntidadesFederativas as SelectList, "Selecciona un estado", htmlAttributes: new { @onchange = "ValidarObjeto(this,event)", @class = "form-control ns_" })
+                    <small id="Mensaje_P_IdEntidadFederativa" style="color: #d0021b"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Municipio o Alcaldía<span class="form-text" id="Alerta_P_IdMunicipio">*</span>:</label>
+                    @Html.DropDownListFor(model => model.P_IdMunicipio, ViewBag.Municipios as SelectList, "Selecciona un municipio", htmlAttributes: new { @onchange = "ValidarObjeto(this,event)", @class = "form-control ns_" })
+                    <small id="Mensaje_P_IdMunicipio" style="color: #d0021b"></small>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Localidad<span class="form-text" id="Alerta_P_IdLocalidad">*</span>:</label>
+                    @Html.DropDownListFor(model => model.P_IdLocalidad, ViewBag.Localidades as SelectList, "Selecciona una localidad", htmlAttributes: new { @onchange = "ValidarObjeto(this,event)", @class = "form-control ns_" })
+                    <small id="Mensaje_P_IdLocalidad" style="color: #d0021b"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Tipo de colonia:</label>
+                    @Html.DropDownListFor(model => model.P_IdTipoAsentamiento, ViewBag.TiposAsentamiento as SelectList, "Selecciona un tipo de colonia", htmlAttributes: new { @onblur = "ValidarObjeto(this,event)", @class = "form-control ns_" })
+                    <small id="Mensaje_P_IdTipoAsentamiento_na" style="color: #d0021b"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Colonia:</label>
+                    @Html.TextBoxFor(model => model.P_Colonia, new { @onblur = "if(MinCaracteres(this,1)){ValidarNombresComunes(this,event)}", @class = "form-control ns_", @placeholder = "Nombre de colonia" })
+                    <small id="Mensaje_P_Colonia_na" style="color: #d0021b"></small>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Latitud<span class="form-text" id="Alerta_P_Latitud">*</span>:</label>
+                    @Html.TextBoxFor(model => model.P_Latitud, new { @onblur = "if(MinCaracteres(this,1)){ValidarCoordenadasLat(this,event)}", @class = "form-control ns_", @placeholder = "Rango[14.4, 32.7]" })
+                    <small id="Mensaje_P_Latitud" style="color: #d0021b"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Longitud<span class="form-text" id="Alerta_P_Longitud">*</span>:</label>
+                    @Html.TextBoxFor(model => model.P_Longitud, new { @onblur = "if(MinCaracteres(this,1)){ValidarCoordenadasLong(this,event)}", @class = "form-control ns_", @placeholder = "Rango[-117, -86.88]" })
+                    <small id="Mensaje_P_Longitud" style="color: #d0021b"></small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Monto de inversión (USD)<span class="form-text" id="Alerta_P_MontoInversion">*</span>:</label>
+                    @Html.TextBoxFor(model => model.P_MontoInversion, "{0:0.00}", new { maxlength = 20, @onkeyup = "ValidarNumerosDecimales(this, event)", @onblur = "if(MinCaracteres(this,1)){ValidarObjeto(this,event)}", @class = "form-control ns_", @placeholder = "Cantidad en dólares (USD)" })
+                    <small id="Mensaje_P_MontoInversion" style="color: #d0021b"></small>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-buffer"></div>
+
+        <h3>Cuestionario técnico</h3>
+        <hr class="red" />
+        <div class="alert alert-warning" style="text-align:left">
+            La realización de algunos trámites dependen de la preguntas que aparecen a continuación. Asegúrese de enteder bien las preguntas y 
+            conocer las respuestas antes de registrar el trámite. Si posteriormente desea cambiar alguna respuesta podrá hacerlo desde la página
+            de seguimiento de trámites antes de que el trámite haya sido habilitado. 
+        </div>
+
+        <hr />
+        <table id="Preguntas" class="table table-striped">
+            <thead>
+                <tr>
+                    <td style="display:none">ID</td>
+                    <td>Pregunta</td>
+                    <td>Respuesta</td>
+                </tr>
+            </thead>
+        </table>
+        <div class="col-md-8 col-md-offset-4">
+            <hr>
+        </div>
+        <div class="clearfix">
+            <div class="pull-left text-muted text-vertical-align-button">
+                * Campos obligatorios
+            </div>
+
+            <div class="pull-right">
+                <button class="btn btn-primary btn" type="button" onclick="javascript:uid_call('SENER.ENREL.INVERSIONISTA.PROYECTOS_INSERTAR.BTN_SUBMIT', 'clickin'); if (ValidarFormulario(event, $('#InsertarProyecto'))) { PedirFIEL(); }">Crear</button>
+            </div>
+        </div>
+
+    }
+</div>
+
+<script type="text/javascript">
+    ActualizaPreguntasInicio('@ViewBag.IdTecnologia');
+    enviado = 0;
+</script>
+
+
+

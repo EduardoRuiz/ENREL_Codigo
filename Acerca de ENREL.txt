@@ -1,0 +1,3 @@
+Instalador Versión #
+- Versión validada en Gráfica Base por la UGD
+- Versión validada en Vulnerabilidad por INDRA

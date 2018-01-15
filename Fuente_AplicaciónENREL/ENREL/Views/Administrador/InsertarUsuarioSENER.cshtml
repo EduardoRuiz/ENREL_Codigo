@@ -1,0 +1,116 @@
+﻿@model ENREL.Models.Usuarios.CatUsuarios
+@{
+    ViewBag.Title = "CrearUsuarioSENER";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string NombreUsuarioSession = "";
+    if (Session["NombreUsuario"] != null)
+    {
+        NombreUsuarioSession = Session["NombreUsuario"].ToString();
+    }
+}
+
+@*Breadcum y usuario*@
+<div class="row" style="margin-top:94px">
+    <div class="col-sm-8">
+        <ol class="breadcrumb">
+            <li><a href="https://www.gob.mx/" target="_blank"><i class="icon icon-home"></i></a></li>
+            <li><a href="@Url.Action("InicioAdministrador","Home")">Inicio</a></li>
+            <li><a href="@Url.Action("GestionarUsuariosSENER","Administrador")">Representantes Legales</a></li>
+            <li class="active">Crear usuario SENER</li>
+        </ol>
+    </div>
+    <div class="col-sm-4">
+        <div class="user-credencials">
+            <ul class="list-unstyled">
+                <li>
+                    <span class="user-credencials__name">@NombreUsuarioSession</span>
+                    <button type="button" class="btn btn-link pull-right" onclick="javascript: uid_call('SENER.ENREL.INVERSIONISTA.BTN_CERRARSESIÓN', 'clickout'); location.href = '@Url.Action("Logout", "Home")'">Salir</button>
+                </li>
+                <li><a href="@Url.Action("Actualizar", "Usuarios")">Modificar usuario</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+@*Título *@
+<h2>Crear usuario SENER</h2>
+<div class="bottom-buffer"></div>
+
+
+@*Contenido *@
+
+@if (TempData["notice"] != null)
+{
+    <div id="divAlerta" class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>@TempData["notice"]</strong>
+    </div>
+}
+
+@using (Html.BeginForm("EjecutarAccionUsuarioSENER", "Usuarios", new { Accion = "Insertar", IdUsuarioPorEditar  = 0,  IdEstatusUsuario = true }, FormMethod.Post, new { onsubmit = "ValidarFormulario(event, this)", id = "InsertarUsuarioSENER", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="name">Tipo usuario<span id="Alerta_U_IdTipoUsuario">*</span>:</label>
+                @Html.DropDownListFor(model => model.U_IdTipoUsuario, ViewBag.TiposUsuarios as IEnumerable<SelectListItem>, "Selecciona tipo usuario", htmlAttributes: new { @onblur = "ValidarObjeto(this,event)", @class = "form-control ns_" })
+                <small id="Mensaje_U_IdTipoUsuario" style="color: #d0021b"></small>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Nombre de usuario<span id="Alerta_U_Nombre">*</span>:</label>
+                @Html.TextBoxFor(model => model.U_Nombre, new { maxlength = 30, @onblur = "if(MinCaracteres(this,6)){ValidarNombreUsuario(this,event)}", @class = "form-control ns_", @placeholder = "Nombre del usuario operativo" })
+                <small id="Mensaje_U_Nombre" style="color: #d0021b"></small>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Correo electrónico<span id="Alerta_U_CorreoElectronico">*</span>:</label>
+                @Html.TextBoxFor(model => model.U_CorreoElectronico, new { maxlength = 320, @onblur = "if(MinCaracteres(this,5)){ValidarEmail(this,event)}", @class = "form-control ns_", @placeholder = "Correo del usuario operativo" })
+                <small id="Mensaje_U_CorreoElectronico" style="color: #d0021b"></small>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Contraseña<span id="Alerta_U_Password">*</span>:</label>
+                @Html.TextBoxFor(model => model.U_Password, new { @onblur = "if(MinCaracteres(this,6)){ValidarContraseña(this, event)}", @class = "form-control ns_", @type = "password", @placeholder = "Contraseña" })
+                <small id="Mensaje_U_Password" style="color: #d0021b"></small>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Confirmar contraseña<span id="Alerta_U_ConfirmarPassword">*</span>:</label>
+                @Html.TextBoxFor(model => model.U_ConfirmarPassword, new { @onblur = "if(MinCaracteres(this,6)){ValidarContraseña(this, event)}", @class = "form-control ns_", @type = "password", @placeholder = "Confirma la contraseña" })
+                <small id="Mensaje_U_ConfirmarPassword" style="color: #d0021b"></small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8 col-md-offset-4">
+        <hr>
+    </div>
+
+    <div class="form-group">
+        <div class="pull-left text-muted text-vertical-align-button">
+            * Campos obligatorios
+        </div>
+
+        <div class="pull-right">
+            <button class="btn btn-primary btn" type="submit">Solicitar</button>
+        </div>
+    </div>
+}
+
+
+
+

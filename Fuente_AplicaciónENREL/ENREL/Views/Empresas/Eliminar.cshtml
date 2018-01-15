@@ -1,0 +1,104 @@
+﻿@model ENREL.Models.Empresas.CatEmpresas
+@{
+    ViewBag.Title = "Eliminar empresa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string NombreUsuarioSession = "";
+    if (Session["NombreUsuario"] != null)
+    {
+        NombreUsuarioSession = Session["NombreUsuario"].ToString();
+    }
+}
+
+@*Breadcum y usuario*@
+<div class="row" >
+    <div class="col-sm-8">
+        <ol class="breadcrumb">
+            <li><a href="https://www.gob.mx/" target="_blank"><i class="icon icon-home"></i></a></li>
+            <li><a href="@Url.Action("InicioInversionista","Home")">Inicio</a></li>
+            <li class="active">Eliminar datos de la empresa</li>
+        </ol>
+    </div>
+    <div class="col-sm-4">
+        <div class="user-credencials">
+            <ul class="list-unstyled">
+                <li>
+                    <span class="user-credencials__name">@NombreUsuarioSession</span>
+                    <button type="button" class="btn btn-link pull-right" onclick="javascript: uid_call('SENER.ENREL.INVERSIONISTA.BTN_CERRARSESIÓN', 'clickout'); location.href = '@Url.Action("Logout", "Home")'">Salir</button>
+                </li>
+                <li><a href="@Url.Action("Actualizar", "Usuarios")">Modificar usuario</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+@*Título *@
+<h2>Eliminar datos de la empresa</h2>
+<br />
+<div class="row">
+    <div class="col-sm-8">
+        <div class="bottom-buffer">
+            <p>
+                Toda la información asociada a la empresa será eliminada incluyendo usuarios y representantes legales.
+            </p>
+        </div>
+    </div>
+</div>
+
+@*Contenido: *@
+<div style="width:100%;">
+@using (Html.BeginForm("EjecutarAccionEmpresa", "Empresas", new { Accion = "Eliminar" }, FormMethod.Post, new { onsubmit = "ValidarFIEL(event, this)", id = "EliminarEmpresa", enctype = "multipart/form-data", @class = "clearfix" }))
+{
+    @Html.AntiForgeryToken()
+    if (TempData["notice"] != null)
+    {
+        <div class="caption">
+            <div id="divAlerta" class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>@TempData["notice"]</strong>
+            </div>
+        </div>
+    }
+
+
+
+    <h3>Firma electrónica</h3>
+    <hr />
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="form-group hidden-xs ">
+                <label for="file1">Certificado (.cer)<span id="Alerta_file1">*</span>:</label>
+                <input type="file" name="files" id="file1" onchange="ValidarArchivoFiel(this, event)" />
+                <small id="Mensaje_file1" style="color: #d0021b"></small>
+            </div>
+            <div class="form-group hidden-xs ">
+                <label for="file2">Llave (.key)<span id="Alerta_file2">*</span>:</label>
+                <input type="file" name="files" id="file2" onchange="ValidarArchivoFiel(this, event)" />
+                <small id="Mensaje_file2" style="color: #d0021b"></small>
+            </div>
+            <div class="form-group">
+                <label>Contraseña<span id="Alerta_E_ClavePrivada">*</span>:</label>
+                @Html.TextBoxFor(model => model.E_ClavePrivada, new { @onblur = "if(MinCaracteres(this,1)){ValidarNombresComunes(this,event)}", @class = "form-control ns_", @type = "password" })
+                <small id="Mensaje_E_ClavePrivada" style="color: #d0021b"></small>
+            </div>
+
+            <hr />
+            <div class="clearfix">
+                <div class="pull-left text-muted text-vertical-align-button">
+                    * Campos obligatorios
+                </div>
+                <div class="pull-right">
+                    <button class="btn btn-primary btn" type="submit">Firmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @Html.HiddenFor(model => model.E_IdEmpresa);
+    @Html.HiddenFor(model => model.E_RFC);
+
+
+}
+</div>

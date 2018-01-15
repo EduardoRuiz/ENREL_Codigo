@@ -1,0 +1,217 @@
+﻿@model IList<ENREL.Models.Empresas.CatEmpresas>
+    @{
+        ViewBag.Title = "ReporteMontos";
+        WebGrid grid = new WebGrid(source: ViewBag.ListadoMontoInversion, rowsPerPage: 10, canSort: false, canPage: true);
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+@*Breadcum: *@
+<div class="row" style="margin-top:94px">
+    <div class="col-sm-8">
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("InicioConsultor","Home")">
+                    <i class='icon icon-home'></i>
+                </a>
+            </li>
+            <li class="active">
+                Reporte de empresas
+            </li>
+        </ol>
+    </div>
+</div>
+@*<div >
+    <table style="width:100%;margin-top:94px">
+        <tr>
+            <td style="width:49%; text-align:left; vertical-align:top">
+                <ol class='breadcrumb' style="padding:8px 8px 8px 8px; margin-bottom:0px;">
+                    <li>
+                        <a href="@Url.Action("InicioConsultor","Home")">
+                            <i class='icon icon-home'></i>
+                        </a>
+                    </li>
+                    <li class="active">
+                        Reporte de empresas
+                    </li>
+                </ol>
+            </td>
+        </tr>
+    </table>
+</div>*@
+
+@*Título *@
+<h3>
+    Montos de inversión
+</h3>
+<br />
+
+<h4>
+    Reportes
+</h4>
+<hr class="red" />
+
+@*Contenido *@
+
+<body>
+    @using (Html.BeginForm("L_GraficaInversionPorTecnologia", "ReporteMontos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <input type="hidden" value="" id="IdEstado" />
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Estado:</label>
+                    @Html.DropDownList("selectedEntidad", ViewBag.Estados as IEnumerable<SelectListItem>, "Selecciona un estado", htmlAttributes: new { @class = "form-control ns_", @onchange = "javascript:this.form.submit();"})
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Municipio:</label>
+                    @Html.DropDownList("IdMunicipio", ViewBag.Municipios as IEnumerable<SelectListItem>, "Selecciona tu municipio", htmlAttributes: new { @class = "form-control ns_", @onchange = "javascript:this.form.submit();" })
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Empresa:</label>
+                    @Html.DropDownList("selectedEmpresa", ViewBag.ListadoEmpresas as IEnumerable<SelectListItem>, "Selecciona empresa", htmlAttributes: new { @class = "form-control ns_", @onchange = "javascript:this.form.submit();" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Tecnología:</label>
+                    @Html.DropDownList("selectedTenologias", ViewBag.ListaTecnologias as IEnumerable<SelectListItem>, "Selecciona una tecnología", htmlAttributes: new { @class = "form-control ns_", @onchange = "javascript:this.form.submit();" })
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Desde:</label>
+                    <div class="form-group datepicker-group" onchange="form.submit();">
+                        <input class="form-control ns_" id="FechaInicio" type="text" name="FechaInicio" value="@TempData["FechaInicio"]" onchange="javascript:this.form.submit();">
+                        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">Hasta:</label>
+                    <div class="form-group datepicker-group" onchange="javascript: form.submit();">
+                        <input class="form-control ns_" id="FechaFin" type="text" name="FechaFin" value="@TempData["FechaFin"]" onchange="javascript:this.form.submit();">
+                        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+    }
+</body>
+<br />
+<hr />
+<br />
+
+
+@if (grid.Rows.Count > 0)
+{
+    <br />
+    <div>
+        <input type="button" value="XML" onclick="location.href='@Url.Action("exporttoxml", "ReporteMontos")'" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Exportar a TXT" />
+        <input type="button" value="TXT" onclick="location.href='@Url.Action("exporttotxt", "ReporteMontos")'" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Exportar a XML" />
+        <input type="button" value="CSV" onclick="location.href='@Url.Action("ExportToCsv", "ReporteMontos")'" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Exportar a CSV" />
+        <input type="button" value="Excel" onclick="location.href='@Url.Action("ExportarExcel", "ReporteMontos")'" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Exportar a Excel" />
+        <input type="button" value="PDF" onclick="location.href='@Url.Action("PDF", "ReporteMontos")'" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Exportar a PDF" />
+    </div>
+    <br />
+    <div>
+        @grid.GetHtml(
+                    tableStyle: "table table-striped table-bordered",
+                    footerStyle: "table",
+                    mode: WebGridPagerModes.All,
+                    firstText: "<<Primero",
+                    lastText: "Último>>",
+                    columns: new[]
+                    {
+                           
+                    grid.Column("E_NombreComercial", "Empresa" ),
+                    grid.Column("E_RazonSocial", "Razón Social" ),
+                    grid.Column("E_EntidadFederativa", "Estado"),
+                    grid.Column("E_Municipio", "Municipio"),
+                    grid.Column("E_MontoInversion" ,"Inversión (USD)")})
+    </div>
+}
+    
+<br />
+<hr />
+<br />
+
+@*Título *@
+<h4>
+    Gráficos descriptivos
+</h4>
+<hr class="red" />
+<h4>
+    Porcentaje de inversión por tecnologías
+</h4>
+<br />
+<div id="chart_div"></div>
+
+
+<script src="~/scripts/graficas/loader.js"></script>
+<script type="text/javascript">  
+            
+$(function () {
+    try {
+        $('#FechaInicio').datepicker({ changeYear: true });
+        $('#FechaFin').datepicker({ changeYear: true });
+    }
+    catch (error) {
+        //alert(error.message)
+    }
+});
+
+    try
+    {
+        var data = JSON.parse('@ViewBag.Tectnologias');
+        //var data2 = JSON.parse('@ViewBag.MontoInversion');
+
+
+        google.charts.load('current', { 'packages': ['corechart'] });
+        //google.load("visualization", "1", { packages: ["corechart"] });
+
+
+        google.charts.setOnLoadCallback(drawChart);
+        //google.charts.setOnLoadCallback(drawChart2);
+    }
+    catch(error)
+    {
+        //alert(error.message);
+    }
+    
+
+function drawChart() {
+    var chartData = new google.visualization.arrayToDataTable(data);
+
+    var options = {
+        'title': '',
+        'width': 1000,
+        'height': 500
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+    chart.draw(chartData, options);
+}
+
+
+function drawChart2() {
+    var chartData2 = new google.visualization.arrayToDataTable(data2);
+
+    var options = {
+        'title': '',
+        'width': 1000,
+        'height': 500
+    };
+
+    var chart2 = new google.visualization.PieChart(document.getElementById('chart_div2'));
+    chart2.draw(chartData2, options);
+}
+
+</script>

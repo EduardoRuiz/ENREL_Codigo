@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://x-road.eu/xsd/xroad.xsd" elementFormDefault="qualified" targetNamespace="http://x-road.eu/xsd/xroad.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://api-interoperabilidad-qa.azurewebsites.net/NotificacionDeInteroperabilidad.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/Undani.Interoperabilidad.Domain.Notificacion.Header" />
+  <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Undani.Interoperabilidad.Domain.Notificacion.Header" name="client" nillable="true" type="q1:Client" />
+  <xs:element name="id" nillable="true" type="xs:string" />
+  <xs:element name="issue" nillable="true" type="xs:string" />
+  <xs:element name="protocolVersion" nillable="true" type="xs:string" />
+  <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Undani.Interoperabilidad.Domain.Notificacion.Header" name="service" nillable="true" type="q2:Service" />
+  <xs:element name="userId" nillable="true" type="xs:string" />
+</xs:schema>
